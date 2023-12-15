@@ -25,6 +25,9 @@ public class Teacher {
     @Column(name = "login_pw")
     String logInPW;
 
+    @Column(name = "phone_number")
+    String phoneNumber;
+
     @Column(name = "nickname")
     String nickname;
 
