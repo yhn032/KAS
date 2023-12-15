@@ -131,6 +131,12 @@ fabric.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# Embedded h2
+data/
+
+# Q class
+src/main/generated
+
 # Package Files #
 *.jar
 *.war
