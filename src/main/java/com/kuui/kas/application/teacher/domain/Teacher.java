@@ -1,10 +1,9 @@
 package com.kuui.kas.application.teacher.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.kuui.kas.application.teacher.dto.TeacherFormDto;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,37 +16,69 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "teacher_id")
-    Long id;
+    Long teacherId;
 
-    @Column(name = "login_id")
-    String logInID;
+    @Column(name = "teacher_login_id")
+    String teacherLogInID;
 
-    @Column(name = "login_pw")
-    String logInPW;
+    @Column(name = "teacher_login_pw")
+    String teacherLogInPW;
 
-    @Column(name = "phone_number")
-    String phoneNumber;
+    @Column(name = "teacher_phone_number")
+    String teacherPhoneNumber;
 
-    @Column(name = "nickname")
-    String nickname;
+    @Column(name = "teacher_nickname")
+    String teacherNickname;
 
-    @Column(name = "email_address")
-    String emailAddress;
+    @Column(name = "teacher_email_address")
+    String teacherEmailAddress;
 
     @Column(name = "teacher_role")
     @Enumerated(EnumType.STRING)
     TeacherRole teacherRole;
 
-    @Column(name = "name")
-    String name;
+    @Column(name = "teacher_name")
+    String teacherName;
 
-    @Column(name = "christian_name")
-    String christianName;
+    @Column(name = "teacher_christian_name")
+    String teacherChristianName;
 
-    @Column(name = "saints_day")
-    String saintsDay;
+    @Column(name = "teacher_saints_day")
+    String teacherSaintsDay;
 
     @Column(name = "teacher_insert_date")
     @CreationTimestamp
     LocalDateTime teacherInsertDate = LocalDateTime.now();
+
+    @Builder
+
+    public Teacher(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate) {
+        this.teacherLogInID = teacherLogInID;
+        this.teacherLogInPW = teacherLogInPW;
+        this.teacherPhoneNumber = teacherPhoneNumber;
+        this.teacherNickname = teacherNickname;
+        this.teacherEmailAddress = teacherEmailAddress;
+        this.teacherRole = teacherRole;
+        this.teacherName = teacherName;
+        this.teacherChristianName = teacherChristianName;
+        this.teacherSaintsDay = teacherSaintsDay;
+        this.teacherInsertDate = teacherInsertDate;
+    }
+
+    public static Teacher createTeacher(TeacherFormDto teacherFormDto, PasswordEncoder passwordEncoder){
+        Teacher teacher = Teacher.builder()
+                .teacherLogInID(teacherFormDto.getTeacherLogInID())
+                .teacherLogInPW(passwordEncoder.encode(teacherFormDto.getTeacherLogInPW()))
+                .teacherPhoneNumber(teacherFormDto.getTeacherPhoneNumber())
+                .teacherNickname(teacherFormDto.getTeacherNickname())
+                .teacherEmailAddress(teacherFormDto.getTeacherEmailAddress())
+                .teacherRole(teacherFormDto.getTeacherRole())
+                .teacherName(teacherFormDto.getTeacherName())
+                .teacherChristianName(teacherFormDto.getTeacherChristianName())
+                .teacherSaintsDay(teacherFormDto.getTeacherSaintsDay())
+                .teacherInsertDate(teacherFormDto.getTeacherInsertDate())
+                .build();
+
+        return teacher;
+    }
 }

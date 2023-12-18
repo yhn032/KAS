@@ -11,5 +11,5 @@ import javax.persistence.EntityManager;
 public class CommonRepository {
     private final EntityManager em;
 
-    public void save(Teacher teacher) {em.persist(teacher);}
+
 }

@@ -9,7 +9,5 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommonService {
     private final CommonRepository commonRepository;
-    public void save(Teacher teacher){
-        commonRepository.save(teacher);
-    }
+
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>sigup</title>
+</head>
+<body>
+회원가입 페이지
+<form method="post" action="/common/signup">
+    아이디 : <input type="text" placeholder="id" name="teacherLogInID">
+    비번 : <input type="password" placeholder="pw" name="teacherLogInPW">
+    전화번호 : <input type="text" placeholder="phoneNum" name="teacherPhoneNumber">
+    닉네임 : <input type="text" placeholder="nickName" name="teacherNickname">
+    이메일주소 : <input type="email" placeholder="email" name="teacherEmailAddress">
+    이름 : <input type="text" placeholder="name" name="teacherName">
+    세례명 : <input type="text" placeholder="christianName" name="teacherChristianName">
+    축일 : <input type="text" placeholder="saint's Day" name="teacherSaintsDay">
+    <input type="submit" value="전달">
+</form>
+</body>
+</html>
