@@ -20,22 +20,26 @@ public class SpringSecurityConfig {
     public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws  Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/common/login", "/common/signup").permitAll()
+                    .antMatchers("/common/login", "/common/signup", "/loginProc", "/logout").permitAll() //시큐리티에서 자동제공하는 로그인/아웃 과정은 모두 허용
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/common/login")
-                    .loginProcessingUrl("loginProc")
+                    .loginProcessingUrl("/loginProc")
                     .usernameParameter("id")
                     .passwordParameter("pw")
                     .defaultSuccessUrl("/common/dashboard", true)
                     .permitAll()
                 .and()
                     .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/loginProc"))
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/common/login")
+                    .deleteCookies("JSESSIONID","remember-me")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
                 .and()
-                    .csrf()
-                    .ignoringAntMatchers("/common/signup");
+                    .csrf()//개발 단계에서는 csrf토큰이 없기에 막아두지만, 실제 운영 상황에서는 공격을 방지하지 위해 필터링 및 토큰이 필요하다
+                    .ignoringAntMatchers("/common/signup", "/loginProc", "/logout");
 
         return http.build();
     }

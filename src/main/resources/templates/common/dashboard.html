@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>dashboard</title>
 </head>
 <body>
-로그인 성공 후에 리다이렉트될 기본 페이지
+로그인 성공 후에 리다이렉트 될 기본 페이지
+<p th:text="${username}"></p>님 환영합니다.
+<form method="post" action="/logout">
+    <button type="submit" onclick="location.href='/logout'">로그아웃</button>
+</form>
 </body>
 </html>

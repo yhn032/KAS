@@ -31,6 +31,14 @@ public class TeacherRepositoryImpl implements TeacherRepository{
     }
 
     @Override
+    public Teacher findByLoginId(String id) {
+        return queryFactory
+                .selectFrom(teacher)
+                .where(teacher.teacherLogInID.eq(id))
+                .fetchOne();
+    }
+
+    @Override
     public List<Teacher> findAll() {
         return null;
     }
