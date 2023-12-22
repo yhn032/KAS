@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>login</title>
+    <link rel="stylesheet" href="/css/common/login.css">
+    <script src="/js/common/login.js"></script>
 </head>
 <body>
-프로젝트 실행 시 처음 마주하는 롬 포그인 창
-해당창에서 회원가입도 가능하도록
-<form method="post" action="/loginProc">
-    아이디 : <input type="text" placeholder="ID" name="id">
-    비밀번호 : <input type="password" placeholder="PW" name="pw">
-    <input type="submit" value="로그인">
-</form>
 
-<button type="button" onclick="location.href='/common/signup'">회원가입</button>
+<div class="login-container">
+
+    <div class="login-thumb"></div>
+
+    <div class="login-form">
+        <div class="login-inner-form">
+            <form id="loginForm" method="post" action="/loginProc">
+                <h1>Welcome KAS</h1>
+                <input id="id" type="text" placeholder="ID" name="id"><br>
+                <input id="pw" type="password" placeholder="PW" name="pw"><br>
+            </form>
+            <button class="form_btn" type="button" onclick="validation()">Log In</button>
+            <h3>Or</h3>
+            <button class="form_btn" type="button" onclick="location.href='/common/signup'">Sign Up</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>

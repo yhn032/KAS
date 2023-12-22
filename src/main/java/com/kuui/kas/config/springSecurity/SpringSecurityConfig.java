@@ -6,10 +6,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -20,15 +28,18 @@ public class SpringSecurityConfig {
     public SecurityFilterChain exceptionSecurityFilterChain(HttpSecurity http) throws  Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/common/login", "/common/signup", "/loginProc", "/logout").permitAll() //시큐리티에서 자동제공하는 로그인/아웃 과정은 모두 허용
+                    .antMatchers("/common/login", "/common/signup", "/loginProc", "/logout", "/img/**", "/css/**", "/js/**").permitAll() //시큐리티에서 자동제공하는 로그인/아웃 과정은 모두 허용
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .loginPage("/common/login")
-                    .loginProcessingUrl("/loginProc")
+                    .loginPage("/common/login")         //사용자 정의 로그인 페이지
+                    .defaultSuccessUrl("/common/dashboard", true) //로그인 성공 후 이동 페이지
+                    .failureUrl("/common/login?error=true")             //로그인 실패 후 이동 페이지
                     .usernameParameter("id")
                     .passwordParameter("pw")
-                    .defaultSuccessUrl("/common/dashboard", true)
+                    .loginProcessingUrl("/loginProc")   //로그인 폼 action url
+                    .successHandler(loginSuccessHandler())      //해당 핸들러를 생성하여 결과에 따라 핸들링 해준다.
+                    .failureHandler(loginFailureHandler())
                     .permitAll()
                 .and()
                     .logout()
@@ -44,11 +55,27 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
+    private AuthenticationSuccessHandler loginSuccessHandler() {
+        AuthenticationSuccessHandler handler = (request, response, authentication) -> {
+            System.out.println("authentication :: " + authentication.getName());
+            response.sendRedirect("/common/dashboard");
+        };
+        return handler;
+    }
+
+    private AuthenticationFailureHandler loginFailureHandler() {
+        AuthenticationFailureHandler handler = ((request, response, exception) -> {
+            System.out.println("exception :: " + exception.getMessage());
+            response.sendRedirect("/common/login");
+        });
+        return handler;
+    }
+
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .requestMatchers((matchers) -> matchers.antMatchers("/static/**"))
+                .requestMatchers((matchers) -> matchers.antMatchers("/static/css","/static/js","/static/img"))
                 .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
                 .requestCache().disable()
                 .securityContext().disable()
