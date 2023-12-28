@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>sigup</title>
+    <link rel="stylesheet" href="/css/common/signup.css">
+    <script src="/js/common/signup.js"></script>
 </head>
 <body>
-회원가입 페이지
-<form method="post" action="/common/signup">
-    아이디 : <input type="text" placeholder="id" name="teacherLogInID">
-    비번 : <input type="password" placeholder="pw" name="teacherLogInPW">
-    전화번호 : <input type="text" placeholder="phoneNum" name="teacherPhoneNumber">
-    닉네임 : <input type="text" placeholder="nickName" name="teacherNickname">
-    이메일주소 : <input type="email" placeholder="email" name="teacherEmailAddress">
-    이름 : <input type="text" placeholder="name" name="teacherName">
-    세례명 : <input type="text" placeholder="christianName" name="teacherChristianName">
-    축일 : <input type="text" placeholder="saint's Day" name="teacherSaintsDay">
-    <input type="submit" value="전달">
-</form>
+<div class="signup-container">
+    <div class="signup-form">
+        <h1 style="color: white; margin: 0 auto; text-align: center;">Let's Start!</h1>
+        <form id="signupForm" method="post" action="/common/signup">
+            <div id="idBox" class="formElementBox">
+                <p>아이디를 입력하세요. (영문+숫자 조합)</p>
+                <input type="text" id="id" placeholder="id" name="teacherLogInID" autocomplete="off" onkeyup="idValidation()">
+                <p id="idFeedback" style="font-size: 10px"></p>
+            </div>
+<!--            아이디 : <input type="text" id="id" placeholder="id" name="teacherLogInID"><br>-->
+<!--            비번 : <input type="password" id="pw" placeholder="pw" name="teacherLogInPW"><br>
+            전화번호 : <input type="text" placeholder="phoneNum" name="teacherPhoneNumber"><br>
+            닉네임 : <input type="text" placeholder="nickName" name="teacherNickname"><br>
+            이메일주소 : <input type="email" id="emailAddress" placeholder="email" name="teacherEmailAddress"><br>
+            이름 : <input type="text" id="name" placeholder="name" name="teacherName"><br>
+            세례명 : <input type="text" id="christianName" placeholder="christianName" name="teacherChristianName"><br>
+            축일 : <input type="text" placeholder="saint's Day" name="teacherSaintsDay"><br>-->
+        </form>
+        <button class="form_btn" type="button" onclick="signupValidation()">Sign Up</button>
+    </div>
+</div>
 </body>
 </html>
