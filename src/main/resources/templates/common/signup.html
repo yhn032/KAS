@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>sigup</title>
+    <title>signUp</title>
     <link rel="stylesheet" href="/css/common/signup.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/common/signup.js"></script>
 </head>
 <body>
@@ -12,7 +13,7 @@
         <h1 style="color: white; margin: 0 auto; text-align: center;">Let's Start!</h1>
         <form id="signupForm" method="post" action="/common/signup">
             <div id="idBox" class="formElementBox">
-                <p>아이디를 입력하세요. (영문+숫자 조합)</p>
+                <p>아이디를 입력하세요. (영문+숫자 조합, 6자 이상)</p>
                 <input type="text" id="id" placeholder="id" name="teacherLogInID" autocomplete="off" onkeyup="idValidation()">
                 <p id="idFeedback" style="font-size: 10px"></p>
             </div>
@@ -25,7 +26,7 @@
             세례명 : <input type="text" id="christianName" placeholder="christianName" name="teacherChristianName"><br>
             축일 : <input type="text" placeholder="saint's Day" name="teacherSaintsDay"><br>-->
         </form>
-        <button class="form_btn" type="button" onclick="signupValidation()">Sign Up</button>
+        <!--<button class="form_btn" type="button" onclick="signupValidation()">Sign Up</button>-->
     </div>
 </div>
 </body>

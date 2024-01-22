@@ -22,6 +22,13 @@ public class TeacherService implements UserDetailsService {
         return teacherRepository.save(teacher);
     }
 
+    public void validDuplicateID(String id){
+        Teacher teacher = teacherRepository.findByLoginId(id);
+        if(teacher != null) {
+            throw new IllegalStateException("이미 가입된 회원입니다.");
+        }
+    }
+
     private void validateDuplicateTeacher(Teacher teacher) {
         Teacher findTeacher = teacherRepository.findByEmail(teacher.getTeacherEmailAddress());
         if(findTeacher != null){
