@@ -42,7 +42,7 @@ public class CommonController {
         System.out.println("teacher.getTeacherNickname() = " + teacher.getTeacherNickname());
         System.out.println("teacher.getTeacherRole() = " + teacher.getTeacherRole());
         
-        model.addAttribute("username", principal.getName());
+        model.addAttribute("username", teacher.getTeacherNickname());
         return "common/dashboard";
     }
 

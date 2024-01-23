@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="content-navBar" th:fragment="navBar">
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">교사관리</a></li>
+            <li><a href="#">재고관리</a></li>
+        </ul>
+    </nav>
+    <form class="controller" method="post" action="/logout">
+        <p th:text="${username}">님</p>
+        <button type="submit">Logout</button>
+        <button type="button">MyPage</button>
+    </form>
+</div>
+
+</html>

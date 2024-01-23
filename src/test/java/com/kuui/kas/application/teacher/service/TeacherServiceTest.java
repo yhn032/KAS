@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class TeacherServiceTest {
     @Autowired TeacherService teacherService;
     @Autowired PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName("회원가입 테스트")
+    @Transactional
     public void saveTeacherTest(){
         Teacher teacher = createTeacher();
         Teacher savedTeacher = teacherService.saveTeacher(teacher);
@@ -31,6 +31,7 @@ class TeacherServiceTest {
 
     @Test
     @DisplayName("중복가입 테스트")
+    @Transactional
     public void duplicateTest(){
         Teacher teacher = createTeacher();
         Teacher teacher2 = createTeacher2();
@@ -42,11 +43,11 @@ class TeacherServiceTest {
 
     public Teacher createTeacher(){
         TeacherFormDto build = TeacherFormDto.builder()
-                .teacherLogInID("yhn032")
+                .teacherLogInID("yhn031")
                 .teacherLogInPW("kaskas123!!")
                 .teacherPhoneNumber("010-1234-5678")
                 .teacherNickname("leo")
-                .teacherEmailAddress("kas123@naver.com")
+                .teacherEmailAddress("kas12123@naver.com")
                 .teacherRole(TeacherRole.USER)
                 .teacherName("뱅국")
                 .teacherChristianName("레오")
@@ -58,11 +59,11 @@ class TeacherServiceTest {
 
     public Teacher createTeacher2(){
         TeacherFormDto build = TeacherFormDto.builder()
-                .teacherLogInID("yhn032")
-                .teacherLogInPW("kaskas123!!")
+                .teacherLogInID("yhn032123")
+                .teacherLogInPW("kaskas112323!!")
                 .teacherPhoneNumber("010-1234-5678")
                 .teacherNickname("leo")
-                .teacherEmailAddress("kas123@naver.com")
+                .teacherEmailAddress("ka1dasfs123@naver.com")
                 .teacherRole(TeacherRole.USER)
                 .teacherName("뱅국")
                 .teacherChristianName("레오")
