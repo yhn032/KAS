@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <meta charset="UTF-8">
+    <title>mainAsset</title>
+</head>
+<body>
+  <div th:replace="layout/navBar :: navBar"></div>
+  <div class="content-main">
+      <h1 style="display: inline-block">Welcome</h1> <h2 style="display: inline-block" th:text="${username}"></h2>
+      <p>재고 관리</p>
+      <p>
+          <a href="#">재고 조회</a>
+          <a href="#">물품 등록</a>
+          <a href="#">물품 반출</a>
+      </p>
+  </div>
+  <div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

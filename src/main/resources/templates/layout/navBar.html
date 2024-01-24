@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <div class="content-navBar" th:fragment="navBar">
     <nav>
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">교사관리</a></li>
-            <li><a href="#">재고관리</a></li>
+            <li><a href="/common/dashboard">Home</a></li>
+            <li><a href="/asset/mainAsset">재고관리</a></li>
+            <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
         </ul>
     </nav>
     <form class="controller" method="post" action="/logout">

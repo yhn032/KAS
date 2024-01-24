@@ -81,6 +81,7 @@ function addFormTag(formId){
     else if(formId === 'emailAddress') pTag.textContent = "이메일 주소를 입력하세요.";
     else if(formId === 'name') pTag.textContent = "이름을 입력하세요.";
     else if(formId === 'christianName') pTag.textContent = "세례명을 입력하세요.";
+    else if(formId === 'saintsDay') pTag.textContent = "축일을 선택하세요.";
     addBox.appendChild(pTag);
 
     const inputTag = document.createElement("input");
@@ -89,7 +90,15 @@ function addFormTag(formId){
 
     inputTag.id = formId;
     inputTag.placeholder = formId;
-    if(formId != 'pwCheck') inputTag.name = 'teacherLogIn' + formId.toUpperCase();
+
+    if(formId === 'pw') inputTag.name = 'teacherLogIn' + formId.toUpperCase();
+    else if(formId === 'phoneNum') inputTag.name = 'teacherPhoneNumber';
+    else if(formId === 'nickName') inputTag.name = 'teacherNickname';
+    else if(formId === 'emailAddress') inputTag.name = 'teacherEmailAddress';
+    else if(formId === 'name') inputTag.name = 'teacherName';
+    else if(formId === 'christianName') inputTag.name = 'teacherChristianName';
+    else if(formId === 'saintsDay') inputTag.name = 'teacherSaintsDay';
+
     inputTag.autocomplete = "off"
 
     addBox.appendChild(inputTag);
@@ -116,7 +125,11 @@ function addFormTag(formId){
         document.getElementById(formId).addEventListener("keyup", pwValidation);
     }else if (formId === 'christianName'){
         document.getElementById(formId).addEventListener("keyup", pwValidation);
+    }else if (formId === 'saintsDay'){
+        document.getElementById(formId).addEventListener("keyup", pwValidation);
     }
+
+
     //pw는 초반에 id태그가 있기 때문에 document.onload로 해당 태그를 찾을 수 있지만,
     //그 이후 동적으로 만들어진 태그는 찾을 수 없기때문에 태그를 만들면서 리스너를 등록해놔야 한다.
     if(formId === 'pw') addBlurListener("pw", "pwBox", "pwCheck", "굿 비밀번호 확인 태그를 추가합니다.");
@@ -125,6 +138,7 @@ function addFormTag(formId){
     else if(formId === 'nickName') addBlurListener("nickName", "nickNameBox", "emailAddress", "굿 이메일 태그를 추가합니다.");
     else if(formId === 'emailAddress') addBlurListener("emailAddress", "emailAddressBox", "name", "굿 이름 태그를 추가합니다.");
     else if(formId === 'name') addBlurListener("name", "nameBox", "christianName", "굿 세례명 태그를 추가합니다.");
+    else if(formId === 'christianName') addBlurListener("christianName", "christianNameBox", "saintsDay", "굿 축일 태그를 추가합니다.");
 
 }
 function addBlurListener(elementId, nextElementId, nextFormTag, message) {
@@ -246,6 +260,7 @@ function pwValidation(){
     if (document.getElementById("nickNameBox")) document.getElementById("nickNameBox").classList.add("success");
     if (document.getElementById("emailAddressBox")) document.getElementById("emailAddressBox").classList.add("success");
     if (document.getElementById("nameBox")) document.getElementById("nameBox").classList.add("success");
+    if (document.getElementById("christianNameBox")) document.getElementById("christianNameBox").classList.add("success");
 }
 
 function pwCheckValidation(){
