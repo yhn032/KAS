@@ -10,9 +10,9 @@
       <h1 style="display: inline-block">Welcome</h1> <h2 style="display: inline-block" th:text="${username}"></h2>
       <p>재고 관리</p>
       <p>
-          <a href="#">재고 조회</a>
-          <a href="#">물품 등록</a>
-          <a href="#">물품 반출</a>
+          <a href="/asset/allList">재고 조회</a>
+          <a href="/asset/addList">물품 등록</a>
+          <a href="/asset/shareList">물품 반출</a>
       </p>
   </div>
   <div th:replace="layout/footer :: footer"></div>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <meta charset="UTF-8">
+    <title>물품 등록 폼</title>
+</head>
+<body>
+  <div th:replace="layout/navBar :: navBar"></div>
+  <div class="content-main">
+    <form method="post" action="/asset/addList">
+        <label for="assetName">물품명</label>
+        <input id="assetName" type="text" name="assetName" value=""><br>
+        <label for="assetCnt">물품 수량</label>
+        <input id="assetCnt" type="text" name="assetCnt" value=""><br>
+        <label for="teacherSelect">등록자:</label>
+        <select id="teacherSelect" name="regTeacherName">
+            <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
+        </select>
+        <button type="submit">등록</button>
+    </form>
+  </div>
+  <div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

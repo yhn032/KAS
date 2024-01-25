@@ -40,7 +40,9 @@ public class TeacherRepositoryImpl implements TeacherRepository{
 
     @Override
     public List<Teacher> findAll() {
-        return null;
+        return queryFactory
+                .selectFrom(teacher)
+                .fetch();
     }
 
     @Override
