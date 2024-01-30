@@ -57,7 +57,7 @@ public class AssetController {
     @PostMapping("addList")
     public String addAssetFromForm(@RequestParam("assetName")String assetName, @RequestParam("assetCnt")Long assetCnt, @RequestParam("regTeacherName")String regTeacherName, Model model){
         //마지막 물품 번호 조회하기 -> 등록 날짜 순 으로 조회해서 가장 최신에 등록된 상품 가져오기
-        String assetNo = Optional.ofNullable(assetService.LastAssetNo()).orElse("kuui-0");
+        String assetNo =assetService.LastAssetNo();
         int num = Integer.parseInt(assetNo.substring(assetNo.indexOf("-") + 1, assetNo.length()));
 
         Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), assetName, assetCnt, regTeacherName, regTeacherName);

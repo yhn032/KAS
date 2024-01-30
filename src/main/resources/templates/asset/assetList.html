@@ -7,22 +7,21 @@
 <body>
     <div th:replace="layout/navBar :: navBar"></div>
     <div class="content-main">
-        <table border="1">
-            <thead>
-            <tr>
-                <th>재고 번호</th>
-                <th>재고 명</th>
-                <th>재고 수량</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="asset : ${assetList}">
-                <td th:text="${asset.getAssetNo()}"></td>
-                <td th:text="${asset.getAssetName()}"></td>
-                <td th:text="${asset.getAssetCnt()}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <form class="search-form">
+            <div class="form-div">
+                <input type="text" name="searchTerm" autocomplete="off" required>
+                <label>Searching Asset</label>
+                <span></span>
+                <button type="button">검색</button>
+            </div>
+        </form>
+        <div class="asset-container">
+            <div class="asset-item" th:each="asset : ${assetList}">
+                <span th:text="${asset.getAssetNo()}"></span>
+                <span th:text="${asset.getAssetName()}"></span>
+                <span th:text="${asset.getAssetCnt()}"></span>
+            </div>
+        </div>
     </div>
     <div th:replace="layout/footer :: footer"></div>
 </body>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 import static com.kuui.kas.application.asset.domain.QAsset.asset;
 
@@ -43,6 +44,7 @@ public class AssetRepository {
                 .limit(1)
                 .fetchOne();
 
-        return asset.getAssetNo();
+        if(asset == null) return "kuui-0";
+        else return asset.getAssetNo();
     }
 }

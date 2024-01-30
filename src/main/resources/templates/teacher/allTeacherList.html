@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <meta charset="UTF-8">
+    <title>교사 관리</title>
+</head>
+<body>
+    <div th:replace="layout/navBar :: navBar"></div>
+    <div class="content-main">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>세례명</th>
+                    <th>직책</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="teacher : ${teachers}">
+                    <td th:text="${teacher.getTeacherName()}"></td>
+                    <td th:text="${teacher.getTeacherChristianName()}"></td>
+                    <td th:text="${teacher.getTeacherRole()}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

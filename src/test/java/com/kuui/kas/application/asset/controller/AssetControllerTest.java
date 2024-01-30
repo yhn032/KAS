@@ -24,7 +24,7 @@ class AssetControllerTest {
     public void addAsset(){
         String s = UUID.randomUUID().toString();
         System.out.println(s);
-        String assetNo = assetRepository.LastAssetNo();
+        String assetNo = String.valueOf(assetRepository.LastAssetNo());
 
         Assertions.assertEquals("kuui-0", assetNo);
     }

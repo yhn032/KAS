@@ -44,9 +44,14 @@ nav ul li a {
 
 /** main container **/
 .content-main{
-    width: 100vw;
-    height: 80vh;
+    /*width: 100vw;*/
+/*    height: 80vh;*/
+    /*overflow-y: scroll;*/
     background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 /** footer **/
