@@ -7,18 +7,58 @@
 <body>
   <div th:replace="layout/navBar :: navBar"></div>
   <div class="content-main">
-    <form method="post" action="/asset/addList">
+    <form id="assetForm">
         <label for="assetName">물품명</label>
         <input id="assetName" type="text" name="assetName" value=""><br>
         <label for="assetCnt">물품 수량</label>
         <input id="assetCnt" type="text" name="assetCnt" value=""><br>
+        <label for="assetCnt">물품 위치</label>
+        <input id="assetPos" type="text" name="assetPos" value=""><br>
         <label for="teacherSelect">등록자:</label>
         <select id="teacherSelect" name="regTeacherName">
             <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
         </select>
-        <button type="submit">등록</button>
+        <button type="button" onclick="addAsset()">등록</button>
     </form>
   </div>
+  <script>
+      function addAsset(){
+          //FormData 객체를 사용하여 form 데이터 수집
+          const formData = new FormData(document.getElementById("assetForm"));
+
+          //FormData를 JavaScript 객체로 변환
+          const formObject = {};
+          formData.forEach((value, key) => {
+             formObject[key] = value;
+          });
+
+          //JavaScript객체를 JSON 문자열로 변환
+          const formJsonData = JSON.stringify(formObject);
+          /*console.log(formJsonData);*/
+
+          //JSON 데이터를 서버로 전송
+          //method="post" action="/asset/addList"
+          fetch('/asset/addList', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: formJsonData,
+          })
+              .then(response => response.json())
+              .then(data => {
+                  //서버에서의 응답 처리 로직
+                  console.log('서버 응답 : ' + data);
+                  alert(data.message);
+                  if(data.status === "200") location.href = "/asset/allList";
+              })
+              .catch(error => {
+                  //에러 처리 로직
+                 console.log('에러 발생 : ' + error);
+                 alert(error.message);
+              });
+      }
+  </script>
   <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

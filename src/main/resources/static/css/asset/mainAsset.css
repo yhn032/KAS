@@ -78,6 +78,7 @@
 
 .asset-item {
     width: 20%;
-    height: 200px;
-    border: 1px solid black;
+    height: 300px;
+    box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);
+    border-radius: 20%;
 }

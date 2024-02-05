@@ -17,9 +17,21 @@
         </form>
         <div class="asset-container">
             <div class="asset-item" th:each="asset : ${assetList}">
-                <span th:text="${asset.getAssetNo()}"></span>
-                <span th:text="${asset.getAssetName()}"></span>
-                <span th:text="${asset.getAssetCnt()}"></span>
+                <div class="asset-category">
+                    <span>재고 카테고리</span>
+                </div>
+                <div class="asset-thumb_img">
+                    <span>재고 이미지</span>
+                </div>
+                <div class="asset-title">
+                    <span th:text="${asset.getAssetName()}"></span>
+                </div>
+                <div class="asset-meta-data">
+                    <span th:text="${asset.getAssetCnt()}"></span>
+                    <span th:text="${asset.getAssetPos()}"></span>
+                    <span th:text="${asset.getAssetUpdDate()}"></span>
+                </div>
+
             </div>
         </div>
     </div>

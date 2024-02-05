@@ -7,9 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-//기본키, 재고 번호, 재고 이름, 재고 수량(=현재 수량), 등록자, 수정자, 등록일자, 수정일자
+//기본키, 재고 번호, 재고 이름, 재고 수량(=현재 수량), 등록자, 수정자, 등록일자, 수정일자, 재고 위치 번호
 
 @Entity
 @Getter
@@ -36,18 +37,20 @@ public class Asset {
     private String updTeacherName;
 
     @Column(name = "asset_reg_date")
-    @CreationTimestamp
-    LocalDateTime assetRegDate = LocalDateTime.now();
+    String assetRegDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
     @Column(name = "asset_upd_date")
-    @CreationTimestamp
-    LocalDateTime assetUpdDate = LocalDateTime.now();
+    String assetUpdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-    public Asset(String assetId, String assetNo, String assetName, Long assetCnt, String regTeacherName, String updTeacherName) {
+    @Column(name = "asset_position")
+    Integer assetPos;
+
+    public Asset(String assetId, String assetNo, String assetName, Long assetCnt, int assetPos,String regTeacherName, String updTeacherName) {
         this.assetId = assetId;
         this.assetNo = assetNo;
         this.assetName = assetName;
         this.assetCnt = assetCnt;
+        this.assetPos = assetPos;
         this.regTeacherName = regTeacherName;
         this.updTeacherName = updTeacherName;
     }
