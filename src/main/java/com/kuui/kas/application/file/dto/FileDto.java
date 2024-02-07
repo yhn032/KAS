@@ -1,0 +1,55 @@
+package com.kuui.kas.application.file.dto;
+
+import com.kuui.kas.application.file.domain.SaveFile;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
+
+
+@RequiredArgsConstructor
+@Builder
+@Getter
+public class FileDto {
+    private final Long id;
+    private final String orgFileName;
+    private final String saveName;
+    private final String filePath;
+    private final String fileType;
+    private final Long fileSize;
+    private final String uploadUser;
+    private final LocalDateTime createdAt;
+    private final String createdBy;
+    private final LocalDateTime updatedAt;
+    private final String updatedBy;
+
+    // 정적 팩토리 메서드
+    public static FileDto from(SaveFile saveFile) {
+        return new FileDto(
+                saveFile.getId(),
+                saveFile.getOrgFileName(),
+                saveFile.getSaveName(),
+                saveFile.getFilePath(),
+                saveFile.getFileType(),
+                saveFile.getFileSize(),
+                saveFile.getUploadUser(),
+                saveFile.getCreatedAt(),
+                saveFile.getCreatedBy(),
+                saveFile.getUpdatedAt(),
+                saveFile.getUpdatedBy()
+        );
+    }
+
+    public SaveFile toEntity(){
+        return SaveFile.builder()
+                .id(id)
+                .orgFileName(orgFileName)
+                .saveName(saveName)
+                .filePath(filePath)
+                .fileType(fileType)
+                .fileSize(fileSize)
+                .uploadUser(uploadUser)
+                .build();
+    }
+}

@@ -7,7 +7,7 @@
 <body>
   <div th:replace="layout/navBar :: navBar"></div>
   <div class="content-main">
-    <form id="assetForm">
+    <form id="assetForm" enctype="multipart/form-data">
         <label for="assetName">물품명</label>
         <input id="assetName" type="text" name="assetName" value=""><br>
         <label for="assetCnt">물품 수량</label>
@@ -17,7 +17,9 @@
         <label for="teacherSelect">등록자:</label>
         <select id="teacherSelect" name="regTeacherName">
             <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
-        </select>
+        </select><br>
+        <label for="assetImgFile">자산 사진</label>
+        <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control"><br>
         <button type="button" onclick="addAsset()">등록</button>
     </form>
   </div>
@@ -37,7 +39,6 @@
           /*console.log(formJsonData);*/
 
           //JSON 데이터를 서버로 전송
-          //method="post" action="/asset/addList"
           fetch('/asset/addList', {
               method: 'POST',
               headers: {
@@ -48,15 +49,43 @@
               .then(response => response.json())
               .then(data => {
                   //서버에서의 응답 처리 로직
-                  console.log('서버 응답 : ' + data);
+                  console.log('서버 응답 : ' + data.message);
                   alert(data.message);
-                  if(data.status === "200") location.href = "/asset/allList";
+                  if(data.status === "200") {
+                      //자산 추가가 성공한 경우에 파일 업로드를 진행하자.
+                      uploadImgFile();
+                      /*location.href = "/asset/allList";*/
+                  }
               })
               .catch(error => {
                   //에러 처리 로직
                  console.log('에러 발생 : ' + error);
                  alert(error.message);
               });
+      }
+
+      function uploadImgFile(){
+          const formData = new FormData();
+          const fileInput = document.getElementById("assetImgFile");
+          if(fileInput.files.length > 0) {
+              formData.append("assetImgFile", fileInput.files[0]);
+
+              console.log(formData);
+
+              $.ajax({
+                  type : 'POST',
+                  url : '/file/uploadImg',
+                  data : formData,
+                  processData: false,
+                  contentType: false,
+                  success: function (data) {
+                      if(data === 'success') console.log('파일 업로드 성공');
+                      else if (data === 'fail') console.log('파일 업로드 실패');
+                  }
+              })
+          }else {
+              console.log('파일이 선택되지 않았습니다.')
+          }
       }
   </script>
   <div th:replace="layout/footer :: footer"></div>

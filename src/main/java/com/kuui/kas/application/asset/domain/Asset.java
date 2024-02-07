@@ -1,13 +1,13 @@
 package com.kuui.kas.application.asset.domain;
 
+import com.kuui.kas.application.file.domain.SaveFile;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 //기본키, 재고 번호, 재고 이름, 재고 수량(=현재 수량), 등록자, 수정자, 등록일자, 수정일자, 재고 위치 번호
@@ -44,6 +44,9 @@ public class Asset {
 
     @Column(name = "asset_position")
     Integer assetPos;
+
+    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SaveFile> assetImgs;
 
     public Asset(String assetId, String assetNo, String assetName, Long assetCnt, int assetPos,String regTeacherName, String updTeacherName) {
         this.assetId = assetId;
