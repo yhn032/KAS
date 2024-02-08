@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public interface AuditingFields {
     @CreatedBy
-    String getCreatedBy();
+    String getCreatedName();
 
     @LastModifiedBy
-    String getUpdatedBy();
+    String getUpdatedName();
 
     @CreatedDate
-    LocalDateTime getCreatedAt();
+    LocalDateTime getCreatedDate();
 
     @LastModifiedDate
-    LocalDateTime getUpdatedAt();
+    LocalDateTime getUpdatedDate();
 }

@@ -6,12 +6,16 @@ import com.kuui.kas.application.common.exception.DuplicateNameAddException;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,7 +39,7 @@ public class AssetController {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         model.addAttribute("username", principal.getName());
 
-        List<Asset> assetList = assetService.allAssetList();
+        List<Asset> assetList = assetService.findAll();
         model.addAttribute("assetList", assetList);
 
         return "/asset/assetList";
@@ -50,7 +54,7 @@ public class AssetController {
         return "/asset/addAssetForm";
     }
 
-    @PostMapping(value = "addList", produces = "application/json")
+    @PostMapping(value = "/addTestList", produces = "application/json")
     @ResponseBody
     //public String addAssetFromForm(@RequestParam("assetName")String assetName, @RequestParam("assetCnt")Long assetCnt, @RequestParam("assetPos")int assetPos, @RequestParam("regTeacherName")String regTeacherName, Model model){
     public Map<String, String> addAssetFromForm(@RequestBody Asset asset) throws DuplicateNameAddException {
@@ -67,10 +71,26 @@ public class AssetController {
         //물품 저장하기 -> 저장하려는 이름이 이미 있다면 exception을 터트려서 이미 등록되어 있으니 수량을 수정하라고 알려주기
         assetService.saveAsset(newAsset);
 
+//        String assetIdFindByAssetNo = assetService.getAssetIdFindByAssetNo("kuui-" + num);
+
         Map<String, String> responseData =  new HashMap<>();
         responseData.put("status", "200");
         responseData.put("message", "재고 상품이 성공적으로 추가되었습니다.");
+//        responseData.put("assetId", assetIdFindByAssetNo);
 
         return responseData;
+    }
+
+    @PostMapping(value = "/addList", produces = "application/json")
+    public ResponseEntity<?> handleFormUpload (
+            @RequestPart(value = "assetImgFile", required = false)MultipartFile multipartFile, @RequestPart("assetDto") Asset asset, Principal principal) throws IOException, DuplicateNameAddException {
+
+        System.out.println("multipartFile.getOriginalFilename() = " + multipartFile.getOriginalFilename());
+        System.out.println("asset = " + asset.getAssetName());
+
+        //자산 저장하기
+        assetService.addAssetWithImage(asset, multipartFile, principal);
+
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }

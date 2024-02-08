@@ -27,48 +27,81 @@
       function addAsset(){
           //FormData 객체를 사용하여 form 데이터 수집
           const formData = new FormData(document.getElementById("assetForm"));
+          const fileInput = document.getElementById("assetImgFile");
+          if(fileInput.files.length > 0) {
+              formData.append("assetImgFile", fileInput.files[0]);
+          }
 
-          //FormData를 JavaScript 객체로 변환
-          const formObject = {};
-          formData.forEach((value, key) => {
-             formObject[key] = value;
-          });
+          const data = {
+            info: {
+                assetName : $("#assetName").val(),
+                assetCnt : $("#assetCnt").val(),
+                assetPos : $("#assetPos").val(),
+                regTeacherName : $("#regTeacherName").val()
+            }
+          };
 
-          //JavaScript객체를 JSON 문자열로 변환
-          const formJsonData = JSON.stringify(formObject);
-          /*console.log(formJsonData);*/
+          formData.append("assetDto", new Blob([JSON.stringify(data.info)], {type : "application/json"}));
+          console.log(formData);
 
-          //JSON 데이터를 서버로 전송
-          fetch('/asset/addList', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: formJsonData,
+          $.ajax({
+              type : 'POST',
+              url : '/asset/addList',
+              data : formData,
+              processData: false,
+              contentType: false,
+              success: function (data) {
+
+                  console.log('파일 업로드 성공');
+
+
+              }
           })
-              .then(response => response.json())
-              .then(data => {
-                  //서버에서의 응답 처리 로직
-                  console.log('서버 응답 : ' + data.message);
-                  alert(data.message);
-                  if(data.status === "200") {
-                      //자산 추가가 성공한 경우에 파일 업로드를 진행하자.
-                      uploadImgFile();
-                      /*location.href = "/asset/allList";*/
-                  }
-              })
-              .catch(error => {
-                  //에러 처리 로직
-                 console.log('에러 발생 : ' + error);
-                 alert(error.message);
-              });
+          alert("재고가 등록되었습니다.");
+          location.href = "/asset/allList";
+          // //FormData를 JavaScript 객체로 변환
+          // const formObject = {};
+          // formData.forEach((value, key) => {
+          //    formObject[key] = value;
+          // });
+          //
+          // //JavaScript객체를 JSON 문자열로 변환
+          // const formJsonData = JSON.stringify(formObject);
+          // /*console.log(formJsonData);*/
+          //
+          // //JSON 데이터를 서버로 전송
+          // // fetch('/asset/addList', {
+          // fetch('/asset/addTestList', {
+          //     method: 'POST',
+          //     headers: {
+          //         'Content-Type': 'application/json'
+          //     },
+          //     body: formJsonData,
+          // })
+          //     .then(response => response.json())
+          //     .then(data => {
+          //         //서버에서의 응답 처리 로직
+          //         console.log('서버 응답 : ' + data.message);
+          //         alert(data.message);
+          //         // if(data.status === "200") {
+          //         //     //자산 추가가 성공한 경우에 파일 업로드를 진행하자.
+          //         //     uploadImgFile(data.assetId);
+          //         //     /*location.href = "/asset/allList";*/
+          //         // }
+          //     })
+          //     .catch(error => {
+          //         //에러 처리 로직
+          //        console.log('에러 발생 : ' + error);
+          //        alert(error.message);
+          //     });
       }
 
-      function uploadImgFile(){
+      function uploadImgFile(assetId){
           const formData = new FormData();
           const fileInput = document.getElementById("assetImgFile");
           if(fileInput.files.length > 0) {
               formData.append("assetImgFile", fileInput.files[0]);
+              formData.append("assetId", assetId);
 
               console.log(formData);
 

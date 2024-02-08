@@ -22,6 +22,12 @@
                 </div>
                 <div class="asset-thumb_img">
                     <span>재고 이미지</span>
+                    <span th:if="${asset.getAssetImgs().size() > 0}">
+                        <img th:src="'../../img/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="200px" height="200px">
+                    </span>
+                    <span th:unless="${asset.getAssetImgs().size() > 0}">
+                        <img width="200px" height="200px">
+                    </span>
                 </div>
                 <div class="asset-title">
                     <span th:text="${asset.getAssetName()}"></span>

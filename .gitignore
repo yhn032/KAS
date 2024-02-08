@@ -136,6 +136,10 @@ error모음/
 # Q class
 src/main/generated
 
+# image
+src/main/resources/static/img/
+images/
+
 # Package Files #
 *.jar
 *.war

@@ -2,18 +2,17 @@ package com.kuui.kas.application.file.domain;
 
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.common.domain.Auditing;
-import com.kuui.kas.application.common.domain.AuditingFields;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
 @ToString
-public class SaveFile extends Auditing implements AuditingFields{
+public class SaveFile extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
