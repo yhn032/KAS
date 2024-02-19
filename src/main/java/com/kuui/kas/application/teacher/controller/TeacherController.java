@@ -4,10 +4,13 @@ import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.domain.TeacherRole;
 import com.kuui.kas.application.teacher.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,9 +37,9 @@ public class TeacherController {
     }
 
     @GetMapping("/manage")
-    public String manageTeacherList(Model model){
+    public String manageTeacherList(Principal principal, Model model){
         List<Teacher> allTeachers = teacherService.findAllTeachers();
-
+        model.addAttribute("username", principal.getName());
         model.addAttribute("teachers", allTeachers);
         return "/teacher/allTeacherList";
     }

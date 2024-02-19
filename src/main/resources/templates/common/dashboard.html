@@ -7,8 +7,13 @@
 <body>
     <div th:replace="layout/navBar :: navBar"></div>
     <div class="content-main">
-        메인 영역입니다.
-        로그인 성공 후에 리다이렉트 될 기본 페이지
+        <div class="user-info">사용자 정보</div>
+
+        <div class="main-logo">
+            메인 영역입니다.
+            로그인 성공 후에 리다이렉트 될 기본 페이지
+        </div>
+
     </div>
     <div th:replace="layout/footer :: footer"></div>
 </body>
