@@ -18,7 +18,7 @@
 .asset-sub-menu {
     display: none;
     position: absolute;
-    top: 200%; /* 부모 요소 아래에 표시 */
+    top: 100%; /* 부모 요소 아래에 표시 */
     left: 0;
     width: 150px;
     background: white;
@@ -42,7 +42,7 @@
     border-right: 8px solid transparent;
     border-bottom: 8px solid #f9f9f9;
     position: absolute;
-    top: 165%;
+    top: 90%;
     left: 50%;
     margin-left: -8px; /* 화살표를 가운데 정렬하기 위한 마진 조정 */
 }
@@ -83,12 +83,21 @@
 }
 /* navBar-img end*/
 
+/*수직 중앙 정렬*/
+nav {
+    height: 100%;
+}
+nav li {
+    display: flex; /* 수직 중앙 정렬을 위해 flex 사용 */
+    align-items: center; /* 수직 중앙 정렬 */
+}
+
 nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-
+    height: 100%;
 }
 
 nav ul li {
