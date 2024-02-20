@@ -6,6 +6,7 @@
 </head>
 <body>
   <div th:replace="layout/navBar :: navBar"></div>
+  <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
       <h1 style="display: inline-block">Welcome</h1> <h2 style="display: inline-block" th:text="${username}"></h2>
       <p>재고 관리</p>
@@ -15,6 +16,7 @@
           <a href="/asset/shareList">물품 반출</a>
       </p>
   </div>
+  <div th:replace="layout/content :: content"></div>
   <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>

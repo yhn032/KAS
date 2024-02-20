@@ -6,7 +6,9 @@
 </head>
 <body>
     <div th:replace="layout/navBar :: navBar"></div>
-    <div class="content-main">
+    <div th:replace="layout/sidebar :: sidebar"></div>
+    <div class="asset-main">
+        <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
         <form class="search-form">
             <div class="form-div">
                 <input type="text" name="searchTerm" autocomplete="off" required>

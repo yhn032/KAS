@@ -2,18 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <div class="content-navBar" th:fragment="navBar">
-    <nav>
-        <ul>
-            <li><a href="/common/dashboard">Home</a></li>
-            <li><a href="/asset/mainAsset">재고관리</a></li>
-            <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
-        </ul>
-    </nav>
-    <form class="controller" method="post" action="/logout">
-        <p th:text="${username}">님</p>
-        <button type="submit">Logout</button>
-        <button type="button">MyPage</button>
-    </form>
-</div>
+    <div class="content-nav">
+        <nav>
+            <ul>
+                <li><a href="/common/dashboard">Home</a></li>
+                <li class="has-asset-sub-menu"><a href="#">재고관리<span class="arrow-up"></span></a>
+                    <ul class="asset-sub-menu">
+                        <li><a href="/asset/allList">재고 검색</a></li>
+                        <li><a href="/asset/addList">재고 등록</a></li>
+                        <li><a href="/asset/shareList">반출 리스트</a></li>
+                    </ul>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
+            </ul>
+        </nav>
+        <form class="controller" method="post" action="/logout">
+            <p th:text="${username}">님</p>
+            <button type="submit">Logout</button>
+            <button type="button">MyPage</button>
+        </form>
+    </div>
+    <div class="navBar-img">
 
+    </div>
+</div>
 </html>

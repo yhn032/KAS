@@ -1,19 +1,94 @@
 /** header navBar **/
-.content-navBar{
-    width: 100vw;
+.content-navBar {
+    display: flex;
+    flex-direction: column;
+    background-color: #333;
+    opacity: 0.5;
+    height: 100vh;
+    background-image: url("../img/profile-bg.png");
+    background-position: center;
+    background-size: cover;
+}
+
+/* 서브 메뉴가 부모 바로 아래에 위치하도록 설정*/
+.has-asset-sub-menu {
+    position: relative;
+}
+
+.asset-sub-menu {
+    display: none;
+    position: absolute;
+    top: 200%; /* 부모 요소 아래에 표시 */
+    left: 0;
+    width: 150px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 20%;
+}
+
+.asset-sub-menu li a {
+    color: #555555;
+}
+
+/* 화살표 스타일 추가 */
+.arrow-up {
+    display: none;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #f9f9f9;
+    position: absolute;
+    top: 165%;
+    left: 50%;
+    margin-left: -8px; /* 화살표를 가운데 정렬하기 위한 마진 조정 */
+}
+
+/* nav에 hover 시 서브메뉴 표시 */
+.content-navBar li:hover .asset-sub-menu,
+.content-navBar li:hover .arrow-up{
+    display: block;
+}
+
+.content-nav{
+    /*position: absolute;
+    right: 0;
+    width: 80vw;
     height: 10vh;
     background-color: #333;
+    opacity: 0.2;
     color: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    z-index: 1;*/
+    width: 100%;
+    height: 10vh;
+    /*background-color: #333;*/
+    color: #fff;
+    text-align: center;
+    transition: background-color 0.5s ease;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
+
+/* navBar-img start*/
+.navBar-img {
+    width: 100%;
+    height: 500px;
+}
+/* navBar-img end*/
 
 nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
+
 }
 
 nav ul li {
@@ -44,8 +119,8 @@ nav ul li a {
 
 /** main container **/
 .content-main{
+    width: 100vw;
     padding-bottom: 100px;
-    background-color: #eee;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,4 +132,126 @@ nav ul li a {
     width: 100vw;
     height: 10vh;
     background-color: #aaa;
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
 }
+
+/* sidebar start */
+.sidebar {
+    position: fixed;
+    left: 0px; /* initially hide the sidebar */
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background-color: #fff;
+    transition: left 0.3s ease;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */
+    scrollbar-width: none; /* Firefox에 스크롤바 숨기기 */
+    box-shadow: 2px 0px 10px rgba(147 141 201 / 71%);
+}
+
+/* WebKit 브라우저에만 적용되는 스타일 */
+.sidebar::-webkit-scrollbar {
+    display: none; /* WebKit 브라우저에서 스크롤바 숨기기 */
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar nav ul li {
+    padding: 10px;
+}
+
+.sidebar nav ul li a {
+    color: #000000;
+    text-decoration: none;
+}
+.sidebar .profile {
+    width: 100%;
+    height: 250px;
+    background-image: url('../img/profile-bg.png');
+    background-size: cover;
+    border-bottom: 1px solid rgb(184, 184, 184);
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.sidebar .profile .profile-wrapper{
+    background-color: white;
+    z-index: 10;
+    height: 150px;
+}
+
+.sidebar .profile .profile-wrapper .overlay-image {
+    position: absolute;
+    top: 25px;
+    left: 50px;
+    background-image: url('../img/circleimg.png');
+    background-size: cover;
+    width: 150px;
+    height: 150px;
+    z-index: 20;
+}
+
+.sidebar .profile .profile-wrapper .profile-name {
+    margin-top: 90px;
+}
+
+/* sidebar end */
+
+/* scrollBar end */
+/* 스크롤 바 디자인 */
+::-webkit-scrollbar {
+    width: 10px; /* 스크롤바 너비 */
+    height: 200px;
+}
+
+/* 스크롤 바 트랙 */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+/* 스크롤 바 색상 */
+::-webkit-scrollbar-thumb {
+    background: #888; /* 스크롤바 색상 */
+    border-radius: 5px; /* 스크롤바 모서리 반지름 */
+}
+
+/* 영역에 마우스 호버시 스크롤 바 색상 변경 */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 호버시 스크롤바 색상 변경 */
+}
+/* scrollBar end */
+
+/* content start */
+.content {
+    height: auto;
+}
+
+.content-toggle-btn {
+    position: absolute;
+    bottom: 50%; /* Adjust the button position as needed */
+    left: 261px;
+    transform: translateX(-50%);
+    background-color: #eeeeee;
+    color: #000;
+    border: none;
+    height: 40px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+    transition: left 0.3s ease;
+    /*transition: bottom 0.1s ease; !* 스크롤로 위아래 이동시 부드럽게 따라오게 하기 위함이다. 였었는데,,, 중복적용이 불가능함  *!*/
+    z-index: 2;
+}
+
+.content, .content-navBar {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+/* content end */

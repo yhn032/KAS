@@ -6,6 +6,7 @@
 </head>
 <body>
   <div th:replace="layout/navBar :: navBar"></div>
+  <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
     <form id="assetForm" enctype="multipart/form-data">
         <label for="assetName">물품명</label>
@@ -121,6 +122,7 @@
           }
       }
   </script>
+  <div th:replace="layout/content :: content"></div>
   <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>
