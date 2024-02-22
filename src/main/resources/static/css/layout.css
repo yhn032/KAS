@@ -109,6 +109,34 @@ nav ul li a {
     color: white;
 }
 
+/*navBar text animation*/
+.text-container2 {
+    position: relative;
+    overflow: hidden;
+}
+
+.rotating-text {
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #000;
+}
+
+.typing-animation {
+    animation: typing 3s steps(20) infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+/*navBar text animation*/
+
 .controller {
     display: flex;
 }
