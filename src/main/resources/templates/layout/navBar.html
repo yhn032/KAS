@@ -26,17 +26,17 @@
         <div class="dashboard-mainText">
             <div class="row">
                 <div class="col">
-                    <h6 class="bubble-heading">I Love What I do</h6>
-                    <h2 style="display: inline" class="special-heading text-container1">평화가 </h2>
-                    <h2 style="display: inline" class="special-heading text-container2"><span class="rotating-text"></span></h2>
-                    <h2 style="display: inline" class="special-heading text-container3">와 함께!</h2>
+                    <h6 class="bubble-heading">I Love Jesus</h6>
+                    <h2 style="display: inline" class="special-heading text-container1">평화가 <span class="rotating-text"></span><span id="cursor"></span> 와 함께!</h2>
+                    <div class="quote-separator"></div>
+                    <p class="sub-text">경식이 바보</p>
                 </div>
             </div>
         </div>
     </div>
     <script>
         $(document).ready(function(){
-            const textArray = ["루카", "빅토리아", "레오", "릿다", "글라라"];
+            const textArray = ["Luke", "Victoria", "Leo", "Rita", "Clare", "Raphaela"];
             let currentTextIndex = 0;
             let currentText = '';
             let isDeleting = false;
@@ -75,56 +75,8 @@
                     }, isDeleting ? 100 : 200);
                 }
             }
-
             // Initial setup
             type();
-
-
-            /*const textArray = ["루카", "빅토리아", "레오", "릿다", "글라라"];
-            let currentTextIndex = 0;
-/!*
-            const textContainer = $('.text-container2');*!/
-            const newText = $('.rotating-text');
-
-            function typeText(text){
-                newText.text(text);
-            }
-
-            function startTypingAnimation() {
-                newText.removeClass('typing-animation'); // Remove the class
-                // Force reflow to restart the animation
-                void newText[0].offsetWidth;
-
-                // Apply animation again
-                newText.addClass('typing-animation'); // Add the class again
-            }
-
-            function showNextText() {
-                const nextText = textArray[currentTextIndex];
-                typeText(nextText);
-                startTypingAnimation();
-
-                currentTextIndex = (currentTextIndex + 1) % textArray.length;
-            }
-
-            // Initial setup
-            showNextText();
-
-            // Set interval to show the next text
-            setInterval(showNextText, 5000);*/
-
-
-/*            textContainer.on('animationiteration', '.rotating-text', function() {
-                // Remove the old text and append a new one on each animation iteration
-                $(this).remove();
-                // Append a new text from the array
-                const nextText = newText.clone().text(textArray[currentTextIndex]);
-                textContainer.append(nextText);
-
-                // Update the current text index for the next iteration
-                currentTextIndex = (currentTextIndex + 1) % textArray.length;
-            });*/
-
         });
     </script>
 </div>

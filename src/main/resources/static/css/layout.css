@@ -110,23 +110,34 @@ nav ul li a {
 }
 
 /*navBar text animation*/
-.text-container2 {
+.text-container1 {
     position: relative;
     overflow: hidden;
 }
 
 .rotating-text {
-    font-size: 24px;
+    font-size: 70px;
     font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
-    border-right: 2px solid #000;
+    color: rgb(248, 184, 44);
 }
 
 .typing-animation {
-    animation: typing 3s steps(20) infinite;
+    animation: typing 1s steps(20) infinite;
 }
-
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+#cursor {
+    display: inline-block;
+    width: 2px;
+    height: 40px; /* 텍스트 크기에 맞게 조절 */
+    background-color: rgb(248, 184, 44);
+    animation: blink 0.7s infinite;
+}
 @keyframes typing {
     from {
         width: 0;
@@ -137,6 +148,63 @@ nav ul li a {
 }
 /*navBar text animation*/
 
+/* dashboard main-text*/
+.bubble-heading {
+    margin-top: 100px;
+    border: 3px solid rgb(248, 184, 44);
+    border-radius: 20px;
+    color: rgb(248, 184, 44);
+    width: 200px;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.special-heading {
+    color: white;
+    font-size: 60px;
+}
+
+.col{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.quote-separator {
+    width: 100%;
+    height: 34px;
+    background: transparent url('../img/quotation.jpg') no-repeat center center;
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    background-size: 38px !important;
+}
+
+.quote-separator:before , .quote-separator:after{
+    content: '';
+    height: 1px;
+    width: 20%;
+    background: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    top: 16px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+    .quote-separator:before {
+        right: 54%;
+    }
+    .quote-separator:after {
+        left: 54%;
+    }
+}
+
+.sub-text {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+/* dashboard main-text*/
 .controller {
     display: flex;
 }
