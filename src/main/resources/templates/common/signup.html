@@ -4,29 +4,40 @@
     <meta charset="UTF-8">
     <title>signUp</title>
     <link rel="stylesheet" href="/css/common/signup.css">
+    <link rel="stylesheet" href="/css/common/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="/js/common/signup.js"></script>
+    <script src="/js/common/jquery-1.12.4.min.js"></script>
+    <script src="/js/common/jquery-ui.min.js"></script>
 </head>
 <body>
 <div class="signup-container">
     <div class="signup-form">
-        <h1 style="color: white; margin: 0 auto; text-align: center;">Let's Start!</h1>
+        <div class="how-to-use">
+            <h1 style="color: white;text-align: center;">Let's Start!</h1>
+            <h3 style="color: white;text-align: center;">How to use</h3>
+            <div style="border: 3px solid white; border-radius: 15px;">
+                주어진 조건에 알맞게 <br>
+                입력이 되면 입력 창이 <br>
+                초록색으로 바뀝니다.<br>
+                입력창 이외의 부분을 <br>
+                클릭하면 다음 입력창이<br>
+                생성됩니다.<br>
+                축일의 경우<br>
+                입력창을 클릭하면 달력<br>
+                이미지가 생성됩니다.<br>
+                이미지를 클릭하면<br>
+                달력이 나타나 축일을 <br>
+                선택할 수 있습니다. <br>
+            </div>
+        </div>
         <form id="signupForm" method="post" action="/common/signup">
             <div id="idBox" class="formElementBox">
                 <p>아이디를 입력하세요. (영문+숫자 조합, 6자 이상)</p>
                 <input type="text" id="id" placeholder="id" name="teacherLogInID" autocomplete="off" onkeyup="idValidation()">
                 <p id="idFeedback" style="font-size: 10px"></p>
             </div>
-<!--            아이디 : <input type="text" id="id" placeholder="id" name="teacherLogInID"><br>-->
-<!--            비번 : <input type="password" id="pw" placeholder="pw" name="teacherLogInPW"><br>
-            전화번호 : <input type="text" placeholder="phoneNum" name="teacherPhoneNumber"><br>
-            닉네임 : <input type="text" placeholder="nickName" name="teacherNickname"><br>
-            이메일주소 : <input type="email" id="emailAddress" placeholder="email" name="teacherEmailAddress"><br>
-            이름 : <input type="text" id="name" placeholder="name" name="teacherName"><br>
-            세례명 : <input type="text" id="christianName" placeholder="christianName" name="teacherChristianName"><br>
-            축일 : <input type="text" placeholder="saint's Day" name="teacherSaintsDay"><br>-->
         </form>
-        <button class="form_btn" type="button" onclick="signupValidation()">Sign Up</button>
     </div>
 </div>
 </body>

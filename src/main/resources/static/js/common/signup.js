@@ -16,7 +16,6 @@ window.onload = function (){
                 addFormTag("pw");
                 const dynamic = document.getElementById("pw");
                 dynamic.setAttribute("tabindex", "0");
-                // dynamic.focus();
 
                 // 비동기적으로 실행하여 브라우저가 다음 탭 이동을 처리하도록 함
                 setTimeout(function() {
@@ -28,43 +27,6 @@ window.onload = function (){
     });
 }
 
-//ajax의 경우 비동기 방식으로 진행되기 때문에
-//return으로 함수가 제대로 종료되지 않을 수 있다.
-//ajax의 결과로 함수를 탈출하기 위해서는 promise 혹은 콜백함수를 사용해야 한다.
-function validateInsertId(insertId){
-    return new Promise((resolve, reject) => {
-        const feedback = document.getElementById("idFeedback");
-        const id = document.getElementById("id");
-
-        //id 중복 체크 ajax
-        $.ajax({
-            url : '/teacher/duplicateId',
-            method : 'POST',
-            data: { id: insertId },
-            success : function(result){
-                if(result === 'error'){
-                    feedback.textContent = "이미 사용중인 아이디입니다.";
-                    id.style.boxShadow = "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000";
-                    feedback.style.color = "red";
-                    resolve('');
-                }else if (result === 'success'){
-                    feedback.textContent = "";
-                    id.style.boxShadow = "inset 1px 1px 1px #6ac3e1, inset -1px -1px 7px #2641ff";
-                    feedback.style.color = "white";
-                    resolve('perfect');
-                }else {
-                    console.log(result);
-                    reject(new Error('Unexpected result')); // Promise 실패 시 에러 반환
-                }
-            },
-            error: function(error) {
-                console.error(error);
-                reject(error); // Promise 실패 시 에러 반환
-            }
-        });
-    });
-}
-
 function addFormTag(formId){
     const signupForm = document.getElementById("signupForm");
 
@@ -72,21 +34,49 @@ function addFormTag(formId){
     addBox.id = formId + 'Box';
     addBox.classList.add("formElementBox");
 
+    if(formId === 'profileImg') {
+
+        //프로필 이미지 삽입 태그
+        const imgTag = document.createElement("input");
+        imgTag.type = 'file';
+        imgTag.name = 'teacherProfileImg';
+        imgTag.id = formId;
+        imgTag.accept = '.jpg, .png';
+        signupForm.appendChild(imgTag);
+
+        //회원 가입 버튼 태그
+        const signUPBtn = document.createElement("button");
+        signUPBtn.className = 'form_btn';
+        signUPBtn.type = 'button';
+        signUPBtn.textContent = 'Sign Up';
+        signUPBtn.onclick = signupValidation;
+
+        addBox.appendChild(imgTag);
+        addBox.appendChild(signUPBtn);
+        signupForm.appendChild(addBox);
+        return;
+    }
+
     const pTag = document.createElement("p");
 
     if(formId == 'pw') pTag.textContent = "비밀번호를 입력하세요. (영문자 + 숫자 + 특수 문자 8자 이상)";
     else if(formId == 'pwCheck') pTag.textContent = "비밀번호를 다시 입력하세요.";
-    else if(formId === 'phoneNum') pTag.textContent = "전화번호를 입력하세요.";
-    else if(formId === 'nickName') pTag.textContent = "닉네임을 입력하세요.";
+    else if(formId === 'phoneNum') pTag.textContent = "전화번호를 입력하세요. (숫자만 입력)";
+    else if(formId === 'nickName') pTag.textContent = "사용할 닉네임을 입력하세요.";
     else if(formId === 'emailAddress') pTag.textContent = "이메일 주소를 입력하세요.";
     else if(formId === 'name') pTag.textContent = "이름을 입력하세요.";
     else if(formId === 'christianName') pTag.textContent = "세례명을 입력하세요.";
     else if(formId === 'saintsDay') pTag.textContent = "축일을 선택하세요.";
     addBox.appendChild(pTag);
 
+
     const inputTag = document.createElement("input");
+
     if(formId.includes('pw')) inputTag.type = "password";
     else inputTag.type = "text";
+
+    if(formId === 'phoneNum') inputTag.maxLength = 13;
+    if(formId === 'saintsDay') inputTag.readOnly = true;
 
     inputTag.id = formId;
     inputTag.placeholder = formId;
@@ -116,29 +106,31 @@ function addFormTag(formId){
     }else if (formId === 'pwCheck'){
         document.getElementById(formId).addEventListener("keyup", pwCheckValidation);
     }else if (formId === 'phoneNum'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
-    }else if (formId === 'nickName'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
+        document.getElementById(formId).addEventListener("keyup", phoneNumValidation);
+        document.getElementById(formId).addEventListener("input", formatting);
     }else if (formId === 'emailAddress'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
+        document.getElementById(formId).addEventListener("keyup", emailValidation);
     }else if (formId === 'name'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
+        document.getElementById(formId).addEventListener("keyup", nameValidation);
     }else if (formId === 'christianName'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
+        document.getElementById(formId).addEventListener("keyup", christianNameValidation);
+    }else if (formId === 'nickName'){
+        document.getElementById(formId).addEventListener("keyup", nickNameValidation);
     }else if (formId === 'saintsDay'){
-        document.getElementById(formId).addEventListener("keyup", pwValidation);
+        document.getElementById(formId).addEventListener("click", datePick);
     }
 
 
     //pw는 초반에 id태그가 있기 때문에 document.onload로 해당 태그를 찾을 수 있지만,
     //그 이후 동적으로 만들어진 태그는 찾을 수 없기때문에 태그를 만들면서 리스너를 등록해놔야 한다.
     if(formId === 'pw') addBlurListener("pw", "pwBox", "pwCheck", "굿 비밀번호 확인 태그를 추가합니다.");
-    else if(formId === 'pwCheck') addBlurListener("pwCheck", "pwCheckBox", "phoneNum", "굿 전화번호 태그를 추가합니다.");
+    else if(formId === 'pwCheck') addBlurListener("pwCheck", "pwCheckBox", "name", "굿 이름 태그를 추가합니다.");
+    else if(formId === 'name') addBlurListener("name", "nameBox", "emailAddress", "굿 이메일 태그를 추가합니다.");
+    else if(formId === 'emailAddress') addBlurListener("emailAddress", "emailAddressBox", "phoneNum", "굿 전화번호 태그를 추가합니다.");
     else if(formId === 'phoneNum') addBlurListener("phoneNum", "phoneNumBox", "nickName", "굿 닉네임 태그를 추가합니다.");
-    else if(formId === 'nickName') addBlurListener("nickName", "nickNameBox", "emailAddress", "굿 이메일 태그를 추가합니다.");
-    else if(formId === 'emailAddress') addBlurListener("emailAddress", "emailAddressBox", "name", "굿 이름 태그를 추가합니다.");
-    else if(formId === 'name') addBlurListener("name", "nameBox", "christianName", "굿 세례명 태그를 추가합니다.");
+    else if(formId === 'nickName') addBlurListener("nickName", "nickNameBox", "christianName", "굿 세례명 태그를 추가합니다.");
     else if(formId === 'christianName') addBlurListener("christianName", "christianNameBox", "saintsDay", "굿 축일 태그를 추가합니다.");
+    //else if(formId === 'saintsDay') addBlurListener("saintsDay", "saintsDayBox", "profileImg", "프로필 추가 태그를 추가한다.");
 
 }
 function addBlurListener(elementId, nextElementId, nextFormTag, message) {
@@ -196,7 +188,7 @@ function signupValidation() {
         return;
     }
 
-    document.getElementById("signupForm").submit();
+    //document.getElementById("signupForm").submit();
 }
 
 function idValidation(){
@@ -253,16 +245,229 @@ function idValidation(){
     }
 }
 
+
+//ajax의 경우 비동기 방식으로 진행되기 때문에
+//return으로 함수가 제대로 종료되지 않을 수 있다.
+//ajax의 결과로 함수를 탈출하기 위해서는 promise 혹은 콜백함수를 사용해야 한다.
+function validateInsertId(insertId){
+    return new Promise((resolve, reject) => {
+        const feedback = document.getElementById("idFeedback");
+        const id = document.getElementById("id");
+
+        //id 중복 체크 ajax
+        $.ajax({
+            url : '/teacher/duplicateId',
+            method : 'POST',
+            data: { id: insertId },
+            success : function(result){
+                if(result === 'error'){
+                    feedback.textContent = "이미 사용중인 아이디입니다.";
+                    id.style.boxShadow = "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000";
+                    feedback.style.color = "red";
+                    resolve('');
+                }else if (result === 'success'){
+                    feedback.textContent = "";
+                    id.style.boxShadow = "inset 1px 1px 1px #6ac3e1, inset -1px -1px 7px #2641ff";
+                    feedback.style.color = "white";
+                    resolve('perfect');
+                }else {
+                    console.log(result);
+                    reject(new Error('Unexpected result')); // Promise 실패 시 에러 반환
+                }
+            },
+            error: function(error) {
+                console.error(error);
+                reject(error); // Promise 실패 시 에러 반환
+            }
+        });
+    });
+}
+
 function pwValidation(){
-    document.getElementById("pwBox").classList.add("success");
-    if (document.getElementById("pwCheckBox")) document.getElementById("pwCheckBox").classList.add("success");
-    if (document.getElementById("phoneNumBox")) document.getElementById("phoneNumBox").classList.add("success");
-    if (document.getElementById("nickNameBox")) document.getElementById("nickNameBox").classList.add("success");
-    if (document.getElementById("emailAddressBox")) document.getElementById("emailAddressBox").classList.add("success");
-    if (document.getElementById("nameBox")) document.getElementById("nameBox").classList.add("success");
-    if (document.getElementById("christianNameBox")) document.getElementById("christianNameBox").classList.add("success");
+    let inputPw = $("#pw").val();
+    const lengthCheck = /^.{8,}$/;
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z\d!@#$%^&*]+$/;
+
+    //8자 이상인지 체크
+    if(!lengthCheck.test(inputPw)) {
+        $("#pwFeedback").text("8글자 이상의 비밀번호를 설정하세요.");
+        $("#pw").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#pwFeedback").css("color", "red");
+        document.getElementById("pwBox").classList.remove("success");
+        return;
+    }
+
+    if(!regex.test(inputPw)) {
+        $("#pwFeedback").text("주어진 조합에 맞게 비밀번호를 설정하세요.");
+        $("#pw").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#pwFeedback").css("color", "red");
+        document.getElementById("pwBox").classList.remove("success");
+        return;
+    }
+
+    if(lengthCheck.test(inputPw) && regex.test(inputPw)) {
+        $("#pwFeedback").text("올바른 비밀번호 조합입니다.");
+        $("#pw").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#pwFeedback").css("color", "#17ff00");
+        document.getElementById("pwBox").classList.add("success");
+        return;
+    }
 }
 
 function pwCheckValidation(){
-    document.getElementById("pwCheckBox").classList.add("success");
+    let pw = $("#pw").val();
+    let inputPwCheck = $("#pwCheck").val();
+
+    if(pw === inputPwCheck) {
+        $("#pwCheckFeedback").text("비밀번호 확인이 완료되었습니다.");
+        $("#pwCheck").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#pwCheckFeedback").css("color", "#17ff00");
+        document.getElementById("pwCheckBox").classList.add("success");
+        return;
+    }else {
+        $("#pwCheckFeedback").text("입력한 비밀번호가 서로 다릅니다.");
+        $("#pwCheck").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#pwCheckFeedback").css("color", "red");
+        document.getElementById("pwCheckBox").classList.remove("success");
+        return;
+    }
+}
+
+function nameValidation(){
+    if($("#name").val() != '') {
+        $("#nameFeedback").text("본인 이름은 알아서 잘 쓰겠지...");
+        $("#name").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#nameFeedback").css("color", "#17ff00");
+        document.getElementById("nameBox").classList.add("success");
+    }else {
+        $("#nameFeedback").text("이름을 입력하세요.");
+        $("#name").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#nameFeedback").css("color", "red");
+        document.getElementById("nameBox").classList.remove("success");
+    }
+}
+
+function emailValidation(){
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    let inputEmail = $("#emailAddress").val();
+
+    if(emailRegex.test(inputEmail)) {
+        $("#emailAddressFeedback").text("올바른 이메일 형식입니다.");
+        $("#emailAddress").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#emailAddressFeedback").css("color", "#17ff00");
+        document.getElementById("emailAddressBox").classList.add("success");
+    }else {
+        $("#emailAddressFeedback").text("이메일 형식에 맞게 입력하세요.");
+        $("#emailAddress").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#emailAddressFeedback").css("color", "red");
+        document.getElementById("emailAddressBox").classList.remove("success");
+    }
+}
+function phoneNumValidation(){
+
+    if($("#phoneNum").val().length >= 13) {
+        $("#phoneNumFeedback").text("올바른 전화번호");
+        $("#phoneNum").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#phoneNumFeedback").css("color", "#17ff00");
+        document.getElementById("phoneNumBox").classList.add("success");
+    }else {
+        $("#phoneNumFeedback").text("");
+        $("#phoneNum").css("box-shadow", "inset 1px 1px 1px #6ac3e1, inset -1px -1px 7px #2641ff");
+        $("#phoneNumFeedback").css("color", "white");
+        document.getElementById("phoneNumBox").classList.remove("success");
+    }
+}
+function formatting(){
+    let num = $("#phoneNum").val();
+    let numericValue = num.replace(/\D/g, '');
+    let formattedValue = formatPhoneNumber(numericValue);
+
+    $("#phoneNum").val(formattedValue);
+}
+function formatPhoneNumber(value) {
+    // value를 전화번호 형식으로 포맷
+    if (value.length < 4) {
+        return value;
+    } else if (value.length < 8) {
+        return `${value.slice(0, 3)}-${value.slice(3)}`;
+    } else {
+        return `${value.slice(0, 3)}-${value.slice(3, 7)}-${value.slice(7, 11)}`;
+    }
+}
+
+function nickNameValidation(){
+    if($("#nickName").val() != '') {
+        $("#nickNameFeedback").text("본인 이름은 알아서 잘 쓰겠지...");
+        $("#nickName").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#nickNameFeedback").css("color", "#17ff00");
+        document.getElementById("nickNameBox").classList.add("success");
+    }else {
+        $("#nickNameFeedback").text("닉네임을 입력하세요.");
+        $("#nickName").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#nickNameFeedback").css("color", "red");
+        document.getElementById("nickNameBox").classList.remove("success");
+    }
+}
+
+function christianNameValidation(){
+    if($("#christianName").val() != '') {
+        $("#christianNameFeedback").text("본인 세례명은 알아서 잘 쓰겠지...");
+        $("#christianName").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#christianNameFeedback").css("color", "#17ff00");
+        document.getElementById("christianNameBox").classList.add("success");
+    }else {
+        $("#christianNameFeedback").text("닉네임을 입력하세요.");
+        $("#christianName").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#christianNameFeedback").css("color", "red");
+        document.getElementById("christianNameBox").classList.remove("success");
+    }
+}
+
+function saintsDayValidation(){
+    if($("#saintsDay").val() != '') {
+        $("#saintsDayFeedback").text("축일 선택 완료!");
+        $("#saintsDay").css("box-shadow", "inset 1px 1px 1px #c0ffc9, inset -1px -1px 7px #17ff00");
+        $("#saintsDayFeedback").css("color", "#17ff00");
+        document.getElementById("saintsDayBox").classList.add("success");
+
+        if (document.getElementById("saintsDayBox").classList.contains("success")) {
+            const formTag = document.getElementById("profileImg");
+            if (formTag == null) {
+                // alert(message);
+                addFormTag("profileImg");
+                const dynamic = document.getElementById("profileImg");
+                dynamic.setAttribute("tabindex", "0");
+                // dynamic.focus();
+
+                // 비동기적으로 실행하여 브라우저가 다음 탭 이동을 처리하도록 함
+                setTimeout(function() {
+                    // 새로 추가한 input 태그에 포커스를 줌
+                    dynamic.focus();
+                }, 0);
+            }
+        }
+    }else {
+        $("#saintsDayFeedback").text("축일을 입력하세요.");
+        $("#saintsDay").css("box-shadow", "inset 1px 1px 1px #fc6c9c, inset -1px -1px 7px #ff0000");
+        $("#saintsDayFeedback").css("color", "red");
+        document.getElementById("saintsDayBox").classList.remove("success");
+    }
+}
+
+function datePick(){
+    $("#saintsDay").datepicker({
+        monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+        dayNamesMin: ['일','월','화','수','목','금','토'],
+        weekHeader: 'Wk',
+        dateFormat: 'mm-dd', //형식(03-03)
+        autoSize: false, //오토리사이즈(body등 상위태그의 설정에 따른다)
+        changeMonth: true, //월변경가능
+        changeYear: true, //년변경가능
+        showMonthAfterYear: true, //년 뒤에 월 표시
+        buttonImageOnly: true, //이미지표시
+        buttonImage: '../../img/btn_calendar.gif', //이미지주소
+        showOn: "button", //엘리먼트 사용
+        yearRange: '2023:2024', //2023년부터 2024년까지
+        onSelect: saintsDayValidation
+    });
 }

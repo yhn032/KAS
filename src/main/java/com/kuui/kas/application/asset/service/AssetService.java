@@ -14,6 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -64,7 +68,7 @@ public class AssetService {
         String originalFilename = multipartFile.getOriginalFilename();
         String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
         String fileExt = FileUtil.getExtension(originalFilename);
-        String uploadPath = "D:\\KAS\\src\\main\\resources\\static\\img";
+        String uploadPath = "D:\\KasImg\\asset";
 
         SaveFile saveFile = SaveFile.builder()
             .orgFileName(originalFilename)
@@ -77,8 +81,6 @@ public class AssetService {
             .build();
 
         fileService.saveFile(FileDto.from(saveFile));
-
-        // 업로드된 파일 경로에 저장하기
         multipartFile.transferTo(new File(uploadPath, saveName));
     }
 }

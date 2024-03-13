@@ -34,8 +34,10 @@ public class TeacherFormDto {
 
     LocalDateTime teacherInsertDate = LocalDateTime.now();
 
+    String teacherProfileImg;
+
     @Builder
-    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate) {
+    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, String teacherProfileImg) {
         this.teacherLogInID = teacherLogInID;
         this.teacherLogInPW = teacherLogInPW;
         this.teacherPhoneNumber = teacherPhoneNumber;
@@ -46,5 +48,6 @@ public class TeacherFormDto {
         this.teacherChristianName = teacherChristianName;
         this.teacherSaintsDay = teacherSaintsDay;
         this.teacherInsertDate = teacherInsertDate;
+        this.teacherProfileImg = teacherProfileImg;
     }
 }

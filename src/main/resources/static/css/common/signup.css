@@ -12,17 +12,22 @@ body{
 
 .signup-form {
     color: white;
+    height: 100%;
     font-weight: 700;
-    /*display: flex;*/
-    /*justify-content: center;*/
-    /*align-items: center;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 }
 
 form {
+    max-height: 100%;
     padding: 10px 10px 10px 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex-wrap: wrap;
+    overflow: hidden;
 }
 form input {
     background: #000;
@@ -37,7 +42,7 @@ form input {
 }
 
 button {
-    width: 30%;
+    width: 34%;
     border-radius: 20px;
     border: none;
     outline: none;
@@ -52,16 +57,28 @@ button {
 }
 .form_btn {
     box-shadow: -5px -2px 6px #fff, 5px 2px 6px #babebc;
+    text-align: center;
 }
 .form_btn:active {
     box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
 }
 
 .formElementBox {
-    width: 50vw;
-    padding-left: 20%;
+    width: 28vw;
+    padding-left: 7%;
 }
 
 .formElementBox input:focus{
     box-shadow: inset 1px 1px 1px #6ac3e1, inset -1px -1px 7px #2641ff;
+}
+
+.ui-datapicker-trigger {
+    vertical-align: middle;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
 }

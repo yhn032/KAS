@@ -15,8 +15,8 @@
         <input id="assetCnt" type="text" name="assetCnt" value=""><br>
         <label for="assetCnt">물품 위치</label>
         <input id="assetPos" type="text" name="assetPos" value=""><br>
-        <label for="teacherSelect">등록자:</label>
-        <select id="teacherSelect" name="regTeacherName">
+        <label for="regTeacherName">등록자:</label>
+        <select id="regTeacherName" name="regTeacherName">
             <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
         </select><br>
         <label for="assetImgFile">자산 사진</label>
