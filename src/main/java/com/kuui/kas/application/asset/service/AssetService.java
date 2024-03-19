@@ -70,6 +70,7 @@ public class AssetService {
         String fileExt = FileUtil.getExtension(originalFilename);
         String uploadPath = "D:\\KasImg\\asset";
 
+        //파일 정보 DB에 저장
         SaveFile saveFile = SaveFile.builder()
             .orgFileName(originalFilename)
             .saveName(saveName)

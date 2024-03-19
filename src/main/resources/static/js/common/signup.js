@@ -5,6 +5,36 @@ window.onload = function (){
         }
     });
 
+    //파일이 선택되거나 변경되는 경우 실행될 이벤트 리스너
+    //테스트용으로 정적으로 만들었지만 실제로는 동적으로 적용되도록 동적 태그가 생성될 때 리스너 등록 필수
+    $("#profileImg").change(function (){
+        const fileName = $(this).val().split("\\").pop();
+        console.log($(this).val());
+        console.log(fileName);
+
+        const formData = new FormData(document.getElementById("signupForm"));
+        const fileInput = document.getElementById("profileImg");
+        if(fileInput.files.length > 0) {
+            formData.append("profileImgFile", fileInput.files[0]);
+        }
+
+        $.ajax({
+            type : 'POST',
+            url : '/teacher/addProfileImg',
+            data : formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if(data.result === 'success') {
+                    console.log('파일 업로드 성공');
+
+                    console.log(data.orgName);
+                    console.log(data.savedName);
+                }
+            }
+        })
+    })
+
     //id
     document.getElementById("id").addEventListener("blur", function(event){
         event.preventDefault();

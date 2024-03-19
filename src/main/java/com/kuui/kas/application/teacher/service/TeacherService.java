@@ -1,5 +1,10 @@
 package com.kuui.kas.application.teacher.service;
 
+import com.kuui.kas.application.asset.domain.Asset;
+import com.kuui.kas.application.file.domain.SaveFile;
+import com.kuui.kas.application.file.dto.FileDto;
+import com.kuui.kas.application.file.service.FileService;
+import com.kuui.kas.application.file.util.FileUtil;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +14,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TeacherService implements UserDetailsService {
     private final TeacherRepository teacherRepository;
+    private final FileService fileService;
 
     @Transactional
     public Teacher saveTeacher(Teacher teacher) {
@@ -55,4 +66,29 @@ public class TeacherService implements UserDetailsService {
     public Teacher findByLoginId(String id){return teacherRepository.findByLoginId(id);}
 
     public List<Teacher> findAllTeachers(){return teacherRepository.findAll();}
+
+    @Transactional(rollbackFor = Exception.class)
+    public SaveFile addProfileImgOnFileSystem(MultipartFile multipartFile, Principal principal) throws IOException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String savedName = UUID.randomUUID() + "_" + originalFilename;
+        String fileExt = FileUtil.getExtension(originalFilename);
+        String uploadPath = "D:\\KasImg\\profile";
+        Asset asset = new Asset();
+
+        //파일 정보 DB에 저장
+        SaveFile saveFile = SaveFile.builder()
+                .orgFileName(originalFilename)
+                .saveName(savedName)
+                .asset(asset)
+                .filePath(uploadPath)
+                .fileType(fileExt)
+                .uploadUser(principal.getName())
+                .fileSize(multipartFile.getSize())
+                .build();
+
+        fileService.saveFile(FileDto.from(saveFile));
+        multipartFile.transferTo(new File(uploadPath, savedName));
+
+        return saveFile;
+    }
 }
