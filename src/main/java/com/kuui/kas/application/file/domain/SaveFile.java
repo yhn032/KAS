@@ -2,6 +2,7 @@ package com.kuui.kas.application.file.domain;
 
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.common.domain.Auditing;
+import com.kuui.kas.application.teacher.domain.Teacher;
 import lombok.*;
 
 import javax.persistence.*;
@@ -44,6 +45,10 @@ public class SaveFile extends Auditing {
     @ManyToOne
     @JoinColumn(name = "asset_id")
     private Asset asset;
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 }
 
 /*

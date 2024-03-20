@@ -28,15 +28,13 @@ public class AssetController {
     private final TeacherService teacherService;
 
     @GetMapping("/mainAsset")
-    public String mainAsset(Principal principal, Model model, Authentication authentication){
-        UserDetails user = (UserDetails) authentication.getPrincipal();
+    public String mainAsset(Principal principal, Model model){
         model.addAttribute("username", principal.getName());
         return "/asset/mainAsset";
     }
 
     @GetMapping("/allList")
-    public String allList(Principal principal, Model model, Authentication authentication){
-        UserDetails user = (UserDetails) authentication.getPrincipal();
+    public String allList(Principal principal, Model model){
         model.addAttribute("username", principal.getName());
 
         List<Asset> assetList = assetService.findAll();
@@ -46,11 +44,12 @@ public class AssetController {
     }
 
     @GetMapping("/addList")
-    public String addAsset(Model model){
-        //모든 교사 정보 조회
+    public String addAsset(Model model, Principal principal){
+        //등록자 기록을 위해 모든 교사 정보 조회
         List<Teacher> teachers = teacherService.findAllTeachers();
         List<String> names = teachers.stream().map(teacher -> teacher.getTeacherName()).collect(Collectors.toList());
         model.addAttribute("teacherNames", names);
+        model.addAttribute("username", principal.getName());
         return "/asset/addAssetForm";
     }
 

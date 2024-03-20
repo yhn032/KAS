@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <meta charset="UTF-8">
+    <title>MyPage</title>
+</head>
+<body>
+<div th:replace="layout/navBar :: navBar"></div>
+<div class="content">
+    <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
+    <h1>Main Content</h1>
+    <div style="display: flex; flex-direction: column; flex-wrap: nowrap; width: 80%; align-items: center;">
+        <div id="idBox" class="formElementBox">
+            <p>아이디</p>
+            <input type="text" id="id" placeholder="id" name="teacherLogInID" autocomplete="off" readonly th:value="${teacherInfo.teacherLogInID}">
+        </div>
+        <div id="nameBox" class="formElementBox">
+            <p>이름</p>
+            <input type="text" id="name" placeholder="id" name="teacherName" autocomplete="off" readonly th:value="${teacherInfo.teacherName}">
+        </div>
+        <div id="nicknameBox" class="formElementBox">
+            <p>닉네임</p>
+            <input type="text" id="nickname" placeholder="id" name="teacherNickname" autocomplete="off" readonly th:value="${teacherInfo.teacherNickname}">
+        </div>
+        <div id="numberBox" class="formElementBox">
+            <p>전화번호</p>
+            <input type="text" id="number" placeholder="id" name="teacherPhoneNumber" autocomplete="off" readonly th:value="${teacherInfo.teacherPhoneNumber}">
+        </div>
+        <div id="emailBox" class="formElementBox">
+            <p>이메일</p>
+            <input type="text" id="email" placeholder="id" name="teacherEmailAddress" autocomplete="off" readonly th:value="${teacherInfo.teacherEmailAddress}">
+        </div>
+        <div id="chNameBox" class="formElementBox">
+            <p>세례명</p>
+            <input type="text" id="chName" placeholder="id" name="teacherChristianName" autocomplete="off" readonly th:value="${teacherInfo.teacherChristianName}">
+        </div>
+        <div id="saintsBox" class="formElementBox">
+            <p>축일</p>
+            <input type="text" id="saints" placeholder="id" name="teacherSaintsDay" autocomplete="off"  readonly th:value="${teacherInfo.teacherSaintsDay}">
+        </div>
+        <div id="profileImgBox" class="formElementBox">
+            <p>프로필 이미지</p>
+            <img id="profileImg" width="300px" height="300px" th:src="'/img/uploads/profile/'+${teacherInfo.teacherProfileImg.getSaveName()}">
+        </div>
+        <button onclick="location.href='/teacher/modifyInfo'">수정</button>
+    </div>
+
+</div>
+<div class="sidebar" th:replace="layout/sidebar :: sidebar"></div>
+<div th:replace="layout/footer :: footer"></div>
+</body>
+</html>

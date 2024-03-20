@@ -7,7 +7,8 @@ window.onload = function (){
 
     //파일이 선택되거나 변경되는 경우 실행될 이벤트 리스너
     //테스트용으로 정적으로 만들었지만 실제로는 동적으로 적용되도록 동적 태그가 생성될 때 리스너 등록 필수
-    $("#profileImg").change(function (){
+    //회원가입 전에 등록하면 해당 이미지가 누구의 프로필인지 알 수가 없음 해서, 회원가입 후 마이페이지에서 이미지 수정하도록
+/*    $("#profileImg").change(function (){
         const fileName = $(this).val().split("\\").pop();
         console.log($(this).val());
         console.log(fileName);
@@ -33,7 +34,7 @@ window.onload = function (){
                 }
             }
         })
-    })
+    })*/
 
     //id
     document.getElementById("id").addEventListener("blur", function(event){
@@ -66,14 +67,6 @@ function addFormTag(formId){
 
     if(formId === 'profileImg') {
 
-        //프로필 이미지 삽입 태그
-        const imgTag = document.createElement("input");
-        imgTag.type = 'file';
-        imgTag.name = 'teacherProfileImg';
-        imgTag.id = formId;
-        imgTag.accept = '.jpg, .png';
-        signupForm.appendChild(imgTag);
-
         //회원 가입 버튼 태그
         const signUPBtn = document.createElement("button");
         signUPBtn.className = 'form_btn';
@@ -81,7 +74,6 @@ function addFormTag(formId){
         signUPBtn.textContent = 'Sign Up';
         signUPBtn.onclick = signupValidation;
 
-        addBox.appendChild(imgTag);
         addBox.appendChild(signUPBtn);
         signupForm.appendChild(addBox);
         return;
@@ -160,7 +152,6 @@ function addFormTag(formId){
     else if(formId === 'phoneNum') addBlurListener("phoneNum", "phoneNumBox", "nickName", "굿 닉네임 태그를 추가합니다.");
     else if(formId === 'nickName') addBlurListener("nickName", "nickNameBox", "christianName", "굿 세례명 태그를 추가합니다.");
     else if(formId === 'christianName') addBlurListener("christianName", "christianNameBox", "saintsDay", "굿 축일 태그를 추가합니다.");
-    //else if(formId === 'saintsDay') addBlurListener("saintsDay", "saintsDayBox", "profileImg", "프로필 추가 태그를 추가한다.");
 
 }
 function addBlurListener(elementId, nextElementId, nextFormTag, message) {
@@ -218,7 +209,7 @@ function signupValidation() {
         return;
     }
 
-    //document.getElementById("signupForm").submit();
+    document.getElementById("signupForm").submit();
 }
 
 function idValidation(){

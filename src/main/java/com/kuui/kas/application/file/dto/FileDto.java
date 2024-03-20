@@ -2,6 +2,7 @@ package com.kuui.kas.application.file.dto;
 
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.file.domain.SaveFile;
+import com.kuui.kas.application.teacher.domain.Teacher;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class FileDto {
     private final LocalDateTime updatedAt;
     private final String updatedBy;
     private final Asset asset;
+    private final Teacher teacher;
 
     // 정적 팩토리 메서드
     public static FileDto from(SaveFile saveFile) {
@@ -40,7 +42,8 @@ public class FileDto {
                 saveFile.getCreatedName(),
                 saveFile.getUpdatedDate(),
                 saveFile.getUpdatedName(),
-                saveFile.getAsset()
+                saveFile.getAsset(),
+                saveFile.getTeacher()
         );
     }
 
@@ -54,6 +57,7 @@ public class FileDto {
                 .fileSize(fileSize)
                 .uploadUser(uploadUser)
                 .asset(asset)
+                .teacher(teacher)
                 .build();
     }
 }

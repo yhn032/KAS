@@ -1,5 +1,6 @@
 package com.kuui.kas.application.teacher.dto;
 
+import com.kuui.kas.application.file.domain.SaveFile;
 import com.kuui.kas.application.teacher.domain.TeacherRole;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,10 +35,10 @@ public class TeacherFormDto {
 
     LocalDateTime teacherInsertDate = LocalDateTime.now();
 
-    String teacherProfileImg;
+    SaveFile teacherProfileImg;
 
     @Builder
-    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, String teacherProfileImg) {
+    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate) {
         this.teacherLogInID = teacherLogInID;
         this.teacherLogInPW = teacherLogInPW;
         this.teacherPhoneNumber = teacherPhoneNumber;
@@ -48,6 +49,5 @@ public class TeacherFormDto {
         this.teacherChristianName = teacherChristianName;
         this.teacherSaintsDay = teacherSaintsDay;
         this.teacherInsertDate = teacherInsertDate;
-        this.teacherProfileImg = teacherProfileImg;
     }
 }

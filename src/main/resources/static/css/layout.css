@@ -301,6 +301,7 @@ nav ul li a {
     width: 150px;
     height: 150px;
     z-index: 20;
+    border-radius: 50%;
 }
 
 .sidebar .profile .profile-wrapper .profile-name {

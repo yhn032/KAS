@@ -25,7 +25,7 @@
                 <div class="asset-thumb_img">
                     <span style="display: none">재고 이미지</span>
                     <span th:if="${asset.getAssetImgs().size() > 0}">
-                        <img th:src="'/img/uploads/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="200px" height="200px">
+                        <img th:src="'/img/uploads/asset/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="200px" height="200px">
                     </span>
                     <span th:unless="${asset.getAssetImgs().size() > 0}">
                         <img width="200px" height="200px">

@@ -51,3 +51,19 @@ window.addEventListener('scroll', function(event){
     lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
 
 });
+
+$(document).ready(function (){
+    $.ajax({
+        type : 'GET',
+        url : '/teacher/getTeacherProfile',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            $('.overlay-image').css("backgroundImage", "url('" + '../img/uploads/profile/' + data + "')");
+            console.log(data);
+        }
+    });
+
+    //모든 파일에 include되어 있는 sideBar의 정보를 가져온다.
+
+})

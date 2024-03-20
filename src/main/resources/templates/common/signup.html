@@ -30,16 +30,13 @@
                 달력이 나타나 축일을 <br>
                 선택할 수 있습니다. <br>
             </div>
+            <button onclick="location.href='/'">뒤로가기</button>
         </div>
         <form id="signupForm" method="post" action="/common/signup" enctype="multipart/form-data">
             <div id="idBox" class="formElementBox">
                 <p>아이디를 입력하세요. (영문+숫자 조합, 6자 이상)</p>
                 <input type="text" id="id" placeholder="id" name="teacherLogInID" autocomplete="off" onkeyup="idValidation()">
                 <p id="idFeedback" style="font-size: 10px"></p>
-            </div>
-            <div id="profileImgBox" class="formElementBox">
-                <input type="file" name="teacherProfileImg" id="profileImg" accept=".jpg .png" tabindex="0">
-                <img width="300px" height="300px" src="/img/uploads/profile/test.jpg" />
             </div>
         </form>
     </div>

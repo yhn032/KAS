@@ -79,6 +79,7 @@ public class AssetService {
             .fileType(fileExt)
             .uploadUser(principal.getName())
             .fileSize(multipartFile.getSize())
+            .teacher(null)
             .build();
 
         fileService.saveFile(FileDto.from(saveFile));

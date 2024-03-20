@@ -17,9 +17,9 @@
             </ul>
         </nav>
         <form class="controller" method="post" action="/logout">
-            <p th:text="${username}">님</p>
+            <p th:text="${username + '님'}" style="margin-right: 20px;"></p>
             <button type="submit">Logout</button>
-            <button type="button">MyPage</button>
+            <button type="button" onclick="location.href='/teacher/myPage'">MyPage</button>
         </form>
     </div>
     <div class="navBar-img">

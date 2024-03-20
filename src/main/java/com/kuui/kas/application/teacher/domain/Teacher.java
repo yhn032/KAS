@@ -1,5 +1,6 @@
 package com.kuui.kas.application.teacher.domain;
 
+import com.kuui.kas.application.file.domain.SaveFile;
 import com.kuui.kas.application.teacher.dto.TeacherFormDto;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,11 +51,11 @@ public class Teacher {
     @CreationTimestamp
     LocalDateTime teacherInsertDate = LocalDateTime.now();
 
-    @Column(name = "teacher_profile_img")
-    String teacherProfileImg;
+    @OneToOne(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+    SaveFile teacherProfileImg;
 
     @Builder
-    public Teacher(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, String teacherProfileImg) {
+    public Teacher(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate) {
         this.teacherLogInID = teacherLogInID;
         this.teacherLogInPW = teacherLogInPW;
         this.teacherPhoneNumber = teacherPhoneNumber;
@@ -65,7 +66,6 @@ public class Teacher {
         this.teacherChristianName = teacherChristianName;
         this.teacherSaintsDay = teacherSaintsDay;
         this.teacherInsertDate = teacherInsertDate;
-        this.teacherProfileImg = teacherProfileImg;
     }
 
     public static Teacher createTeacher(TeacherFormDto teacherFormDto, PasswordEncoder passwordEncoder){
@@ -80,9 +80,15 @@ public class Teacher {
                 .teacherChristianName(teacherFormDto.getTeacherChristianName())
                 .teacherSaintsDay(teacherFormDto.getTeacherSaintsDay())
                 .teacherInsertDate(teacherFormDto.getTeacherInsertDate())
-                .teacherProfileImg(teacherFormDto.getTeacherProfileImg())
                 .build();
 
         return teacher;
+    }
+
+    public Long getTeacherProfileImgId(){
+        if(teacherProfileImg != null ){
+            return teacherProfileImg.getId();
+        }
+        return  null;
     }
 }
