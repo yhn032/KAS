@@ -356,7 +356,7 @@ nav ul li a {
     z-index: 2;
 }
 
-.content, .content-navBar {
+.content, .content-navBar, .content-main {
     margin-left: 250px;
     transition: margin-left 0.3s ease;
 }

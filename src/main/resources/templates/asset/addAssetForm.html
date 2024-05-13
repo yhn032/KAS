@@ -8,24 +8,42 @@
   <div th:replace="layout/navBar :: navBar"></div>
   <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
-    <form id="assetForm" enctype="multipart/form-data">
-        <label for="assetName">물품명</label>
-        <input id="assetName" type="text" name="assetName" value=""><br>
-        <label for="assetCnt">물품 수량</label>
-        <input id="assetCnt" type="text" name="assetCnt" value=""><br>
-        <label for="assetCnt">물품 위치</label>
-        <input id="assetPos" type="text" name="assetPos" value=""><br>
-        <label for="regTeacherName">등록자:</label>
-        <select id="regTeacherName" name="regTeacherName">
-            <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
-        </select><br>
-        <label for="assetImgFile">자산 사진</label>
-        <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control"><br>
-        <img id="assetImg" width="300px" height="300px" src="/img/uploads/asset/abc.jpg">
-        <button type="button" onclick="addAsset()">등록</button>
+    <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
+    <form id="assetForm" enctype="multipart/form-data" style="margin-top: 50px; display: flex; flex-direction: row;">
+        <div class="form-left" style="width: 350px;">
+            <label for="assetName">물품명</label><br>
+            <input id="assetName" type="text" name="assetName" value=""><br>
+            <label for="assetCnt">물품 수량</label><br>
+            <input id="assetCnt" type="text" name="assetCnt" value=""><br>
+            <label for="assetCnt">물품 위치</label><br>
+            <input id="assetPos" type="text" name="assetPos" value=""><br>
+            <label for="regTeacherName">등록자:</label><br>
+            <select id="regTeacherName" name="regTeacherName">
+                <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
+            </select><br>
+        </div>
+        <div class="form-right">
+            <label for="assetImgFile">자산 사진</label><br>
+            <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control"><br>
+            <img id="assetImg" width="300px" height="300px" src="/img/uploads/profile/default.png">
+            <button type="button" onclick="addAsset()">등록</button>
+        </div>
     </form>
   </div>
   <script>
+      const fileInput = document.getElementById("assetImgFile");
+      $('#assetImgFile').change(function(){
+        let upload_photo = this.files[0];
+
+        let reader = new FileReader();
+        reader.readAsDataURL(upload_photo);
+
+        reader.onload = function(){
+            $("#assetImg").attr("src", reader.result);
+        };
+
+      });
+
       function addAsset(){
           //FormData 객체를 사용하여 form 데이터 수집
           const formData = new FormData(document.getElementById("assetForm"));
@@ -98,32 +116,31 @@
           //     });
       }
 
-      function uploadImgFile(assetId){
-          const formData = new FormData();
-          const fileInput = document.getElementById("assetImgFile");
-          if(fileInput.files.length > 0) {
-              formData.append("assetImgFile", fileInput.files[0]);
-              formData.append("assetId", assetId);
-
-              console.log(formData);
-
-              $.ajax({
-                  type : 'POST',
-                  url : '/file/uploadImg',
-                  data : formData,
-                  processData: false,
-                  contentType: false,
-                  success: function (data) {
-                      if(data === 'success') console.log('파일 업로드 성공');
-                      else if (data === 'fail') console.log('파일 업로드 실패');
-                  }
-              })
-          }else {
-              console.log('파일이 선택되지 않았습니다.')
-          }
-      }
+      // function uploadImgFile(assetId){
+      //     const formData = new FormData();
+      //     const fileInput = document.getElementById("assetImgFile");
+      //     if(fileInput.files.length > 0) {
+      //         formData.append("assetImgFile", fileInput.files[0]);
+      //         formData.append("assetId", assetId);
+      //
+      //         console.log(formData);
+      //
+      //         $.ajax({
+      //             type : 'POST',
+      //             url : '/file/uploadImg',
+      //             data : formData,
+      //             processData: false,
+      //             contentType: false,
+      //             success: function (data) {
+      //                 if(data === 'success') console.log('파일 업로드 성공');
+      //                 else if (data === 'fail') console.log('파일 업로드 실패');
+      //             }
+      //         })
+      //     }else {
+      //         console.log('파일이 선택되지 않았습니다.')
+      //     }
+      // }
   </script>
-  <div th:replace="layout/content :: content"></div>
   <div th:replace="layout/footer :: footer"></div>
 </body>
 </html>
