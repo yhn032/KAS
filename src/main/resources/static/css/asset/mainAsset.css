@@ -77,10 +77,15 @@
 }
 
 .asset-item {
-    width: 20%;
-    height: 300px;
+    width: 250px;
+    height: 400px;
     box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);
-    border-radius: 20%;
+    border-top-left-radius: 15%;
+    border-top-right-radius: 15%;
+}
+
+.asset-item:hover {
+    cursor: pointer;
 }
 
 .asset-main {
@@ -92,4 +97,22 @@
     flex-direction: column;
     margin-left: 250px;
     transition: margin-left 0.3s ease;
+}
+
+.asset-category {
+    width: 100%;
+    height: 40px;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.asset-title {
+    margin-top: 5px;
+    margin-left: 10px;
+    height: 40px;
+}
+
+.asset-meta-data {
+    margin-left: 10px;
+    height: 80px;
 }

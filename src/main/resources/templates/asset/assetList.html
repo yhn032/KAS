@@ -20,24 +20,25 @@
         <div class="asset-container">
             <div class="asset-item" th:each="asset : ${assetList}">
                 <div class="asset-category">
-                    <span>재고 카테고리</span>
+                    <span>🎀 재고 카테고리</span>
                 </div>
                 <div class="asset-thumb_img">
                     <span style="display: none">재고 이미지</span>
                     <span th:if="${asset.getAssetImgs().size() > 0}">
-                        <img th:src="'/img/uploads/asset/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="200px" height="200px">
+                        <img th:src="'/img/uploads/asset/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="250px" height="250px">
                     </span>
                     <span th:unless="${asset.getAssetImgs().size() > 0}">
                         <img width="200px" height="200px">
                     </span>
                 </div>
                 <div class="asset-title">
-                    <span th:text="${asset.getAssetName()}"></span>
+                    <span th:text="${'📑 '+asset.getAssetName()}"></span>
                 </div>
                 <div class="asset-meta-data">
-                    <span th:text="${asset.getAssetCnt()}"></span>
-                    <span th:text="${asset.getAssetPos()}"></span>
-                    <span th:text="${asset.getAssetUpdDate()}"></span>
+                    <span th:text="${'🔗 '+asset.getAssetCnt() + '개'}"></span>
+                    <span th:text="${'👉'+asset.getAssetPos()}"></span>
+                    <span th:text="${'🙌 '+asset.getRegTeacherName()}"></span><br>
+                    <span th:text="${'📆 '+#strings.substring(asset.getAssetUpdDate(), 0, 10)}"></span>
                 </div>
 
             </div>

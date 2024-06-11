@@ -30,6 +30,9 @@ public class Asset {
     @Column(name = "asset_cnt")
     private Long assetCnt;
 
+    @Column(name = "asset_ctg")
+    private String assetCtg;
+
     @Column(name = "reg_teacher_name")
     private String regTeacherName;
 
@@ -48,11 +51,12 @@ public class Asset {
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaveFile> assetImgs;
 
-    public Asset(String assetId, String assetNo, String assetName, Long assetCnt, int assetPos,String regTeacherName, String updTeacherName) {
+    public Asset(String assetId, String assetNo, String assetName, Long assetCnt,String assetCtg, int assetPos,String regTeacherName, String updTeacherName) {
         this.assetId = assetId;
         this.assetNo = assetNo;
         this.assetName = assetName;
         this.assetCnt = assetCnt;
+        this.assetCtg = assetCtg;
         this.assetPos = assetPos;
         this.regTeacherName = regTeacherName;
         this.updTeacherName = updTeacherName;

@@ -60,7 +60,7 @@ public class AssetService {
         //2. 마지막으로 저장된 재고 번호 조회하기
         String lastAssetNo = LastAssetNo();
         int num = Integer.parseInt(lastAssetNo.substring(lastAssetNo.indexOf("-") + 1, lastAssetNo.length()));
-        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetCnt(), asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName());
+        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName());
 
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);

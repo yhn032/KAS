@@ -9,8 +9,8 @@
   <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
     <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-    <form id="assetForm" enctype="multipart/form-data" style="margin-top: 50px; display: flex; flex-direction: row;">
-        <div class="form-left" style="width: 350px;">
+    <form id="assetForm" enctype="multipart/form-data" style="margin-top: 50px; display: flex; flex-direction: row; width: 100vw; justify-content: center">
+        <div class="form-left" style="width: 30%; margin-left: 20%;">
             <label for="assetName">물품명</label><br>
             <input id="assetName" type="text" name="assetName" value=""><br>
             <label for="assetCnt">물품 수량</label><br>
@@ -22,7 +22,7 @@
                 <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
             </select><br>
         </div>
-        <div class="form-right">
+        <div class="form-right" style="width: 50%;">
             <label for="assetImgFile">자산 사진</label><br>
             <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control"><br>
             <img id="assetImg" width="300px" height="300px" src="/img/uploads/profile/default.png">
