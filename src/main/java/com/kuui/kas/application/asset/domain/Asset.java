@@ -1,5 +1,6 @@
 package com.kuui.kas.application.asset.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kuui.kas.application.file.domain.SaveFile;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,6 +49,7 @@ public class Asset {
     @Column(name = "asset_position")
     Integer assetPos;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaveFile> assetImgs;
 

@@ -19,8 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -84,5 +83,31 @@ public class AssetService {
 
         fileService.saveFile(FileDto.from(saveFile));
         multipartFile.transferTo(new File(uploadPath, saveName));
+    }
+
+
+    public HashMap<String, Object> searchAsset(String searchTerm) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        List<Asset> result;
+        if(searchTerm.equals("") || searchTerm == null) {
+            result = assetRepository.findAll();
+        }else {
+            result =assetRepository.searchAsset(searchTerm);
+        }
+
+        List<Map<String,Object>> resultArray = new ArrayList<>();
+        for(Asset a : result) {
+            Map<String, Object> tempMap = new HashMap<>();
+            tempMap.put("assetResult", a);
+            if(a.getAssetImgs().isEmpty()) {
+                tempMap.put("assetImgSrc", "");
+            }else {
+                tempMap.put("assetImgSrc", a.getAssetImgs().get(0).getSaveName());
+            }
+            resultArray.add(tempMap);
+        }
+        resultMap.put("resultArray", resultArray);
+        resultMap.put("totalSize", resultArray.size());
+        return resultMap;
     }
 }

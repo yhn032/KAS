@@ -1,13 +1,11 @@
 package com.kuui.kas.application.asset.repository;
 
 import com.kuui.kas.application.asset.domain.Asset;
-import com.kuui.kas.application.asset.domain.QAsset;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -91,5 +89,13 @@ public class AssetRepository{
                 .selectFrom(asset)
                 .where(asset.assetId.eq(assetId))
                 .fetchOne();
+    }
+
+    public List<Asset> searchAsset(String searchTerm) {
+        return queryFactory
+                .selectFrom(asset)
+                .where(asset.assetName.contains(searchTerm))
+                .orderBy(asset.assetUpdDate.desc())
+                .fetch();
     }
 }

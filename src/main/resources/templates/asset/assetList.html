@@ -9,26 +9,26 @@
     <div th:replace="layout/sidebar :: sidebar"></div>
     <div class="asset-main">
         <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-        <form class="search-form">
+        <form class="search-form" id="searchForm">
             <div class="form-div">
-                <input type="text" name="searchTerm" autocomplete="off" required>
+                <input type="text" id="searchTerm" name="searchTerm" autocomplete="off" required>
                 <label>Searching Asset</label>
                 <span></span>
-                <button type="button">검색</button>
+                <button type="button" onclick="search()">검색</button>
             </div>
         </form>
         <div class="asset-container">
             <div class="asset-item" th:each="asset : ${assetList}">
+                <div style="display: none" th:text="${asset.getAssetId()}"></div>
                 <div class="asset-category">
-                    <span>🎀 재고 카테고리</span>
+                    <span th:text="${'🎀 ' + asset.getAssetCtg()}"></span>
                 </div>
                 <div class="asset-thumb_img">
-                    <span style="display: none">재고 이미지</span>
                     <span th:if="${asset.getAssetImgs().size() > 0}">
-                        <img th:src="'/img/uploads/asset/' + ${asset.getAssetImgs().get(0).getSaveName()}" width="250px" height="250px">
+                        <img th:src="'/img/uploads/asset/' + ${asset.getAssetImgs().get(0).getSaveName()}">
                     </span>
                     <span th:unless="${asset.getAssetImgs().size() > 0}">
-                        <img width="200px" height="200px">
+                        <img src="">
                     </span>
                 </div>
                 <div class="asset-title">

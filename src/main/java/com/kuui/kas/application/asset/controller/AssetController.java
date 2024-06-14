@@ -65,4 +65,18 @@ public class AssetController {
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
+
+    @PostMapping(value = "/searchAsset")
+    @ResponseBody
+    public HashMap<String,Object> handleSearchResult(@RequestParam(value = "searchTerm")String searchTerm) {
+
+        HashMap<String,Object> resultMap = assetService.searchAsset(searchTerm);
+        int totalSize = (int) resultMap.get("totalSize");
+        if(totalSize > 0) {
+            resultMap.put("status", "success");
+        }else {
+            resultMap.put("status", "fail");
+        }
+        return resultMap;
+    }
 }
