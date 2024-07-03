@@ -15,6 +15,7 @@ function toggleSidebar() {
         $(".sidebar").css("margin-left", '0');
         $(".content").css("margin-left", '250px');
         $(".asset-main").css("margin-left", '250px');
+        $(".share-list").css("margin-left", '250px');
         $(".content-navBar").css("margin-left", '250px');
         $(".content-main").css("margin-left", '250px');
         $(".content-footer").css("margin-left", '250px');
@@ -24,6 +25,7 @@ function toggleSidebar() {
         $(".sidebar").css("margin-left", '-250px');
         $(".content").css("margin-left", '0');
         $(".asset-main").css("margin-left", '0');
+        $(".share-list").css("margin-left", '0');
         $(".content-navBar").css("margin-left", '0');
         $(".content-main").css("margin-left", '0');
         $(".content-footer").css("margin-left", '0');

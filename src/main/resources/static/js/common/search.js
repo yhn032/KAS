@@ -8,6 +8,10 @@ $(document).ready(function(){
 });
 
 function search(){
+    if($("#searchTerm").val() === '' ) {
+        alert("검색어를 입력하세요.");
+        return false;
+    }
     const formData = new FormData(document.getElementById("searchForm"));
     $.ajax({
         type : 'POST',
@@ -21,6 +25,9 @@ function search(){
             if(data.totalSize > 0) {
                 renderingSearchResult(data.resultArray);
             }else {
+                $('.asset-container').empty();
+                const asseterror = $("<div>", {class:'asset-error', text:'검색결과가 없습니다.'});
+                $('.asset-container').append(asseterror);
                 console.log("검색 결과가 없습니다.");
             }
         }

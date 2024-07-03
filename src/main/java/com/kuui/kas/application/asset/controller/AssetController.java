@@ -79,4 +79,10 @@ public class AssetController {
         }
         return resultMap;
     }
+
+    @GetMapping(value = "/shareList")
+    public String shareList () {
+        return "/asset/shareList";
+    }
+
 }
