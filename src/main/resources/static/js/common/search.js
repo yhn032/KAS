@@ -86,3 +86,45 @@ function renderingSearchResult(resultArray){
         assetContainer.append(assetItem);
     }
 };
+
+
+function layerPopOpen(id) {
+    $('#' + id).fadeIn(200);
+}
+
+function layerPopHide(e) {
+    $(e).parents('.pop-layer').fadeOut(200);
+}
+
+/*
+$(document).on('click', function(event) {
+    if (!$(event.target).closest('.pop-layer').length && !$(event.target).is('#shareForm')) {
+        $(".btn_x").click();
+    }
+});*/
+
+function loadAssetData(){
+
+}
+
+function addShareBoard() {
+    const formData = new FormData(document.getElementById("shareAddForm"));
+    $.ajax({
+        type : 'POST',
+        url : '/board/addShare',
+        data : formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+
+            if(data.status === 'success') {
+
+                alert('게시판 등록 성공');
+
+            }else if (data.status === 'fail') {
+                alert(data.errorMessage);
+            }
+
+        }
+    })
+}

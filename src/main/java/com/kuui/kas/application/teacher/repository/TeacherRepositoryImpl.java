@@ -1,5 +1,6 @@
 package com.kuui.kas.application.teacher.repository;
 
+import com.kuui.kas.application.teacher.domain.QTeacher;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -114,8 +115,13 @@ public class TeacherRepositoryImpl implements TeacherRepository{
     }
 
     @Override
-    public Optional<Teacher> findById(Long aLong) {
-        return Optional.empty();
+    public Optional<Teacher> findById(Long teacherId) {
+        Teacher teacher = queryFactory
+                .selectFrom(QTeacher.teacher)
+                .where(QTeacher.teacher.teacherId.eq(teacherId))
+                .fetchOne();
+
+        return Optional.of(teacher);
     }
 
     @Override

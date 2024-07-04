@@ -9,65 +9,109 @@
     <div th:replace="layout/sidebar :: sidebar"></div>
     <div class="share-list">
         <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-        <div class="px-3 py-4 border-bottom">
+        <div class="px-3 py-4 border-bottom board-search">
             <div class="warp d-flex flex-wrap justify-content-center">
                 <form class="mb-2 mb-lg-0 me-lg-auto" method="get" action="/sampleList">
                     <input type="search" class="form-control" name="searchKeyword" id="searchKeyword" value="" placeholder="Search..."> <!--th:value="${pageNav.equals('sampleList') ? info.searchKeyword : ''}"-->
                 </form>
             </div>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary" onclick="layerPopOpen('shareForm')">반출대장 작성</button>
+            </div>
         </div>
 
         <h2 class="px-3 py-4 no-margin">반출 리스트</h2>
 
-        <table class="table mb-5 px-3" id="share-board">
+        <table class="table mb-5 px-3 text-decoration-none" id="share-board">
             <colgroup>
-                <col width="15%" />
-                <col width="25%" />
+                <col width="10%" />
                 <col width="*" />
+                <col width="10%" />
+                <col width="10%" />
                 <col width="20%" />
+                <col width="10%" />
             </colgroup>
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">TITLE</th>
-                    <th scope="col">CONTENTS</th>
-                    <th scope="col">CREATED</th>
+                    <th scope="col">순번</th>
+                    <th scope="col">자산명</th>
+                    <th scope="col">반출자</th>
+                    <th scope="col">인수자</th>
+                    <th scope="col">등록일자</th>
+                    <th scope="col">반납여부</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>5</td>
-                    <td>제목5</td>
-                    <td>내용5</td>
-                    <td>날짜5</td>
+                    <td>아이템5</td>
+                    <td>김병국</td>
+                    <td>손용수</td>
+                    <td>2024.07.04</td>
+                    <td>N</td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>제목4</td>
-                    <td>내용4</td>
-                    <td>날짜4</td>
+                    <td>아이템4</td>
+                    <td>김병국</td>
+                    <td>손용수</td>
+                    <td>2024.07.04</td>
+                    <td>N</td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>제목3</td>
-                    <td>내용3</td>
-                    <td>날짜3</td>
+                    <td>아이템3</td>
+                    <td>김병국</td>
+                    <td>손용수</td>
+                    <td>2024.07.04</td>
+                    <td>N</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>제목2</td>
-                    <td>내용2</td>
-                    <td>날짜2</td>
+                    <td>아이템2</td>
+                    <td>김병국</td>
+                    <td>손용수</td>
+                    <td>2024.07.04</td>
+                    <td>N</td>
                 </tr>
                 <tr>
                     <td>1</td>
-                    <td>제목1</td>
-                    <td>내용1</td>
-                    <td>날짜1</td>
+                    <td>아이템1</td>
+                    <td>김병국</td>
+                    <td>손용수</td>
+                    <td>2024.07.04</td>
+                    <td>N</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div th:replace="layout/footer :: footer"></div>
+
+    <div id="shareForm" class="pop-layer" style="display: none">
+        <div class="pop-container">
+            <form id="shareAddForm" action="/board/addShare" method="post">
+                <div class="pop-content">
+                    <p class="pop-tit">
+                        반출 대장
+                        <button type="button" class="btn_x btn-close" title="닫기" onclick="layerPopHide(this)"></button>
+                    </p>
+                    <input type="text" name="boardAssetAssetId" value="0866eacf-406b-471d-862b-c603e91052b3">
+                    <input type="text" placeholder="자산명">
+                    <button type="button" onclick="loadAssetData()">자산찾기</button>
+                    <div style="width: 80%; height: 300px">
+
+                    </div>
+                    <input type="text" name="boardShareCount" value="" placeholder="수량">
+                    <select id="teacher-list" name="boardTeacherTeacherId">
+                        <option th:each="teacher : ${teacherList}"
+                                th:value="${teacher.teacherId}"
+                                th:text="${teacher.teacherName}"></option>
+                    </select>
+                    <input type="text" name="boardCarryInName" placeholder="인수자">
+                    <button class="btn" type="button" onclick="addShareBoard()">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

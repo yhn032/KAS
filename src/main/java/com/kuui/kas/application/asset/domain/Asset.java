@@ -1,6 +1,7 @@
 package com.kuui.kas.application.asset.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.kuui.kas.application.board.domain.Board;
 import com.kuui.kas.application.file.domain.SaveFile;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,14 +29,18 @@ public class Asset {
     @Column(name = "asset_name")
     private String assetName;
 
-    @Column(name = "asset_cnt")
-    private Long assetCnt;
+    @Column(name = "asset_total_cnt")
+    private Long assetTotalCnt;
+
+    @Column(name = "asset_remain_cnt")
+    private Long assetRemainCnt;
+
+    @Column(name = "reg_teacher_name")
+    private String regTeacherName;
 
     @Column(name = "asset_ctg")
     private String assetCtg;
 
-    @Column(name = "reg_teacher_name")
-    private String regTeacherName;
 
     @Column(name = "upd_teacher_name")
     private String updTeacherName;
@@ -53,11 +58,15 @@ public class Asset {
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaveFile> assetImgs;
 
-    public Asset(String assetId, String assetNo, String assetName, Long assetCnt,String assetCtg, int assetPos,String regTeacherName, String updTeacherName) {
+    @OneToMany(mappedBy = "boardAsset")
+    private List<Board> boards;
+
+    public Asset(String assetId, String assetNo, String assetName, Long assetTotalCnt, Long assetRemainCnt, String assetCtg, int assetPos,String regTeacherName, String updTeacherName) {
         this.assetId = assetId;
         this.assetNo = assetNo;
         this.assetName = assetName;
-        this.assetCnt = assetCnt;
+        this.assetTotalCnt = assetTotalCnt;
+        this.assetRemainCnt = assetRemainCnt;
         this.assetCtg = assetCtg;
         this.assetPos = assetPos;
         this.regTeacherName = regTeacherName;

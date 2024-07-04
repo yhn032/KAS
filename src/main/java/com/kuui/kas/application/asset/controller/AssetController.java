@@ -81,7 +81,9 @@ public class AssetController {
     }
 
     @GetMapping(value = "/shareList")
-    public String shareList () {
+    public String shareList (Model model) {
+        List<Teacher> teachers = teacherService.findAllTeachers();
+        model.addAttribute("teacherList", teachers);
         return "/asset/shareList";
     }
 

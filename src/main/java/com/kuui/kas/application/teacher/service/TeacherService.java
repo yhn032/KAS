@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,6 +36,11 @@ import java.util.UUID;
 public class TeacherService implements UserDetailsService {
     private final TeacherRepository teacherRepository;
     private final FileService fileService;
+
+    public Teacher findById(Long teacherId) {
+        Optional<Teacher> teacher = teacherRepository.findById(teacherId);
+        return teacher.get();
+    }
 
     @Transactional
     public Teacher saveTeacher(Teacher teacher) {

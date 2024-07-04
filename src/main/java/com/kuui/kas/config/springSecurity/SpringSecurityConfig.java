@@ -53,7 +53,7 @@ public class SpringSecurityConfig {
                     .clearAuthentication(true)
                 .and()
                     .csrf()//개발 단계에서는 csrf토큰이 없기에 막아두지만, 실제 운영 상황에서는 공격을 방지하지 위해 필터링 및 토큰이 필요하다
-                    .ignoringAntMatchers("/teacher/modifyTeacherInfo","/file/uploadImg","/asset/addList", "/teacher/addProfileImg","/teacher/duplicateId","/common/signup", "/loginProc", "/logout", "/asset/searchAsset");
+                    .ignoringAntMatchers("/teacher/modifyTeacherInfo","/file/uploadImg","/asset/addList", "/teacher/addProfileImg","/teacher/duplicateId","/common/signup", "/loginProc", "/logout", "/asset/searchAsset", "/board/addShare", "/board/modifyShare");
 
         return http.build();
     }

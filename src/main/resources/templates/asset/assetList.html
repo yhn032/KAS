@@ -35,7 +35,7 @@
                     <span th:text="${'📑 '+asset.getAssetName()}"></span>
                 </div>
                 <div class="asset-meta-data">
-                    <span th:text="${'🔗 '+asset.getAssetCnt() + '개'}"></span>
+                    <span th:text="${'🔗 '+asset.getAssetRemainCnt() + '개'}"></span>
                     <span th:text="${'👉'+asset.getAssetPos()}"></span>
                     <span th:text="${'🙌 '+asset.getRegTeacherName()}"></span><br>
                     <span th:text="${'📆 '+#strings.substring(asset.getAssetUpdDate(), 0, 10)}"></span>
