@@ -80,11 +80,24 @@ public class AssetController {
         return resultMap;
     }
 
-    @GetMapping(value = "/shareList")
-    public String shareList (Model model) {
-        List<Teacher> teachers = teacherService.findAllTeachers();
-        model.addAttribute("teacherList", teachers);
-        return "/asset/shareList";
+    /**
+     * 반출대장 입력시 자산 카테고리 찾기
+     * @return
+     */
+    @GetMapping("/findCtg")
+    @ResponseBody
+    public List<String> findAssetCtg() {
+        return assetService.findAllCtg();
     }
 
+    /**
+     * 카테고리에 해당하는 데이터 가져오기
+     * @param ctg
+     * @return
+     */
+    @GetMapping("/dtlData")
+    @ResponseBody
+    public List<Asset> findDataByCtg(@RequestParam String ctg) {
+        return assetService.findDataByCtg(ctg);
+    }
 }

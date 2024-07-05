@@ -2,6 +2,7 @@ package com.kuui.kas.application.asset.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.kuui.kas.application.board.domain.Board;
+import com.kuui.kas.application.board.exception.NoRemainAssetException;
 import com.kuui.kas.application.file.domain.SaveFile;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -58,6 +59,7 @@ public class Asset {
     @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SaveFile> assetImgs;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "boardAsset")
     private List<Board> boards;
 
@@ -71,5 +73,19 @@ public class Asset {
         this.assetPos = assetPos;
         this.regTeacherName = regTeacherName;
         this.updTeacherName = updTeacherName;
+    }
+
+    //비즈니스 로직 수행
+    //대여
+    public void share(Long quantity) throws NoRemainAssetException {
+        if(assetRemainCnt < quantity) {
+            throw new NoRemainAssetException("Not enough Asset quantity available. Check remaining cnt.");
+        }
+        assetRemainCnt -= quantity;
+    }
+
+    //반납
+    public void restock(int quantity) {
+        assetRemainCnt += quantity;
     }
 }

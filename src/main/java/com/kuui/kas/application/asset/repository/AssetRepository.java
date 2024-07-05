@@ -27,12 +27,6 @@ public class AssetRepository{
 
     public Asset saveAsset(Asset asset) {
         logger.info("Ready to Save Asset");
-//        if(entityInformation.isNew(asset)) {
-//            em.persist(asset);
-//            return asset;
-//        }else {
-//            return em.merge(asset);
-//        }
 
         Optional<Asset> tmp = Optional.ofNullable(findById(asset.getAssetId()));
         if(tmp.isPresent()){
@@ -96,6 +90,24 @@ public class AssetRepository{
                 .selectFrom(asset)
                 .where(asset.assetName.contains(searchTerm))
                 .orderBy(asset.assetUpdDate.desc())
+                .fetch();
+    }
+
+    public List<String> findAllCtg() {
+
+        return queryFactory
+                .select(asset.assetCtg)
+                .distinct()
+                .from(asset)
+                .orderBy(asset.assetCtg.asc())
+                .fetch();
+    }
+
+    public List<Asset> findDataByCtg(String ctg){
+        return queryFactory
+                .selectFrom(asset)
+                .where(asset.assetCtg.eq(ctg))
+                .orderBy(asset.assetRegDate.desc())
                 .fetch();
     }
 }

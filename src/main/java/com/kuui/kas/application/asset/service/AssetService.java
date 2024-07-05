@@ -29,6 +29,10 @@ public class AssetService {
     private final AssetRepository assetRepository;
     private final FileService fileService;
 
+    public List<String> findAllCtg(){return assetRepository.findAllCtg();}
+
+    public List<Asset> findDataByCtg(String ctg){return assetRepository.findDataByCtg(ctg);}
+
     public List<Asset> findAll(){
         return assetRepository.findAll();
     }

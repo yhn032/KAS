@@ -24,21 +24,12 @@ public class BoardService {
     public Board addShareBoard(Board board) throws NoRemainAssetException{
         //게시판에 등록하기 전에 반출 수량을 마이너스 해준다. 0보다 작아지면 exception
         Asset asset = assetRepository.findById(board.getBoardAsset().getAssetId());
-        Long assetRemainCnt = asset.getAssetRemainCnt();
-        if(assetRemainCnt - board.getBoardShareCount() <= 0) {
-            throw new NoRemainAssetException("남은 수량보다 대여하는 수량이 더 많습니다. 재고를 확인하고 반출 수량을 다시 입력하세요.");
+        if(asset == null) {
+            throw new NullPointerException("Asset Not Found");
         }
-//        Asset mergeAsset = assetRepository.saveAsset(new Asset(
-//                asset.getAssetId()
-//                , asset.getAssetNo()
-//                , asset.getAssetName()
-//                , asset.getAssetTotalCnt()
-//                , assetRemainCnt - board.getBoardShareCount()
-//                , asset.getAssetCtg()
-//                , asset.getAssetPos()
-//                , asset.getRegTeacherName()
-//                , asset.getUpdTeacherName()));
 
+        //변경 감지를 위한 엔티티 수정
+        asset.share(board.getBoardShareCount());
 
         return boardRepository.addBoard(board);
     }
