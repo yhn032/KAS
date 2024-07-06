@@ -95,19 +95,24 @@
                         반출 대장
                         <button type="button" class="btn_x btn-close" title="닫기" onclick="layerPopHide(this)"></button>
                     </p>
-                    <input type="text" name="boardAssetAssetId" value="0866eacf-406b-471d-862b-c603e91052b3">
-                    <input type="text" placeholder="자산명">
+                    <input type="hidden" name="boardAssetAssetId" value="" id="boardAssetAssetId">
+                    <input type="text" placeholder="자산명" disabled="disabled" id="boardAssetAssetName">
                     <button type="button" onclick="loadAssetData()">자산찾기</button>
-                    <div style="width: 80%; height: 300px">
+                    <div style="width: 80%; height: 300px" class="share-asset-container">
+                        <div class="share-asset-categories">
 
+                        </div>
+                        <div class="share-asset-contents" id="share-asset-contents">
+
+                        </div>
                     </div>
-                    <input type="text" name="boardShareCount" value="" placeholder="수량">
+                    <input type="text" name="boardShareCount" value="" placeholder="수량" id="boardShareCount">
                     <select id="teacher-list" name="boardTeacherTeacherId">
                         <option th:each="teacher : ${teacherList}"
                                 th:value="${teacher.teacherId}"
                                 th:text="${teacher.teacherName}"></option>
                     </select>
-                    <input type="text" name="boardCarryInName" placeholder="인수자">
+                    <input type="text" name="boardCarryInName" placeholder="인수자" id="boardCarryInName">
                     <button class="btn" type="button" onclick="addShareBoard()">등록</button>
                 </div>
             </form>

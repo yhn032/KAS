@@ -89,6 +89,17 @@ function renderingSearchResult(resultArray){
 
 
 function layerPopOpen(id) {
+    if(id === 'shareForm') {
+        const categories = $('.share-asset-categories');
+        const contents = $('.share-asset-content');
+        categories.empty();
+        contents.empty();
+        $("#boardAssetAssetId").val('');
+        $("#boardAssetAssetName").val('');
+        $("#boardShareCount").val('');
+        $("#boardCarryInName").val('');
+        $("#teacher-list option:first").select();
+    }
     $('#' + id).fadeIn(200);
 }
 
@@ -96,15 +107,70 @@ function layerPopHide(e) {
     $(e).parents('.pop-layer').fadeOut(200);
 }
 
-/*
-$(document).on('click', function(event) {
-    if (!$(event.target).closest('.pop-layer').length && !$(event.target).is('#shareForm')) {
-        $(".btn_x").click();
-    }
-});*/
+
 
 function loadAssetData(){
+    $.ajax({
+        type : 'GET',
+        url : '/asset/findCtg',
+        processData: false,
+        contentType: false,
+        success: function (data) {
 
+            const categories = $('.share-asset-categories');
+            const contents = $('.share-asset-content');
+            categories.empty();
+            contents.empty();
+
+            for(let i=0; i<data.length; i++) {
+                let button = $('<button>', {type:'button',text:data[i], onclick:'loadDtlData(this.textContent)', class: 'share-asset-category'});
+                categories.append(button);
+            }
+
+        }
+    })
+}
+
+function loadDtlData(type) {
+
+    $.ajax({
+        type : 'GET',
+        url : '/asset/dtlData?ctg='+encodeURIComponent(type),
+        processData: false,
+        contentType: false,
+        success: function (data) {
+
+            if(data.length > 0) {
+                const contents = $('.share-asset-contents');
+                contents.empty();
+                for(let i=0; i<data.length; i++) {
+                    const div = $('<div>', {id:data[i].assetNo,class :'share-asset-content', onclick: 'settingId(this.id)'});
+                    const span1 = $("<span>", {class:'span1',text:data[i].assetNo});
+                    const span2 = $("<span>", {class:'span2',text:data[i].assetName});
+                    const span3 = $("<span>", {class:'span3',text:data[i].assetRemainCnt});
+                    const span4 = $("<span>", {class:'span4',text:data[i].assetId}).css('display', 'none');
+
+                    div.append(span1);
+                    div.append(span2);
+                    div.append(span3);
+                    div.append(span4);
+                    contents.append(div);
+                }
+            }
+
+        }
+    })
+    console.log(type)
+}
+
+function settingId(id) {
+    const selected = $("#"+id);
+
+    let assetId = $("#"+id+' > .span4').text();
+    let assetName = $("#"+id+' > .span2').text();
+
+    $("#boardAssetAssetId").val(assetId);
+    $("#boardAssetAssetName").val(assetName);
 }
 
 function addShareBoard() {
@@ -120,6 +186,7 @@ function addShareBoard() {
             if(data.status === 'success') {
 
                 alert('게시판 등록 성공');
+                $('.btn_x').click();
 
             }else if (data.status === 'fail') {
                 alert(data.errorMessage);

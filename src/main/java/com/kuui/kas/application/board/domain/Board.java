@@ -1,5 +1,6 @@
 package com.kuui.kas.application.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import lombok.*;
@@ -20,6 +21,7 @@ public class Board {
     @Column(name = "board_id")
     Long boardId;
 
+    @JsonManagedReference
     @ManyToOne
     private Asset boardAsset;
 
