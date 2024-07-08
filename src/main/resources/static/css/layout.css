@@ -21,6 +21,7 @@
     top: 100%; /* 부모 요소 아래에 표시 */
     left: 0;
     width: 150px;
+    height: auto;
     background: white;
     border: 1px solid #ddd;
     padding: 10px;

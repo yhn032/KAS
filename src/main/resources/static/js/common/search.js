@@ -195,3 +195,24 @@ function addShareBoard() {
         }
     })
 }
+
+
+//
+$(document).click(function (event) {
+    let clickedElement = $(event.target);
+
+    if (clickedElement.hasClass('add-share-btn')) return false;
+
+    if (!clickedElement.hasClass('pop-layer') && !clickedElement.closest('.pop-layer').length) {
+        // 모든 레이어 숨김
+        $('.btn-close').click();
+    }
+});
+
+//페이지 이동
+function movePageList(newPage) {
+
+    let url = new URL(window.location.href);
+    url.searchParams.set('page', newPage);
+    location.href = url.href;
+};

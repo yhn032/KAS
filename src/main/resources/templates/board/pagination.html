@@ -1,0 +1,14 @@
+<nav aria-label="..." style="text-align: center;">
+  <ul class="pagination justify-content-center">
+    <th:block th:with="startPage=${@pagingUtil.getStartPage(currentPage)}, endPage=${@pagingUtil.getEndPage(startPage, totalPage)}">
+      <li th:if="${startPage != 1}" class="page-item"><a class="page-link" th:onclick="movePageList(1)"><<</a></li>
+      <li th:if="${startPage != 1}" class="page-item"><a class="page-link" th:onclick="movePageList([[${startPage-1}]])"><</a></li>
+      <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
+        <li th:if="${page == currentPage}" class="page-item active"><a class="page-link" th:text="${page}"></a></li>
+        <li th:unless="${page == currentPage}" class="page-item"><a class="page-link" th:onclick="movePageList([[${page}]])" th:text="${page}"></a></li>
+      </th:block>
+      <li th:if="${endPage < totalPage}" class="page-item"><a class="page-link" th:onclick="movePageList([[${endPage+1}]])">></a></li>
+      <li th:if="${endPage < totalPage}" class="page-item"><a class="page-link" th:onclick="movePageList([[${totalPage}]])">>></a></li>
+    </th:block>
+  </ul>
+</nav>

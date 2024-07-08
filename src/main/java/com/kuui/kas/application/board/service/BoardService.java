@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -32,5 +34,9 @@ public class BoardService {
         asset.share(board.getBoardShareCount());
 
         return boardRepository.addBoard(board);
+    }
+
+    public List<Board> findAllShareList(int page, int pageUnit){
+        return boardRepository.findAllShareList(page, pageUnit);
     }
 }

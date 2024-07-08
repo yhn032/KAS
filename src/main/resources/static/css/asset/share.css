@@ -12,12 +12,12 @@
     rem -> root 요소<html>의 폰트 크기에 대한 배율 1rem = 1배
     !important 동일한 선택자에 대해 스타일 적용 우선 순위 지정
 */
-.py-4 {
+.pcy-4 {
     padding-top: 3rem !important;
     padding-bottom: 3rem !important;
 }
 
-.px-3 {
+.pcx-3 {
     padding-right: 2rem !important;
     padding-left: 2rem !important;
 }
@@ -114,6 +114,8 @@
 
 .share-asset-container {
     border: 2px solid black;
+    width: 80%;
+    height: 300px;
     width: 600px;
     margin: 20px auto;
     padding: 10px;

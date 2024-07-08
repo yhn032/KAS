@@ -1,4 +1,4 @@
-package com.kuui.kas.config.queryDsl;
+package com.kuui.kas.common.config.queryDsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

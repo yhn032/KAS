@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.LongAccumulator;
 
 @Controller
@@ -35,9 +36,20 @@ public class BoardController {
      * @return
      */
     @GetMapping(value = "/shareList")
-    public String shareList (Principal principal, Model model) {
+    public String shareList (@RequestParam Map<String, Object> paramMap, Principal principal, Model model) {
+        int page = paramMap.get("page") == null ? 1 : Integer.parseInt(paramMap.get("page").toString());
+        int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
+
         List<Teacher> teachers = teacherService.findAllTeachers();
+        List<Board> allShareList = boardService.findAllShareList(page, pageUnit);
+
+        //페이징 처리를 위한 정보
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", allShareList.size() > 10 ? allShareList.size() / 10 : 1);
+        model.addAttribute("pageUnit", pageUnit);
+
         model.addAttribute("teacherList", teachers);
+        model.addAttribute("boards", allShareList);
         model.addAttribute("username", principal.getName());
         return "/board/shareList";
     }

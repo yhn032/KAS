@@ -9,20 +9,20 @@
     <div th:replace="layout/sidebar :: sidebar"></div>
     <div class="share-list">
         <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-        <div class="px-3 py-4 border-bottom board-search">
+        <div class="pcx-3 pcy-4 border-bottom board-search">
             <div class="warp d-flex flex-wrap justify-content-center">
                 <form class="mb-2 mb-lg-0 me-lg-auto" method="get" action="/sampleList">
                     <input type="search" class="form-control" name="searchKeyword" id="searchKeyword" value="" placeholder="Search..."> <!--th:value="${pageNav.equals('sampleList') ? info.searchKeyword : ''}"-->
                 </form>
             </div>
             <div class="text-end">
-                <button type="button" class="btn btn-primary" onclick="layerPopOpen('shareForm')">반출대장 작성</button>
+                <button type="button" class="btn btn-primary add-share-btn" onclick="layerPopOpen('shareForm')">반출대장 작성</button>
             </div>
         </div>
 
-        <h2 class="px-3 py-4 no-margin">반출 리스트</h2>
+        <h2 class="pcx-3 pcy-4 no-margin">반출 리스트</h2>
 
-        <table class="table mb-5 px-3 text-decoration-none" id="share-board">
+        <table class="table mb-5 pcx-3 text-decoration-none" id="share-board">
             <colgroup>
                 <col width="10%" />
                 <col width="*" />
@@ -42,48 +42,18 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>5</td>
-                    <td>아이템5</td>
-                    <td>김병국</td>
-                    <td>손용수</td>
-                    <td>2024.07.04</td>
-                    <td>N</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>아이템4</td>
-                    <td>김병국</td>
-                    <td>손용수</td>
-                    <td>2024.07.04</td>
-                    <td>N</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>아이템3</td>
-                    <td>김병국</td>
-                    <td>손용수</td>
-                    <td>2024.07.04</td>
-                    <td>N</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>아이템2</td>
-                    <td>김병국</td>
-                    <td>손용수</td>
-                    <td>2024.07.04</td>
-                    <td>N</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>아이템1</td>
-                    <td>김병국</td>
-                    <td>손용수</td>
-                    <td>2024.07.04</td>
-                    <td>N</td>
+                <tr th:each="board, iterStat : ${boards}">
+                    <td th:text="${iterStat.size - iterStat.index}">5</td>
+                    <td th:text="${board.boardAsset.assetName}"></td>
+                    <td th:text="${board.boardTeacher.teacherName}"></td>
+                    <td th:text="${board.boardCarryInName}"></td>
+                    <td th:text="${board.boardRegDate}"></td>
+                    <td th:text="${board.boardAssetReturnYn}"></td>
                 </tr>
             </tbody>
         </table>
+
+        <th:block th:if="${boards.size() > 0}" th:insert="~{board/pagination}"></th:block>
     </div>
     <div th:replace="layout/footer :: footer"></div>
 
@@ -98,7 +68,7 @@
                     <input type="hidden" name="boardAssetAssetId" value="" id="boardAssetAssetId">
                     <input type="text" placeholder="자산명" disabled="disabled" id="boardAssetAssetName">
                     <button type="button" onclick="loadAssetData()">자산찾기</button>
-                    <div style="width: 80%; height: 300px" class="share-asset-container">
+                    <div class="share-asset-container">
                         <div class="share-asset-categories">
 
                         </div>

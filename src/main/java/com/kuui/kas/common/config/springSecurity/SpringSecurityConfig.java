@@ -1,4 +1,4 @@
-package com.kuui.kas.config.springSecurity;
+package com.kuui.kas.common.config.springSecurity;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;

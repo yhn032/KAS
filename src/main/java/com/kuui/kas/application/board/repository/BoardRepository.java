@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import static com.kuui.kas.application.board.domain.QBoard.board;
@@ -34,5 +35,15 @@ public class BoardRepository {
                 .selectFrom(board)
                 .where(board.boardId.eq(id))
                 .fetchOne();
+    }
+
+    public List<Board> findAllShareList(int page, int pageUnit) {
+        long offSet = (page-1)*pageUnit;        //offSet값부터 limitsize개수만큼 결과를 가져온다.
+        return queryFactory
+                .selectFrom(board)
+                .orderBy(board.boardRegDate.desc())
+                .limit(pageUnit)
+                .offset(offSet)
+                .fetch();
     }
 }
