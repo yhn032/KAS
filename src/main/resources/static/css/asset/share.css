@@ -100,7 +100,7 @@
     justify-content: space-between;
 }
 
-#shareForm {
+#shareForm, #shareEditForm {
     z-index: 100001;
     position: absolute;
     left: 50%;

@@ -42,8 +42,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="board, iterStat : ${boards}">
-                    <td th:text="${iterStat.size - iterStat.index}">5</td>
+                <tr th:each="board, iterStat : ${boards}" onclick="openDtlShare(this)" class="share-lists">
+                    <td th:text="${board.boardId}" style="display: none"></td>
+                    <td th:text="${iterStat.size - iterStat.index}"></td>
                     <td th:text="${board.boardAsset.assetName}"></td>
                     <td th:text="${board.boardTeacher.teacherName}"></td>
                     <td th:text="${board.boardCarryInName}"></td>
@@ -59,7 +60,7 @@
 
     <div id="shareForm" class="pop-layer" style="display: none">
         <div class="pop-container">
-            <form id="shareAddForm" action="/board/addShare" method="post">
+            <form id="shareAddForm">
                 <div class="pop-content">
                     <p class="pop-tit">
                         반출 대장
@@ -84,6 +85,31 @@
                     </select>
                     <input type="text" name="boardCarryInName" placeholder="인수자" id="boardCarryInName">
                     <button class="btn" type="button" onclick="addShareBoard()">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="shareEditForm" class="pop-edit-layer" style="display: none">
+        <div class="pop-container">
+            <form id="shareModifyForm">
+                <div class="pop-content">
+                    <p class="pop-tit">
+                        반출 내역
+                        <button type="button" class="btn_x btn-close" title="닫기" onclick="layerPopHide(this)"></button>
+                    </p>
+                    <input type="hidden" name="boardAssetAssetId" value=""  id="board-asset-asset-id">
+                    <input type="hidden" name="boardId" value=""  id="board-id">
+                    <label>자산명</label>
+                    <input type="text"  disabled="disabled" id="board-asset-name"><br>
+                    <label>반출자</label>
+                    <input type="text" name="boardTeacherTeacherName" value="" disabled="disabled" id="board-teacher-teacher-name"><br>
+                    <label>인수자</label>
+                    <input type="text" name="boardCarryInName" disabled="disabled" id="board-carry-in-name"><br>
+                    <label>반출 수량</label>
+                    <input type="text" name="boardShareCount" disabled="disabled" id="board-share-count"><br>
+                    <button class="btn" type="button" onclick="layerPopHide(this)">닫기</button>
+                    <button class="btn" type="button" onclick="">반납</button>
                 </div>
             </form>
         </div>

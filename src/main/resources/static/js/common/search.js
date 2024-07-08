@@ -87,28 +87,6 @@ function renderingSearchResult(resultArray){
     }
 };
 
-
-function layerPopOpen(id) {
-    if(id === 'shareForm') {
-        const categories = $('.share-asset-categories');
-        const contents = $('.share-asset-content');
-        categories.empty();
-        contents.empty();
-        $("#boardAssetAssetId").val('');
-        $("#boardAssetAssetName").val('');
-        $("#boardShareCount").val('');
-        $("#boardCarryInName").val('');
-        $("#teacher-list option:first").select();
-    }
-    $('#' + id).fadeIn(200);
-}
-
-function layerPopHide(e) {
-    $(e).parents('.pop-layer').fadeOut(200);
-}
-
-
-
 function loadAssetData(){
     $.ajax({
         type : 'GET',
@@ -196,16 +174,47 @@ function addShareBoard() {
     })
 }
 
+function layerPopOpen(id) {
+    if(id === 'shareForm') {
+        const categories = $('.share-asset-categories');
+        const contents = $('.share-asset-content');
+        categories.empty();
+        contents.empty();
+        $("#boardAssetAssetId").val('');
+        $("#boardAssetAssetName").val('');
+        $("#boardShareCount").val('');
+        $("#boardCarryInName").val('');
+        $("#teacher-list option:first").select();
+        if($("#shareEditForm").is(":visible")) $("#shareEditForm").fadeOut(200);
+    }else if (id == 'shareEditForm') {
+        if($("#shareForm").is(":visible")) $("#shareForm").fadeOut(200);
+    }
+    $('#' + id).fadeIn(200);
+}
 
-//
+function layerPopHide(e) {
+    $(e).parents('.pop-layer').fadeOut(200);
+    $(e).parents('.pop-edit-layer').fadeOut(200);
+}
+
+//레이어 바깥을 클릭한 경우 닫기
 $(document).click(function (event) {
     let clickedElement = $(event.target);
+    if($("#shareForm").is(":visible")){
+        if (clickedElement.hasClass('add-share-btn')) return false;
 
-    if (clickedElement.hasClass('add-share-btn')) return false;
-
-    if (!clickedElement.hasClass('pop-layer') && !clickedElement.closest('.pop-layer').length) {
-        // 모든 레이어 숨김
-        $('.btn-close').click();
+        if (!clickedElement.hasClass('pop-layer') && !clickedElement.closest('.pop-layer').length) {
+            // 모든 레이어 숨김
+            $('.pop-layer').fadeOut(200);
+            // $('.btn-close').click();
+        }
+    }
+    if($("#shareEditForm").is(":visible")){
+        if (clickedElement.closest('.share-lists').length) return false;
+        if (!clickedElement.hasClass('pop-edit-layer') && !clickedElement.closest('.pop-edit-layer').length) {
+            // 모든 레이어 숨김
+            $('.pop-edit-layer').fadeOut(200);
+        }
     }
 });
 
@@ -216,3 +225,25 @@ function movePageList(newPage) {
     url.searchParams.set('page', newPage);
     location.href = url.href;
 };
+
+function openDtlShare(tr) {
+    let boardId = tr.cells.item(0).textContent
+    $.ajax({
+        type : 'GET',
+        url : '/board/'+boardId+'/show',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+
+            if(data.status === 'success') {
+                $("#board-asset-asset-id").val(data.boardAssetAssetId);
+                $("#board-id").val(data.boardId);
+                $("#board-asset-name").val(data.boardAssetName);
+                $("#board-teacher-teacher-name").val(data.boardTeacherName);
+                $("#board-carry-in-name").val(data.boardCarryInName);
+                $("#board-share-count").val(data.boardShareCount);
+            }
+        }
+    })
+    layerPopOpen('shareEditForm');
+}
