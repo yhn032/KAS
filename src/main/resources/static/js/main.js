@@ -64,7 +64,6 @@ $(document).ready(function (){
         contentType: false,
         success: function (data) {
             $('.overlay-image').css("backgroundImage", "url('" + '../img/uploads/profile/' + data + "')");
-            console.log(data);
         }
     });
 

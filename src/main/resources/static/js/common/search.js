@@ -247,3 +247,34 @@ function openDtlShare(tr) {
     })
     layerPopOpen('shareEditForm');
 }
+
+
+/**
+ * 상품 상세보기 팝업
+ *
+ */
+
+$(document).ready(function(){
+    // .asset-container 요소에 클릭 이벤트 리스너 추가, 모든 .asset-item의 하위 요소로 이벤트 위임
+    $('.asset-container').on('click', '.asset-item', function() {
+        // event.currentTarget을 통해 클릭된 .asset-item 요소를 참조
+        let assetId = $(this).find('div').first().text();
+
+        $.ajax({
+            type : 'GET',
+            url : '/asset/'+assetId+'/show',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+
+                console.log(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Request failed:');
+                console.log('jqXHR:', jqXHR);
+                console.log('textStatus:', textStatus);
+                console.log('errorThrown:', errorThrown);
+            }
+        })
+    });
+})

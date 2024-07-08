@@ -43,11 +43,6 @@ public class SaveFile extends Auditing {
     @Column(name = "upload_user", nullable = false)
     private String uploadUser;
 
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "asset_id")
-    private Asset asset;
-
     @OneToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;

@@ -55,8 +55,11 @@ public class Asset {
     @Column(name = "asset_position")
     Integer assetPos;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "asset", cascade = CascadeType.ALL, orphanRemoval = true)
+    /*
+    직렬화 과정에서 발생하는 무한루프 방지를 위해 단방향 관계 설정
+     */
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "asset_id")
     private List<SaveFile> assetImgs;
 
     @JsonBackReference

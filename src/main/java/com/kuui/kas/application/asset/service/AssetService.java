@@ -77,7 +77,7 @@ public class AssetService {
         SaveFile saveFile = SaveFile.builder()
             .orgFileName(originalFilename)
             .saveName(saveName)
-            .asset(saveAsset)
+//            .asset(saveAsset)
             .filePath(uploadPath)
             .fileType(fileExt)
             .uploadUser(principal.getName())

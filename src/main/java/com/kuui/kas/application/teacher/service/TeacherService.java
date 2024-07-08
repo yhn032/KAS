@@ -92,7 +92,7 @@ public class TeacherService implements UserDetailsService {
         SaveFile saveFile = SaveFile.builder()
                 .orgFileName(originalFilename)
                 .saveName(savedName)
-                .asset(asset)
+//                .asset(asset)
                 .filePath(uploadPath)
                 .fileType(fileExt)
                 .uploadUser(principal.getName())

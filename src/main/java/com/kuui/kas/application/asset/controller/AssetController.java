@@ -100,4 +100,17 @@ public class AssetController {
     public List<Asset> findDataByCtg(@RequestParam String ctg) {
         return assetService.findDataByCtg(ctg);
     }
+
+
+    @GetMapping("/{assetId}/show")
+    @ResponseBody
+    public Asset findById(@PathVariable String assetId) {
+        Asset asset = assetService.findById(assetId);
+
+        if(asset == null) {
+            throw new NullPointerException("There are no asset by given Id");
+        }
+
+        return asset;
+    }
 }

@@ -39,13 +39,13 @@ public class FileController {
         String fileExt = FileUtil.getExtension(originalFilename);
 
         System.out.println("originalFilename = " + originalFilename);
-        Asset byId = assetService.findById(assetId);
+//        Asset byId = assetService.findById(assetId);
         String uploadPath = "D:\\KAS\\images";
 
         SaveFile saveFile = SaveFile.builder()
                 .orgFileName(originalFilename)
                 .saveName(saveName)
-                .asset(byId)
+//                .asset(byId)
                 .filePath(uploadPath)
                 .fileType(fileExt)
                 .uploadUser(principal.getName())

@@ -25,7 +25,7 @@ public class FileDto {
     private final String createdBy;
     private final LocalDateTime updatedAt;
     private final String updatedBy;
-    private final Asset asset;
+//    private final Asset asset;
     private final Teacher teacher;
 
     // 정적 팩토리 메서드
@@ -42,7 +42,7 @@ public class FileDto {
                 saveFile.getCreatedName(),
                 saveFile.getUpdatedDate(),
                 saveFile.getUpdatedName(),
-                saveFile.getAsset(),
+//                saveFile.getAsset(),
                 saveFile.getTeacher()
         );
     }
@@ -56,7 +56,7 @@ public class FileDto {
                 .fileType(fileType)
                 .fileSize(fileSize)
                 .uploadUser(uploadUser)
-                .asset(asset)
+//                .asset(asset)
                 .teacher(teacher)
                 .build();
     }
