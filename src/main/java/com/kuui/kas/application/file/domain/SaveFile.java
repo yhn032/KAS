@@ -17,6 +17,7 @@ import javax.persistence.*;
 public class SaveFile extends Auditing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fild_id")
     private Long id;
 
     @Setter
@@ -42,10 +43,6 @@ public class SaveFile extends Auditing {
     @Setter
     @Column(name = "upload_user", nullable = false)
     private String uploadUser;
-
-    @OneToOne
-    @JoinColumn(name = "teacher_id")
-    private Teacher teacher;
 }
 
 /*

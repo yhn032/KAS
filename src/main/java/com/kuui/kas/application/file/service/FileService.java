@@ -32,5 +32,13 @@ public class FileService {
         log.info("saveFile() saveFile : {}", saveFile);
         return FileDto.from(fileRepository.save(saveFile.toEntity()));
     }
+
+    public SaveFile findById(Long fileId) {
+        return fileRepository.findById(fileId).get();
+    }
+
+    public SaveFile findBySaveName(String saveName) {
+        return  fileRepository.findBySaveName(saveName);
+    }
 }
 
