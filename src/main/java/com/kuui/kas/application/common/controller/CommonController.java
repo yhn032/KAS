@@ -61,7 +61,7 @@ public class CommonController {
             SaveFile saveFile = SaveFile.builder()
                     .orgFileName(fileName)
                     .saveName(fileName)
-                    .asset(null)
+//                    .asset(null)
                     .filePath(imgPath)
                     .fileType(FileUtil.getExtension(fileName))
                     .uploadUser("SUPER")

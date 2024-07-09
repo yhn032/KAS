@@ -17,7 +17,7 @@
                 <button type="button" onclick="search()">검색</button>
             </div>
         </form>
-        <div class="asset-container">
+        <div class="asset-container" th:if="${assetList.size() > 0}">
             <div class="asset-item" th:each="asset : ${assetList}">
                 <div style="display: none" th:text="${asset.getAssetId()}"></div>
                 <div class="asset-category">
@@ -43,6 +43,12 @@
 
             </div>
         </div>
+        <div class="asset-container" th:unless="${assetList.size() > 0}">
+            <div class="asset-error">
+                검색 결과가 없습니다.
+            </div>
+        </div>
+        <th:block th:if="${assetList.size() > 0}" th:insert="~{asset/pagination}"></th:block>
     </div>
     <div th:replace="layout/footer :: footer"></div>
 </body>

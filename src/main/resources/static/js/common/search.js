@@ -5,39 +5,31 @@ $(document).ready(function(){
            search();
        }
    }) ;
-
-    $("#return-btn").click(function () {
-        let boardId = $(this).siblings("input").first().val();
-        alert(boardId);
-    });
-
 });
 
 function search(){
-    if($("#searchTerm").val() === '' ) {
-        alert("검색어를 입력하세요.");
-        return false;
-    }
+
     const formData = new FormData(document.getElementById("searchForm"));
-    $.ajax({
-        type : 'POST',
-        url : '/asset/searchAsset',
-        data : formData,
-        processData:false,
-        contentType:false,
-        success:function (data){
-            console.log(data);
-            console.log((data.status));
-            if(data.totalSize > 0) {
-                renderingSearchResult(data.resultArray);
-            }else {
-                $('.asset-container').empty();
-                const asseterror = $("<div>", {class:'asset-error', text:'검색결과가 없습니다.'});
-                $('.asset-container').append(asseterror);
-                console.log("검색 결과가 없습니다.");
-            }
-        }
-    });
+    location.href='/asset/allList?searchTerm=' + formData.get("searchTerm") + '&page=1&pageUnit=10';
+    // $.ajax({
+    //     type : 'GET',
+    //     url : '/asset/allList',
+    //     data : formData,
+    //     processData:false,
+    //     contentType:false,
+    //     success:function (data){
+    //         console.log(data);
+    //         console.log((data.status));
+    //         if(data.totalSize > 0) {
+    //             renderingSearchResult(data.resultArray);
+    //         }else {
+    //             $('.asset-container').empty();
+    //             const asseterror = $("<div>", {class:'asset-error', text:'검색결과가 없습니다.'});
+    //             $('.asset-container').append(asseterror);
+    //             console.log("검색 결과가 없습니다.");
+    //         }
+    //     }
+    // });
 }
 
 function renderingSearchResult(resultArray){
@@ -77,7 +69,7 @@ function renderingSearchResult(resultArray){
 
         //메타 데이터 태그 생성
         const assetMetaData = $('<div>', {class : 'asset-meta-data'});
-        const span3 = $('<span>', {text:'🔗 ' + resultArray[i].assetResult.assetCnt});
+        const span3 = $('<span>', {text:'🔗 ' + resultArray[i].assetResult.assetRemainCnt});
         const span4 = $('<span>', {text:'👉' + resultArray[i].assetResult.assetPos});
         const span5 = $('<span>', {text:'🙌 ' + resultArray[i].assetResult.regTeacherName});
         const span6 = $('<span>', {text:'📆 ' + resultArray[i].assetResult.assetUpdDate.substring(0, 10)});
@@ -170,7 +162,7 @@ function addShareBoard() {
             if(data.status === 'success') {
 
                 alert('게시판 등록 성공');
-                $('.btn_x').click();
+                location.reload();
 
             }else if (data.status === 'fail') {
                 alert(data.errorMessage);
@@ -249,7 +241,8 @@ function openDtlShare(tr) {
             $("#board-share-count").val(data.boardShareCount);
             console.log(data.boardAssetReturnYn);
             if(data.boardAssetReturnYn === 'N') {
-                $("#pop-edit-content").append($("<button>", {class:'btn', id: 'return-btn', text:'반납'}));
+                $("#pop-edit-content #return-btn").remove();
+                $("#pop-edit-content").append($("<button>", {class:'btn', id: 'return-btn', text:'반납', type:'button', onclick:'returnBtn()'}));
             }
         },
         error:function (jqXHR, textStatus, errorThrown) {
@@ -292,3 +285,31 @@ $(document).ready(function(){
         })
     });
 })
+
+function returnBtn() {
+
+    let boardId = $("#board-id").val();
+    console.log(boardId);
+    if(confirm("반납 수량을 확인 후 선택하세요. 반납 완료 처리하시겠습니까?")) {
+        $.ajax({
+            type : 'GET',
+            url : '/board/'+boardId+'/return',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if(data === 'success') {
+                    //페이지 새로 고침
+                    location.reload();
+                }
+            },
+            error:function (jqXHR, textStatus, errorThrown) {
+                console.log("Request Failed");
+                console.log('jqXHR : ', jqXHR);
+                console.log('textStatus : ', textStatus);
+                console.log('errorThrown : ', errorThrown);
+            }
+        });
+    }else {
+        alert("반납이 취소되었습니다.");
+    }
+}

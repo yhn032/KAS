@@ -33,8 +33,8 @@ public class AssetService {
 
     public List<Asset> findDataByCtg(String ctg){return assetRepository.findDataByCtg(ctg);}
 
-    public List<Asset> findAll(){
-        return assetRepository.findAll();
+    public List<Asset> findAll(int page, int pageUnit){
+        return assetRepository.findAll(page, pageUnit);
     }
 
     @Transactional
@@ -56,6 +56,28 @@ public class AssetService {
     @Transactional(rollbackFor = Exception.class)   //언제든 익셉션이 터지면 롤백
     //재고 및 이미지 추가하기
     public void addAssetWithImage(Asset asset, MultipartFile multipartFile, Principal principal) throws IOException, DuplicateNameAddException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
+        String fileExt = FileUtil.getExtension(originalFilename);
+        String uploadPath = "D:\\KasImg\\asset";
+
+        //0. 파일 정보 DB에 저장
+        SaveFile saveFile = SaveFile.builder()
+                .orgFileName(originalFilename)
+                .saveName(saveName)
+//            .asset(saveAsset)
+                .filePath(uploadPath)
+                .fileType(fileExt)
+                .uploadUser(principal.getName())
+                .fileSize(multipartFile.getSize())
+//            .teacher(null)
+                .build();
+
+        //이미지 파일 영속성 컨텍스트에 저장
+        FileDto fileDto = fileService.saveFile(FileDto.from(saveFile));
+        List<SaveFile> assetImgs = new ArrayList<>();
+        assetImgs.add(fileService.findById(fileDto.getId()));
+
         //1. 재고를 등록하기 전에 동일한 이름이 존재한다면 수량을 수정하도록 예외 호출
         duplicateAssetName(asset.getAssetName());
         //--예외가 터지지 않으면 신규 등록 가능한 재고이다.--
@@ -63,55 +85,41 @@ public class AssetService {
         //2. 마지막으로 저장된 재고 번호 조회하기
         String lastAssetNo = LastAssetNo();
         int num = Integer.parseInt(lastAssetNo.substring(lastAssetNo.indexOf("-") + 1, lastAssetNo.length()));
-        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName());
+        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName(), assetImgs);
 
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);
 
-        String originalFilename = multipartFile.getOriginalFilename();
-        String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
-        String fileExt = FileUtil.getExtension(originalFilename);
-        String uploadPath = "D:\\KasImg\\asset";
-
-        //파일 정보 DB에 저장
-        SaveFile saveFile = SaveFile.builder()
-            .orgFileName(originalFilename)
-            .saveName(saveName)
-//            .asset(saveAsset)
-            .filePath(uploadPath)
-            .fileType(fileExt)
-            .uploadUser(principal.getName())
-            .fileSize(multipartFile.getSize())
-//            .teacher(null)
-            .build();
-
-        fileService.saveFile(FileDto.from(saveFile));
-        multipartFile.transferTo(new File(uploadPath, saveName));
+        multipartFile.transferTo(new File(uploadPath, saveName));   //업로드한 파일을 지정된 경로에 저장
     }
 
 
-    public HashMap<String, Object> searchAsset(String searchTerm) {
-        HashMap<String, Object> resultMap = new HashMap<>();
-        List<Asset> result;
-        if(searchTerm.equals("") || searchTerm == null) {
-            result = assetRepository.findAll();
-        }else {
-            result =assetRepository.searchAsset(searchTerm);
-        }
+//    public HashMap<String, Object> searchAsset(String searchTerm, int page, int pageUnit) {
+//        HashMap<String, Object> resultMap = new HashMap<>();
+//        List<Asset> result;
+//        if(searchTerm.equals("") || searchTerm == null) {
+//            result = assetRepository.findAll(1, 10);
+//        }else {
+//            result = assetRepository.searchAsset(searchTerm, page, pageUnit);
+//        }
+//
+//        List<Map<String,Object>> resultArray = new ArrayList<>();
+//        for(Asset a : result) {
+//            Map<String, Object> tempMap = new HashMap<>();
+//            tempMap.put("assetResult", a);
+//            if(a.getAssetImgs().isEmpty()) {
+//                tempMap.put("assetImgSrc", "");
+//            }else {
+//                tempMap.put("assetImgSrc", a.getAssetImgs().get(0).getSaveName());
+//            }
+//            resultArray.add(tempMap);
+//        }
+//        resultMap.put("resultArray", resultArray);
+//        resultMap.put("totalSize", resultArray.size());
+//        return resultMap;
+//    }
+    public List<Asset> searchAsset(String searchTerm, int page, int pageUnit) {
 
-        List<Map<String,Object>> resultArray = new ArrayList<>();
-        for(Asset a : result) {
-            Map<String, Object> tempMap = new HashMap<>();
-            tempMap.put("assetResult", a);
-            if(a.getAssetImgs().isEmpty()) {
-                tempMap.put("assetImgSrc", "");
-            }else {
-                tempMap.put("assetImgSrc", a.getAssetImgs().get(0).getSaveName());
-            }
-            resultArray.add(tempMap);
-        }
-        resultMap.put("resultArray", resultArray);
-        resultMap.put("totalSize", resultArray.size());
-        return resultMap;
+        return assetRepository.searchAsset(searchTerm, page, pageUnit);
     }
 }

@@ -71,10 +71,13 @@ public class AssetRepository{
         return asset1.getAssetId();
     }
 
-    public List<Asset> findAll() {
+    public List<Asset> findAll(int page, int pageUnit) {
+        long offset =(page-1)*pageUnit;
         return queryFactory
                 .selectFrom(asset)
                 .orderBy(asset.assetUpdDate.desc())
+                .limit(pageUnit)
+                .offset(offset)
                 .fetch();
     }
 
@@ -85,11 +88,14 @@ public class AssetRepository{
                 .fetchOne();
     }
 
-    public List<Asset> searchAsset(String searchTerm) {
+    public List<Asset> searchAsset(String searchTerm, int page, int pageUnit) {
+        long offSet = (page-1) * pageUnit;
         return queryFactory
                 .selectFrom(asset)
                 .where(asset.assetName.contains(searchTerm))
                 .orderBy(asset.assetUpdDate.desc())
+                .limit(pageUnit)
+                .offset(offSet)
                 .fetch();
     }
 

@@ -27,6 +27,9 @@ public class TeacherController {
     @PostMapping("/duplicateId")
     @ResponseBody
     public String duplicateId(String id){
+        log.info("=============================================");
+        log.info("회원가입 시 아이디 중복 체크 ");
+        log.info("=============================================");
 
         String result = "";
         try{
@@ -43,12 +46,18 @@ public class TeacherController {
     @GetMapping("/getTeacherProfile")
     @ResponseBody
     public String getTeacherProfile(Principal principal) {
+        log.info("=============================================");
+        log.info("선생 프로필 이미지 가져오기");
+        log.info("=============================================");
         return teacherService.findByTeacherNickName(principal.getName()).getTeacherProfileImg().getSaveName();
     }
 
 
     @GetMapping("/manage")
     public String manageTeacherList(Principal principal, Model model){
+        log.info("=============================================");
+        log.info("교사 관리 페이지 호출");
+        log.info("=============================================");
         List<Teacher> allTeachers = teacherService.findAllTeachers();
         model.addAttribute("username", principal.getName());
         model.addAttribute("teachers", allTeachers);

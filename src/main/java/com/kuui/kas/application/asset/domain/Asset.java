@@ -1,6 +1,7 @@
 package com.kuui.kas.application.asset.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kuui.kas.application.board.domain.Board;
 import com.kuui.kas.application.board.exception.NoRemainAssetException;
 import com.kuui.kas.application.file.domain.SaveFile;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,14 +61,14 @@ public class Asset {
     직렬화 과정에서 발생하는 무한루프 방지를 위해 단방향 관계 설정
      */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "asset_id")
-    private List<SaveFile> assetImgs;
+    @JoinColumn(name = "asset_id")      //외래키 컬럼명 지정
+    private List<SaveFile> assetImgs = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "boardAsset")
     private List<Board> boards;
 
-    public Asset(String assetId, String assetNo, String assetName, Long assetTotalCnt, Long assetRemainCnt, String assetCtg, int assetPos,String regTeacherName, String updTeacherName) {
+    public Asset(String assetId, String assetNo, String assetName, Long assetTotalCnt, Long assetRemainCnt, String assetCtg, int assetPos,String regTeacherName, String updTeacherName, List<SaveFile> assetImgs) {
         this.assetId = assetId;
         this.assetNo = assetNo;
         this.assetName = assetName;
@@ -76,6 +78,7 @@ public class Asset {
         this.assetPos = assetPos;
         this.regTeacherName = regTeacherName;
         this.updTeacherName = updTeacherName;
+        this.assetImgs = assetImgs;
     }
 
     //비즈니스 로직 수행
@@ -88,7 +91,15 @@ public class Asset {
     }
 
     //반납
-    public void restock(int quantity) {
+    public void restock(Long quantity) {
         assetRemainCnt += quantity;
+    }
+
+    public void setAssetImgFiles(List<SaveFile> imgFiles) {
+        this.assetImgs = imgFiles;
+    }
+
+    public void setAssetImgFile(SaveFile saveFile) {
+        this.assetImgs.add(saveFile);
     }
 }

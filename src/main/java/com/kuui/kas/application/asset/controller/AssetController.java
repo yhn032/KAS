@@ -6,6 +6,7 @@ import com.kuui.kas.application.common.exception.DuplicateNameAddException;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/asset")
 public class AssetController {
@@ -34,11 +36,30 @@ public class AssetController {
     }
 
     @GetMapping("/allList")
-    public String allList(Principal principal, Model model){
-        model.addAttribute("username", principal.getName());
+    public String allList(@RequestParam Map<String, Object> paramMap, Principal principal, Model model){
+        log.info("=============================================");
+        log.info("전체 자산 조회 ");
+        log.info("=============================================");
+        String searchTerm = paramMap.get("searchTerm") == null || paramMap.get("searchTerm").equals("")  ? "" : paramMap.get("searchTerm").toString();
+        int page = paramMap.get("page") == null ? 1 : Integer.parseInt(paramMap.get("page").toString());
+        int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
 
-        List<Asset> assetList = assetService.findAll();
+        List<Asset> assetList = null;
+        if(searchTerm.equals("")) {
+            assetList = assetService.findAll(page, pageUnit);
+        }else {
+            assetList = assetService.searchAsset(searchTerm, page, pageUnit);
+        }
+
+        model.addAttribute("username", principal.getName());
         model.addAttribute("assetList", assetList);
+        //페이징 처리를 위한 정보
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", assetList.size() > 10 ? assetList.size() / 10 : 1);
+        model.addAttribute("pageUnit", pageUnit);
+
+        model.addAttribute("assetList", assetList);
+        model.addAttribute("username", principal.getName());
 
         return "/asset/assetList";
     }
@@ -66,19 +87,24 @@ public class AssetController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/searchAsset")
-    @ResponseBody
-    public HashMap<String,Object> handleSearchResult(@RequestParam(value = "searchTerm")String searchTerm) {
-
-        HashMap<String,Object> resultMap = assetService.searchAsset(searchTerm);
-        int totalSize = (int) resultMap.get("totalSize");
-        if(totalSize > 0) {
-            resultMap.put("status", "success");
-        }else {
-            resultMap.put("status", "fail");
-        }
-        return resultMap;
-    }
+//    @PostMapping(value = "/searchAsset")
+//    @ResponseBody
+//    public HashMap<String,Object> handleSearchResult(@RequestParam(value = "searchTerm")String searchTerm, @RequestParam Map<String, Object> paramMap, Principal principal, Model model) {
+//        log.info("=============================================");
+//        log.info("자산 검색 ");
+//        log.info("=============================================");
+//        int page = paramMap.get("page") == null ? 1 : Integer.parseInt(paramMap.get("page").toString());
+//        int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
+//
+//        HashMap<String,Object> resultMap = assetService.searchAsset(searchTerm, page, pageUnit);
+//        int totalSize = (int) resultMap.get("totalSize");
+//        if(totalSize > 0) {
+//            resultMap.put("status", "success");
+//        }else {
+//            resultMap.put("status", "fail");
+//        }
+//        return resultMap;
+//    }
 
     /**
      * 반출대장 입력시 자산 카테고리 찾기

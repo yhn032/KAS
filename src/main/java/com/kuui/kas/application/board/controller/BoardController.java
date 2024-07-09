@@ -3,11 +3,13 @@ package com.kuui.kas.application.board.controller;
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.asset.service.AssetService;
 import com.kuui.kas.application.board.domain.Board;
+import com.kuui.kas.application.board.domain.BoardDTO;
 import com.kuui.kas.application.board.exception.NoRemainAssetException;
 import com.kuui.kas.application.board.service.BoardService;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.LongAccumulator;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/board")
 public class BoardController {
@@ -29,17 +31,41 @@ public class BoardController {
     private final BoardService boardService;
     private final TeacherService teacherService;
 
+    @GetMapping(value = "/{boardId}/return")
+    @ResponseBody
+    public String returnAsset(@PathVariable Long boardId) {
+        log.info("=============================================");
+        log.info("자산 반납");
+        log.info("=============================================");
+        Long bId = boardService.returnAsset(boardId);
 
+        if(bId != 0) return "success";
+        else return "fail";
+    }
+
+    //DTO를 만들어서 DTO를 반환하도록 하자 (순환참조 해결)
     @GetMapping(value = "/{boardId}/show")
     @ResponseBody
-    public Board findById(@PathVariable Long boardId) {
+    public BoardDTO findById(@PathVariable Long boardId) {
+        log.info("=============================================");
+        log.info("게시판 상세보기 팝업 호출");
+        log.info("=============================================");
         Board board = boardService.findById(boardId);
 
         if(board == null ){
             throw new NullPointerException("There are no entity by given id");
         }
+        BoardDTO boardDTO = BoardDTO.builder()
+                .boardId(board.getBoardId())
+                .boardAsset(board.getBoardAsset())
+                .boardTeacher(board.getBoardTeacher())
+                .boardCarryInName(board.getBoardCarryInName())
+                .boardAssetReturnYn(board.getBoardAssetReturnYn())
+                .boardShareCount(board.getBoardShareCount())
+                .boardRegDate(board.getBoardRegDate())
+                .build();
 
-        return board;
+        return boardDTO;
     }
 
     /**
@@ -50,6 +76,9 @@ public class BoardController {
      */
     @GetMapping(value = "/shareList")
     public String shareList (@RequestParam Map<String, Object> paramMap, Principal principal, Model model) {
+        log.info("=============================================");
+        log.info("전체 게시판 조회 ");
+        log.info("=============================================");
         int page = paramMap.get("page") == null ? 1 : Integer.parseInt(paramMap.get("page").toString());
         int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
 
@@ -78,6 +107,9 @@ public class BoardController {
     @PostMapping("/addShare")
     @ResponseBody
     public HashMap<String, String> addShareBoard(@RequestParam String boardAssetAssetId, @RequestParam Long boardTeacherTeacherId, @RequestParam String boardCarryInName, @RequestParam Long boardShareCount) {
+        log.info("=============================================");
+        log.info("반출 대장 등록하기");
+        log.info("=============================================");
         HashMap<String,String> resultMap = new HashMap<>();
         Asset boardAsset = assetService.findById(boardAssetAssetId);
         Teacher boardTeacher = teacherService.findById(boardTeacherTeacherId);

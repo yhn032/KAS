@@ -39,4 +39,21 @@ public class BoardService {
     public List<Board> findAllShareList(int page, int pageUnit){
         return boardRepository.findAllShareList(page, pageUnit);
     }
+
+    @Transactional(rollbackFor =  Exception.class)
+    public Long returnAsset(Long boardId) {
+        Board board = boardRepository.findById(boardId);
+
+        if(board == null) {
+            throw new NullPointerException("There are no entity by given id");
+        }
+
+        //변경 감지
+        board.setBoardAssetReturnYn("Y");
+
+        //개수 복원
+        board.getBoardAsset().restock(board.getBoardShareCount());
+
+        return board.getBoardId();
+    }
 }

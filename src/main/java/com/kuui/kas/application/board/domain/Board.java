@@ -1,5 +1,6 @@
 package com.kuui.kas.application.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.teacher.domain.Teacher;
@@ -21,8 +22,9 @@ public class Board {
     @Column(name = "board_id")
     Long boardId;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "asset_id")
     private Asset boardAsset;
 
     @ManyToOne
@@ -39,6 +41,4 @@ public class Board {
 
     @Column(name = "board_reg_date")
     String boardRegDate;
-
-
 }

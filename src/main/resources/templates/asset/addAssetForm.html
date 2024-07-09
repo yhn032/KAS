@@ -13,6 +13,8 @@
         <div class="form-left" style="width: 30%; margin-left: 20%;">
             <label for="assetName">물품명</label><br>
             <input id="assetName" type="text" name="assetName" value=""><br>
+            <label for="assetCtg">물품 카테고리</label><br>
+            <input id="assetCtg" type="text" name="assetCtg" value=""><br>
             <label for="assetCnt">물품 수량</label><br>
             <input id="assetCnt" type="text" name="assetCnt" value=""><br>
             <label for="assetCnt">물품 위치</label><br>
@@ -55,8 +57,10 @@
           const data = {
             info: {
                 assetName : $("#assetName").val(),
-                assetCnt : $("#assetCnt").val(),
+                assetTotalCnt : $("#assetCnt").val(),
+                assetRemainCnt : $("#assetCnt").val(),
                 assetPos : $("#assetPos").val(),
+                assetCtg : $("#assetCtg").val(),
                 regTeacherName : $("#regTeacherName").val()
             }
           };
@@ -73,73 +77,17 @@
               success: function (data) {
 
                   console.log('파일 업로드 성공');
-
-
+                  console.log(data);
+                  location.href = '/asset/allList';
+              },
+              error:function (jqXHR, textStatus, errorThrown) {
+                  console.log("Request Failed");
+                  console.log('jqXHR : ', jqXHR);
+                  console.log('textStatus : ', textStatus);
+                  console.log('errorThrown : ', errorThrown);
               }
           })
-          alert("재고가 등록되었습니다.");
-          location.href = "/asset/allList";
-          // //FormData를 JavaScript 객체로 변환
-          // const formObject = {};
-          // formData.forEach((value, key) => {
-          //    formObject[key] = value;
-          // });
-          //
-          // //JavaScript객체를 JSON 문자열로 변환
-          // const formJsonData = JSON.stringify(formObject);
-          // /*console.log(formJsonData);*/
-          //
-          // //JSON 데이터를 서버로 전송
-          // // fetch('/asset/addList', {
-          // fetch('/asset/addTestList', {
-          //     method: 'POST',
-          //     headers: {
-          //         'Content-Type': 'application/json'
-          //     },
-          //     body: formJsonData,
-          // })
-          //     .then(response => response.json())
-          //     .then(data => {
-          //         //서버에서의 응답 처리 로직
-          //         console.log('서버 응답 : ' + data.message);
-          //         alert(data.message);
-          //         // if(data.status === "200") {
-          //         //     //자산 추가가 성공한 경우에 파일 업로드를 진행하자.
-          //         //     uploadImgFile(data.assetId);
-          //         //     /*location.href = "/asset/allList";*/
-          //         // }
-          //     })
-          //     .catch(error => {
-          //         //에러 처리 로직
-          //        console.log('에러 발생 : ' + error);
-          //        alert(error.message);
-          //     });
       }
-
-      // function uploadImgFile(assetId){
-      //     const formData = new FormData();
-      //     const fileInput = document.getElementById("assetImgFile");
-      //     if(fileInput.files.length > 0) {
-      //         formData.append("assetImgFile", fileInput.files[0]);
-      //         formData.append("assetId", assetId);
-      //
-      //         console.log(formData);
-      //
-      //         $.ajax({
-      //             type : 'POST',
-      //             url : '/file/uploadImg',
-      //             data : formData,
-      //             processData: false,
-      //             contentType: false,
-      //             success: function (data) {
-      //                 if(data === 'success') console.log('파일 업로드 성공');
-      //                 else if (data === 'fail') console.log('파일 업로드 실패');
-      //             }
-      //         })
-      //     }else {
-      //         console.log('파일이 선택되지 않았습니다.')
-      //     }
-      // }
   </script>
   <div th:replace="layout/footer :: footer"></div>
 </body>

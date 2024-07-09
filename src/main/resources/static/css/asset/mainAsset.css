@@ -74,6 +74,7 @@
     flex-flow: row wrap;
     gap: 75px;
     justify-content: flex-start;
+    margin-bottom: 50px;
 }
 
 .asset-item {
