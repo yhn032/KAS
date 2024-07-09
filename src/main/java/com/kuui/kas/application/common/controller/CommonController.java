@@ -50,7 +50,31 @@ public class CommonController {
         //최초 회원가입 시 기본 이미지 가져와서 저장하기
         String imgPath = "D:\\KasImg\\profile";
         String fileName = "default-profile.jpg";
-        File file = FileUtil.createFile(imgPath, fileName);
+
+        SaveFile bySaveName = fileService.findBySaveName(fileName);
+        SaveFile teacherProfileFile;
+
+        //기본 이미지가 없다면 새로 추가. 있다면 기존거 가져와서 생성
+        if(bySaveName == null ){
+            File file = FileUtil.createFile(imgPath, fileName);
+
+            SaveFile saveFile = SaveFile.builder()
+                    .orgFileName(fileName)
+                    .saveName(fileName)
+                    .asset(null)
+                    .filePath(imgPath)
+                    .fileType(FileUtil.getExtension(fileName))
+                    .uploadUser("SUPER")
+                    .fileSize(file.length())
+//                .teacher(savedTeacher)
+                    .build();
+
+            FileDto fileDto = fileService.saveFile(FileDto.from(saveFile));
+            teacherProfileFile = fileService.findById(fileDto.getId());
+        }else {
+            teacherProfileFile = bySaveName;
+        }
+
 
         TeacherFormDto teacherFormDto = TeacherFormDto.builder()
                 .teacherLogInID(teacher.getTeacherLogInID())
@@ -63,23 +87,12 @@ public class CommonController {
                 .teacherChristianName(teacher.getTeacherChristianName())
                 .teacherSaintsDay(teacher.getTeacherSaintsDay())
                 .teacherInsertDate(LocalDateTime.now())
+                .teacherProfileImg(teacherProfileFile)
                 .build();
 
         Teacher buildTeacher = Teacher.createTeacher(teacherFormDto, passwordEncoder);
         Teacher savedTeacher = teacherService.saveTeacher(buildTeacher);
 
-        SaveFile saveFile = SaveFile.builder()
-                .orgFileName(fileName)
-                .saveName(fileName)
-                .asset(null)
-                .filePath(imgPath)
-                .fileType(FileUtil.getExtension(fileName))
-                .uploadUser("SUPER")
-                .fileSize(file.length())
-                .teacher(savedTeacher)
-                .build();
-
-        fileService.saveFile(FileDto.from(saveFile));
         return "redirect:/login";
     }
 }

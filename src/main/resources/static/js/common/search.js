@@ -5,6 +5,12 @@ $(document).ready(function(){
            search();
        }
    }) ;
+
+    $("#return-btn").click(function () {
+        let boardId = $(this).siblings("input").first().val();
+        alert(boardId);
+    });
+
 });
 
 function search(){
@@ -235,14 +241,22 @@ function openDtlShare(tr) {
         contentType: false,
         success: function (data) {
 
-            if(data.status === 'success') {
-                $("#board-asset-asset-id").val(data.boardAssetAssetId);
-                $("#board-id").val(data.boardId);
-                $("#board-asset-name").val(data.boardAssetName);
-                $("#board-teacher-teacher-name").val(data.boardTeacherName);
-                $("#board-carry-in-name").val(data.boardCarryInName);
-                $("#board-share-count").val(data.boardShareCount);
+            $("#board-asset-asset-id").val(data.boardAssetAssetId);
+            $("#board-id").val(data.boardId);
+            $("#board-asset-name").val(data.boardAsset.assetName);
+            $("#board-teacher-teacher-name").val(data.boardTeacher.teacherName);
+            $("#board-carry-in-name").val(data.boardCarryInName);
+            $("#board-share-count").val(data.boardShareCount);
+            console.log(data.boardAssetReturnYn);
+            if(data.boardAssetReturnYn === 'N') {
+                $("#pop-edit-content").append($("<button>", {class:'btn', id: 'return-btn', text:'반납'}));
             }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            console.log("Request Failed");
+            console.log('jqXHR : ', jqXHR);
+            console.log('textStatus : ', textStatus);
+            console.log('errorThrown : ', errorThrown);
         }
     })
     layerPopOpen('shareEditForm');

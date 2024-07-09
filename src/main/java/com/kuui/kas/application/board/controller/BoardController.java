@@ -32,23 +32,14 @@ public class BoardController {
 
     @GetMapping(value = "/{boardId}/show")
     @ResponseBody
-    public HashMap<String, String> findById(@PathVariable Long boardId) {
-        HashMap<String, String> hMap = new HashMap<>();
+    public Board findById(@PathVariable Long boardId) {
         Board board = boardService.findById(boardId);
 
         if(board == null ){
-            hMap.put("status", "fail");
-        }else {
-            hMap.put("status", "success");
-            hMap.put("boardId", board.getBoardId().toString());
-            hMap.put("boardAssetAssetId", board.getBoardAsset().getAssetId());
-            hMap.put("boardAssetName", board.getBoardAsset().getAssetName());
-            hMap.put("boardTeacherName", board.getBoardTeacher().getTeacherName());
-            hMap.put("boardCarryInName", board.getBoardCarryInName());
-            hMap.put("boardShareCount", board.getBoardShareCount().toString());
+            throw new NullPointerException("There are no entity by given id");
         }
 
-        return hMap;
+        return board;
     }
 
     /**
