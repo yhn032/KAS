@@ -51,5 +51,42 @@
         <th:block th:if="${assetList.size() > 0}" th:insert="~{asset/pagination}"></th:block>
     </div>
     <div th:replace="layout/footer :: footer"></div>
+
+    <div id="assetDtlForm" class="pop-asset-layer" style="display: none">
+        <div class="pop-dtl-container">
+            <h2>상세 정보</h2>
+            <div id="assetItem" class="asset-item-dtl">
+                <div style="display: none" id="assetId"></div>
+                <div class="asset-thumb_img" id="assetThumbImg">
+                    <span>
+                        <img src="">
+                    </span>
+                </div>
+            </div>
+            <div class="asset-item-sharing">
+                <div class="asset-category">
+                    <label for="assetCtg">자산 카테고리</label>
+                    🎀 <span id="assetCtg"></span>
+                </div>
+                <div class="asset-title" id="assetTitle">
+                    <label for="assetCtg">자산명</label>
+                    📑 <span></span>
+                </div>
+                <div class="asset-meta-datas">
+                    <label for="assetRemainCnt">자산명</label>
+                    🔗 <span id="assetRemainCnt"></span>개
+                    <label for="assetPos">자산위치</label>
+                    👉 <span id="assetPos"></span>
+                    <label for="regTeacherName">등록 선생님</label>
+                    🙌 <span id="regTeacherName"></span>
+                    <label for="assetUpdDate">최종 수정일자</label>
+                    📆 <span id="assetUpdDate"></span>
+                </div>
+                대여 내역
+                <span id="share-list-now"></span>
+            </div>
+        </div>
+        <button class="btn" type="button" onclick="layerPopHide(this)">닫기</button>
+    </div>
 </body>
 </html>

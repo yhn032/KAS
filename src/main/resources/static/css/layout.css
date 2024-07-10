@@ -235,16 +235,26 @@ nav ul li a {
 
 /** footer **/
 .content-footer{
-    width: 100vw;
     height: 10vh;
-    background-color: #aaa;
-    margin-left: 250px;
     transition: margin-left 0.3s ease;
+    position: relative;
+    border-top: 1px solid #ddd;
+    margin-top: 25px;
+}
+
+.content-footer .inner {
+    font-size: 15px;
+    letter-spacing: -0.2px;
+    text-align: center;
+    padding: 25px 0;
+    box-sizing: border-box;
+    margin-top: 20px;
 }
 
 /* sidebar start */
 .sidebar {
     position: fixed;
+    z-index: 10001;
     left: 0px; /* initially hide the sidebar */
     top: 0;
     bottom: 0;

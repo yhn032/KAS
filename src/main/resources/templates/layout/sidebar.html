@@ -18,36 +18,11 @@
   </div>
   <nav>
     <ul>
-      <li><a href="#">Menu Item 1</a></li>
-      <li><a href="#">Menu Item 2</a></li>
-      <li><a href="#">Menu Item 3</a></li>
-      <li><a href="#">Menu Item 4</a></li>
-      <li><a href="#">Menu Item 5</a></li>
-      <li><a href="#">Menu Item 6</a></li>
-      <li><a href="#">Menu Item 7</a></li>
-      <li><a href="#">Menu Item 8</a></li>
-      <li><a href="#">Menu Item 9</a></li>
-      <li><a href="#">Menu Item 10</a></li>
-      <li><a href="#">Menu Item 11</a></li>
-      <li><a href="#">Menu Item 12</a></li>
-      <li><a href="#">Menu Item 13</a></li>
-      <li><a href="#">Menu Item 14</a></li>
-      <li><a href="#">Menu Item 15</a></li>
-      <li><a href="#">Menu Item 16</a></li>
-      <li><a href="#">Menu Item 17</a></li>
-      <li><a href="#">Menu Item 18</a></li>
-      <li><a href="#">Menu Item 19</a></li>
-      <li><a href="#">Menu Item 20</a></li>
-      <li><a href="#">Menu Item 21</a></li>
-      <li><a href="#">Menu Item 22</a></li>
-      <li><a href="#">Menu Item 23</a></li>
-      <li><a href="#">Menu Item 24</a></li>
-      <li><a href="#">Menu Item 25</a></li>
-      <li><a href="#">Menu Item 26</a></li>
-      <li><a href="#">Menu Item 27</a></li>
-      <li><a href="#">Menu Item 28</a></li>
-      <li><a href="#">Menu Item 29</a></li>
-      <li><a href="#">Menu Item 30</a></li>
+      <li><a href="/common/dashboard">Home</a></li>
+      <li><a href="/asset/allList">재고 검색</a></li>
+      <li><a href="/asset/addList">재고 등록</a></li>
+      <li><a href="/board/shareList">반출 리스트</a></li>
+      <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
       <!-- Add more menu items here -->
     </ul>
   </nav>

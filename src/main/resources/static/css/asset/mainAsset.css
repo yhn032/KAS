@@ -103,7 +103,7 @@
 .asset-category {
     width: 100%;
     height: 40px;
-    margin-top: 5%;
+    margin-top: 3%;
     text-align: center;
 }
 
@@ -121,4 +121,17 @@
 .asset-thumb_img img {
     width: 250px;
     height: 250px;
+}
+
+#assetDtlForm {
+    z-index: 100001;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 840px;
+    height: 500px;
+    background-color: #fff;
+    border: 2px solid #44b3d1;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
 }

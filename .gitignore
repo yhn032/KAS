@@ -158,3 +158,4 @@ replay_pid*
 # End of https://www.toptal.com/developers/gitignore/api/intellij,java
 kasRunTime.log.2024-07-05.0.gz
 *.gz
+*.tmp

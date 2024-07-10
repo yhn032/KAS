@@ -193,6 +193,7 @@ function layerPopOpen(id) {
 function layerPopHide(e) {
     $(e).parents('.pop-layer').fadeOut(200);
     $(e).parents('.pop-edit-layer').fadeOut(200);
+    $(e).parents('.pop-asset-layer').fadeOut(200);
 }
 
 //레이어 바깥을 클릭한 경우 닫기
@@ -212,6 +213,13 @@ $(document).click(function (event) {
         if (!clickedElement.hasClass('pop-edit-layer') && !clickedElement.closest('.pop-edit-layer').length) {
             // 모든 레이어 숨김
             $('.pop-edit-layer').fadeOut(200);
+        }
+    }
+    if($("#assetDtlForm").is(":visible")){
+        // if (clickedElement.closest('.asset-container').length) return false;
+        if (!clickedElement.hasClass('pop-asset-layer') && !clickedElement.closest('.pop-asset-layer').length) {
+            // 모든 레이어 숨김
+            $('.pop-asset-layer').fadeOut(200);
         }
     }
 });
@@ -275,6 +283,19 @@ $(document).ready(function(){
             success: function (data) {
 
                 console.log(data);
+                $("#assetId").text(data.assetId);
+                $("#assetCtg").text(data.assetCtg);
+                $("#assetThumbImg img").attr("src", "/img/uploads/asset/"+data.assetImgs[0].saveName);
+                $("#assetTitle > span").text(data.assetName);
+                $("#assetRemainCnt").text(data.assetRemainCnt);
+                $("#assetPos").text(data.assetPos);
+                $("#regTeacherName").text(data.regTeacherName);
+                $("#assetUpdDate").text(data.assetUpdDate);
+
+                if(data.boards.length > 0) {
+                    $("#share-list-now").text(data.boards[0].boardAssetReturnYn + 'when ' + data.boards[0].boardCarryInName);
+                }
+                $("#assetDtlForm").fadeIn(200);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Request failed:');
