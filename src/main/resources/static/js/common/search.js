@@ -1,90 +1,3 @@
-$(document).ready(function(){
-   $("#searchTerm").keydown(function (event){
-       if (event.key === 'Enter') {
-           event.preventDefault();
-           search();
-       }
-   }) ;
-});
-
-function search(){
-
-    const formData = new FormData(document.getElementById("searchForm"));
-    location.href='/asset/allList?searchTerm=' + formData.get("searchTerm") + '&page=1&pageUnit=10';
-    // $.ajax({
-    //     type : 'GET',
-    //     url : '/asset/allList',
-    //     data : formData,
-    //     processData:false,
-    //     contentType:false,
-    //     success:function (data){
-    //         console.log(data);
-    //         console.log((data.status));
-    //         if(data.totalSize > 0) {
-    //             renderingSearchResult(data.resultArray);
-    //         }else {
-    //             $('.asset-container').empty();
-    //             const asseterror = $("<div>", {class:'asset-error', text:'검색결과가 없습니다.'});
-    //             $('.asset-container').append(asseterror);
-    //             console.log("검색 결과가 없습니다.");
-    //         }
-    //     }
-    // });
-}
-
-function renderingSearchResult(resultArray){
-    const assetContainer = $('.asset-container');
-    assetContainer.empty();
-    for(let i=0; i<resultArray.length; i++) {
-        const assetItem = $('<div>', {class:'asset-item'});
-        //ID태그 생성
-        const div = $('<div>', {style:'display:none', text:resultArray[i].assetResult.assetId});
-        assetItem.append(div);
-
-        //카테고리 태그 생성
-        const assetCtg = $('<div>', {class:'asset-category'});
-        const ctgData = $('<span>', {text : '🎀 ' + resultArray[i].assetResult.assetCtg});
-        assetCtg.append(ctgData);
-        assetItem.append(assetCtg);
-
-        //이미지 태그 생성
-        const assetThumbImg = $('<div>', {class : 'asset-thumb-img'});
-        //let imgSrc = resultArray[i].assetImgSrc;
-        // if (resultArray[0].asset)
-        const span = $('<span>')
-        let imgSrc = resultArray[i].assetImgSrc;
-        if(imgSrc != '') {
-            imgSrc = '/img/uploads/asset/' + resultArray[i].assetImgSrc;
-        }
-        const img = $('<img>', {src:imgSrc, width:'250px', height:'250px'});
-        span.append(img);
-        assetThumbImg.append(span);
-        assetItem.append(assetThumbImg);
-
-        //제목 태그 생성
-        const assetTitle = $('<div>', {class : 'asset-title'});
-        const span2 = $('<span>', {text:'📑 ' + resultArray[i].assetResult.assetName});
-        assetTitle.append(span2);
-        assetItem.append(assetTitle);
-
-        //메타 데이터 태그 생성
-        const assetMetaData = $('<div>', {class : 'asset-meta-data'});
-        const span3 = $('<span>', {text:'🔗 ' + resultArray[i].assetResult.assetRemainCnt});
-        const span4 = $('<span>', {text:'👉' + resultArray[i].assetResult.assetPos});
-        const span5 = $('<span>', {text:'🙌 ' + resultArray[i].assetResult.regTeacherName});
-        const span6 = $('<span>', {text:'📆 ' + resultArray[i].assetResult.assetUpdDate.substring(0, 10)});
-        const br = $('<br>');
-        assetMetaData.append(span3);
-        assetMetaData.append(span4);
-        assetMetaData.append(span5);
-        assetMetaData.append(br);
-        assetMetaData.append(span6);
-        assetItem.append(assetMetaData);
-
-        assetContainer.append(assetItem);
-    }
-};
-
 function loadAssetData(){
     $.ajax({
         type : 'GET',
@@ -274,6 +187,9 @@ $(document).ready(function(){
     $('.asset-container').on('click', '.asset-item', function() {
         // event.currentTarget을 통해 클릭된 .asset-item 요소를 참조
         let assetId = $(this).find('div').first().text();
+        $("#assetImg1").attr("src", "/img/uploads/profile/default.png")
+        $("#assetImg2").attr("src", "/img/uploads/profile/default.png")
+        $("#assetImg3").attr("src", "/img/uploads/profile/default.png")
 
         $.ajax({
             type : 'GET',
@@ -285,7 +201,9 @@ $(document).ready(function(){
                 console.log(data);
                 $("#assetId").text(data.assetId);
                 $("#assetCtg").text(data.assetCtg);
-                $("#assetThumbImg img").attr("src", "/img/uploads/asset/"+data.assetImgs[0].saveName);
+                for(let i = 1; i<=data.assetImgs.length; i++) {
+                    $("#assetImg" + i).attr("src", "/img/uploads/asset/"+data.assetImgs[i-1].saveName);
+                }
                 $("#assetTitle > span").text(data.assetName);
                 $("#assetRemainCnt").text(data.assetRemainCnt);
                 $("#assetPos").text(data.assetPos);
@@ -332,5 +250,34 @@ function returnBtn() {
         });
     }else {
         alert("반납이 취소되었습니다.");
+    }
+}
+
+function modifyAsset(){
+
+}
+
+function deleteAsset() {
+    if(confirm("자산이 삭제됩니다. 삭제 처리 하시겠습니까?")) {
+        // $.ajax({
+        //     type : 'GET',
+        //     url : '/board/'+boardId+'/return',
+        //     processData: false,
+        //     contentType: false,
+        //     success: function (data) {
+        //         if(data === 'success') {
+        //             //페이지 새로 고침
+        //             location.reload();
+        //         }
+        //     },
+        //     error:function (jqXHR, textStatus, errorThrown) {
+        //         console.log("Request Failed");
+        //         console.log('jqXHR : ', jqXHR);
+        //         console.log('textStatus : ', textStatus);
+        //         console.log('errorThrown : ', errorThrown);
+        //     }
+        // });
+    }else {
+        alert("삭제가 취소되었습니다.");
     }
 }

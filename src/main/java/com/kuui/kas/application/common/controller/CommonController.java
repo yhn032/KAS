@@ -9,6 +9,7 @@ import com.kuui.kas.application.teacher.domain.TeacherRole;
 import com.kuui.kas.application.teacher.dto.TeacherFormDto;
 import com.kuui.kas.application.teacher.service.TeacherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 
 @Controller
+@Slf4j
 @RequiredArgsConstructor
 public class CommonController {
     private final PasswordEncoder passwordEncoder;
@@ -46,7 +49,10 @@ public class CommonController {
     }
 
     @PostMapping("/common/signup")
-    public String createTeacher(Teacher teacher){
+    public String createTeacher(Teacher teacher) throws IOException {
+        log.info("=============================================");
+        log.info("회원가입 시도");
+        log.info("=============================================");
         //최초 회원가입 시 기본 이미지 가져와서 저장하기
         String imgPath = "D:\\KasImg\\profile";
         String fileName = "default-profile.jpg";
@@ -61,12 +67,10 @@ public class CommonController {
             SaveFile saveFile = SaveFile.builder()
                     .orgFileName(fileName)
                     .saveName(fileName)
-//                    .asset(null)
                     .filePath(imgPath)
                     .fileType(FileUtil.getExtension(fileName))
                     .uploadUser("SUPER")
                     .fileSize(file.length())
-//                .teacher(savedTeacher)
                     .build();
 
             FileDto fileDto = fileService.saveFile(FileDto.from(saveFile));
@@ -91,7 +95,7 @@ public class CommonController {
                 .build();
 
         Teacher buildTeacher = Teacher.createTeacher(teacherFormDto, passwordEncoder);
-        Teacher savedTeacher = teacherService.saveTeacher(buildTeacher);
+        teacherService.saveTeacher(buildTeacher);
 
         return "redirect:/login";
     }

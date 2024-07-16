@@ -8,6 +8,10 @@ import com.kuui.kas.application.file.dto.FileDto;
 import com.kuui.kas.application.file.service.FileService;
 import com.kuui.kas.application.file.util.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileExistsException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +29,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AssetService {
-
     private final AssetRepository assetRepository;
     private final FileService fileService;
 
@@ -55,28 +58,38 @@ public class AssetService {
 
     @Transactional(rollbackFor = Exception.class)   //언제든 익셉션이 터지면 롤백
     //재고 및 이미지 추가하기
-    public void addAssetWithImage(Asset asset, MultipartFile multipartFile, Principal principal) throws IOException, DuplicateNameAddException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
-        String fileExt = FileUtil.getExtension(originalFilename);
-        String uploadPath = "D:\\KasImg\\asset";
-
+    public void addAssetWithImage(Asset asset, MultipartFile[] multipartFiles, Principal principal) throws IOException, DuplicateNameAddException {
         //0. 파일 정보 DB에 저장
-        SaveFile saveFile = SaveFile.builder()
-                .orgFileName(originalFilename)
-                .saveName(saveName)
-//            .asset(saveAsset)
-                .filePath(uploadPath)
-                .fileType(fileExt)
-                .uploadUser(principal.getName())
-                .fileSize(multipartFile.getSize())
-//            .teacher(null)
-                .build();
+        List<SaveFile> imageList= new ArrayList<>();
+        String uploadPath = "D:\\KAS\\images";
+        for(MultipartFile imgFile : multipartFiles) {
 
-        //이미지 파일 영속성 컨텍스트에 저장
-        FileDto fileDto = fileService.saveFile(FileDto.from(saveFile));
-        List<SaveFile> assetImgs = new ArrayList<>();
-        assetImgs.add(fileService.findById(fileDto.getId()));
+            if(imgFile.isEmpty()) {
+                throw new FileExistsException("Please select a file to upload");
+            }
+
+            String originalFilename = imgFile.getOriginalFilename();
+            String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
+            String fileExt = FileUtil.getExtension(originalFilename);
+
+            SaveFile saveFile = SaveFile.builder()
+                    .orgFileName(originalFilename)
+                    .saveName(saveName)
+                    .filePath(uploadPath)
+                    .fileType(fileExt)
+                    .uploadUser(principal.getName())
+                    .fileSize(imgFile.getSize())
+                    .build();
+
+            imageList.add(saveFile);
+        }
+
+        try{
+            fileService.saveImgFile(imageList, multipartFiles);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error uploading images");
+        }
 
         //1. 재고를 등록하기 전에 동일한 이름이 존재한다면 수량을 수정하도록 예외 호출
         duplicateAssetName(asset.getAssetName());
@@ -85,39 +98,13 @@ public class AssetService {
         //2. 마지막으로 저장된 재고 번호 조회하기
         String lastAssetNo = LastAssetNo();
         int num = Integer.parseInt(lastAssetNo.substring(lastAssetNo.indexOf("-") + 1, lastAssetNo.length()));
-        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName(), assetImgs);
+        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName(), imageList);
 
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);
-
-        multipartFile.transferTo(new File(uploadPath, saveName));   //업로드한 파일을 지정된 경로에 저장
     }
 
 
-//    public HashMap<String, Object> searchAsset(String searchTerm, int page, int pageUnit) {
-//        HashMap<String, Object> resultMap = new HashMap<>();
-//        List<Asset> result;
-//        if(searchTerm.equals("") || searchTerm == null) {
-//            result = assetRepository.findAll(1, 10);
-//        }else {
-//            result = assetRepository.searchAsset(searchTerm, page, pageUnit);
-//        }
-//
-//        List<Map<String,Object>> resultArray = new ArrayList<>();
-//        for(Asset a : result) {
-//            Map<String, Object> tempMap = new HashMap<>();
-//            tempMap.put("assetResult", a);
-//            if(a.getAssetImgs().isEmpty()) {
-//                tempMap.put("assetImgSrc", "");
-//            }else {
-//                tempMap.put("assetImgSrc", a.getAssetImgs().get(0).getSaveName());
-//            }
-//            resultArray.add(tempMap);
-//        }
-//        resultMap.put("resultArray", resultArray);
-//        resultMap.put("totalSize", resultArray.size());
-//        return resultMap;
-//    }
     public List<Asset> searchAsset(String searchTerm, int page, int pageUnit) {
 
         return assetRepository.searchAsset(searchTerm, page, pageUnit);

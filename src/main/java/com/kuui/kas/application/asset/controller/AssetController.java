@@ -29,11 +29,14 @@ public class AssetController {
     private final AssetService assetService;
     private final TeacherService teacherService;
 
-    @GetMapping("/mainAsset")
-    public String mainAsset(Principal principal, Model model){
-        model.addAttribute("username", principal.getName());
-        return "/asset/mainAsset";
-    }
+//    @GetMapping("/mainAsset")
+//    public String mainAsset(Principal principal, Model model){
+//        log.info("=============================================");
+//        log.info("전체 자산 조회 ");
+//        log.info("=============================================");
+//        model.addAttribute("username", principal.getName());
+//        return "/asset/mainAsset";
+//    }
 
     @GetMapping("/allList")
     public String allList(@RequestParam Map<String, Object> paramMap, Principal principal, Model model){
@@ -66,6 +69,9 @@ public class AssetController {
 
     @GetMapping("/addList")
     public String addAsset(Model model, Principal principal){
+        log.info("=============================================");
+        log.info("자산 등록 폼 호출 ");
+        log.info("=============================================");
         //등록자 기록을 위해 모든 교사 정보 조회
         List<Teacher> teachers = teacherService.findAllTeachers();
         List<String> names = teachers.stream().map(teacher -> teacher.getTeacherName()).collect(Collectors.toList());
@@ -76,35 +82,19 @@ public class AssetController {
 
     @PostMapping(value = "/addList", produces = "application/json")
     public ResponseEntity<?> handleFormUpload (
-            @RequestPart(value = "assetImgFile", required = false)MultipartFile multipartFile, @RequestPart("assetDto") Asset asset, Principal principal) throws IOException, DuplicateNameAddException {
-
-        System.out.println("multipartFile.getOriginalFilename() = " + multipartFile.getOriginalFilename());
-        System.out.println("asset = " + asset.getAssetName());
-        System.out.println("asset.getRegTeacherName() = " + asset.getRegTeacherName());
+            @RequestPart(value = "assetImgFile", required = false)MultipartFile[] multipartFiles, @RequestPart("assetDto") Asset asset, Principal principal) throws IOException, DuplicateNameAddException {
+        log.info("AssetController.handleFormUpload");
+        log.info("=============================================");
+        log.info("자산 이미지 들어옴");
+        log.info("=============================================");
+        if (multipartFiles.length > 3 ) {
+            return new ResponseEntity<>("You can upload up to 3 images only", HttpStatus.BAD_REQUEST);
+        }
         //자산 저장하기
-        assetService.addAssetWithImage(asset, multipartFile, principal);
+        assetService.addAssetWithImage(asset, multipartFiles, principal);
 
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @PostMapping(value = "/searchAsset")
-//    @ResponseBody
-//    public HashMap<String,Object> handleSearchResult(@RequestParam(value = "searchTerm")String searchTerm, @RequestParam Map<String, Object> paramMap, Principal principal, Model model) {
-//        log.info("=============================================");
-//        log.info("자산 검색 ");
-//        log.info("=============================================");
-//        int page = paramMap.get("page") == null ? 1 : Integer.parseInt(paramMap.get("page").toString());
-//        int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
-//
-//        HashMap<String,Object> resultMap = assetService.searchAsset(searchTerm, page, pageUnit);
-//        int totalSize = (int) resultMap.get("totalSize");
-//        if(totalSize > 0) {
-//            resultMap.put("status", "success");
-//        }else {
-//            resultMap.put("status", "fail");
-//        }
-//        return resultMap;
-//    }
 
     /**
      * 반출대장 입력시 자산 카테고리 찾기
@@ -113,6 +103,9 @@ public class AssetController {
     @GetMapping("/findCtg")
     @ResponseBody
     public List<String> findAssetCtg() {
+        log.info("=============================================");
+        log.info("자산 카테고리 조회 ");
+        log.info("=============================================");
         return assetService.findAllCtg();
     }
 
@@ -124,6 +117,9 @@ public class AssetController {
     @GetMapping("/dtlData")
     @ResponseBody
     public List<Asset> findDataByCtg(@RequestParam String ctg) {
+        log.info("=============================================");
+        log.info("자산 카테고리에 해당하는 자산 조회 ");
+        log.info("=============================================");
         return assetService.findDataByCtg(ctg);
     }
 
@@ -131,6 +127,9 @@ public class AssetController {
     @GetMapping("/{assetId}/show")
     @ResponseBody
     public Asset findById(@PathVariable String assetId) {
+        log.info("=============================================");
+        log.info("자산 상세보기용 자산 데이터 호출 ");
+        log.info("=============================================");
         Asset asset = assetService.findById(assetId);
 
         if(asset == null) {

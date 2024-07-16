@@ -9,8 +9,9 @@
   <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
     <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-    <form id="assetForm" enctype="multipart/form-data" style="margin-top: 50px; display: flex; flex-direction: row; width: 100vw; justify-content: center">
-        <div class="form-left" style="width: 30%; margin-left: 20%;">
+    <form id="assetForm" enctype="multipart/form-data" style="margin-top: 50px; display: flex; flex-direction: column; width: 100vw; justify-content: center">
+        <div class="form-up" style="width: 80%;  margin-left: 10%;">
+            <h2>자산 등록</h2>
             <label for="assetName">물품명</label><br>
             <input id="assetName" type="text" name="assetName" value=""><br>
             <label for="assetCtg">물품 카테고리</label><br>
@@ -24,10 +25,15 @@
                 <option th:each="name : ${teacherNames}" th:value="${name}" th:text="${name}"></option>
             </select><br>
         </div>
-        <div class="form-right" style="width: 50%;">
-            <label for="assetImgFile">자산 사진</label><br>
-            <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control"><br>
-            <img id="assetImg" width="300px" height="300px" src="/img/uploads/profile/default.png">
+        <div class="form-down" style="width: 60%; margin-left: 10%; margin-top: 5%">
+            <label for="assetImgFile"><h2>자산 사진</h2></label><br>
+            <h6>jpg/png 확장자로 최대 3장만 등록 가능</h6>
+            <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control" multiple><br>
+            <div class="image-list" style="display: flex; flex-direction: row; justify-content: space-around">
+                <img id="assetImg1" width="300px" height="300px" src="/img/uploads/profile/default.png">
+                <img id="assetImg2" width="300px" height="300px" src="/img/uploads/profile/default.png">
+                <img id="assetImg3" width="300px" height="300px" src="/img/uploads/profile/default.png"><br>
+            </div>
             <button type="button" onclick="addAsset()">등록</button>
         </div>
     </form>
@@ -35,14 +41,23 @@
   <script>
       const fileInput = document.getElementById("assetImgFile");
       $('#assetImgFile').change(function(){
-        let upload_photo = this.files[0];
+          let files = $(this)[0].files;
+          if( files.length > 3) {
+              alert("You can upload up to 3 images only");
+              $(this).val('');
+              return;
+          }
 
-        let reader = new FileReader();
-        reader.readAsDataURL(upload_photo);
+          for(let i =0; i<files.length; i++) {
+              let upload_photo = this.files[i];
 
-        reader.onload = function(){
-            $("#assetImg").attr("src", reader.result);
-        };
+              let reader = new FileReader();
+              reader.readAsDataURL(upload_photo);
+
+              reader.onload = function(){
+                  $("#assetImg"+(i+1)).attr("src", reader.result);
+              };
+          }
 
       });
 
@@ -50,8 +65,15 @@
           //FormData 객체를 사용하여 form 데이터 수집
           const formData = new FormData(document.getElementById("assetForm"));
           const fileInput = document.getElementById("assetImgFile");
-          if(fileInput.files.length > 0) {
-              formData.append("assetImgFile", fileInput.files[0]);
+          let files = $("#assetImgFile")[0].files;
+          if( files.length > 3) {
+              alert("You can upload up to 3 images only");
+              $(this).val('');
+              return;
+          }
+
+          for(let i =0; i<files.length; i++) {
+              formData.append('assetImgFile' + (i+1), files[i]);
           }
 
           const data = {
@@ -74,10 +96,9 @@
               data : formData,
               processData: false,
               contentType: false,
-              success: function (data) {
+              success: function (response) {
 
                   console.log('파일 업로드 성공');
-                  console.log(data);
                   location.href = '/asset/allList';
               },
               error:function (jqXHR, textStatus, errorThrown) {

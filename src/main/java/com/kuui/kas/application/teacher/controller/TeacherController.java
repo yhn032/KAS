@@ -70,6 +70,9 @@ public class TeacherController {
             @RequestPart(value = "teacherProfileImg", required = false)MultipartFile multipartFile
             , Principal principal
             ) throws IOException {
+        log.info("=============================================");
+        log.info("교사 프로필 이미지 등록");
+        log.info("=============================================");
         HashMap<String, String> resultMap = new HashMap<>();
 
         SaveFile saveFile = teacherService.addProfileImgOnFileSystem(multipartFile, principal);
@@ -85,9 +88,11 @@ public class TeacherController {
 
     @GetMapping("/myPage")
     public String myPage(Principal principal, Model model){
+        log.info("=============================================");
         log.info("마이페이지 온 로딩");
-
         log.info("로그인한 사용자의 닉네임으로 teacher 가져오기");
+        log.info("=============================================");
+
         Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
 
         model.addAttribute("username", principal.getName());
@@ -98,7 +103,9 @@ public class TeacherController {
 
     @GetMapping("/modifyInfo")
     public String modifyInfo(Principal principal, Model model){
+        log.info("=============================================");
         log.info("수정 버튼 클릭. 수정폼 호출하기");
+        log.info("=============================================");
         Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
 
         model.addAttribute("username", principal.getName());
@@ -113,10 +120,12 @@ public class TeacherController {
             @RequestPart(value = "teacherDto")TeacherFormDto teacherFormDto,
             Model model
             ) throws IOException {
-        log.info("변경한 데이터 서버에서 수신 완료");
+        log.info("=============================================");
+        log.info("수정한 교사 정보 가져오기");
+        log.info("마이페이지로 리다이렉트");
+        log.info("=============================================");
         teacherService.modifyTeacherInfo(profileImg, teacherFormDto);
 
-        log.info("마이페이지로 리다이렉트");
         return "success";
     }
 }

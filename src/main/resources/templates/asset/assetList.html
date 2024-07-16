@@ -59,7 +59,13 @@
                 <div style="display: none" id="assetId"></div>
                 <div class="asset-thumb_img" id="assetThumbImg">
                     <span>
-                        <img src="">
+                        <img id="assetImg1" src="">
+                    </span>
+                    <span>
+                        <img id="assetImg2" src="">
+                    </span>
+                    <span>
+                        <img id="assetImg3" src="">
                     </span>
                 </div>
             </div>
@@ -87,6 +93,8 @@
             </div>
         </div>
         <button class="btn" type="button" onclick="layerPopHide(this)">닫기</button>
+        <button class="btn" type="button" onclick="modifyAsset()">수정</button>
+        <button th:if="${#authorization.expression('hasRole(''SUPER'')')}" onclick="deleteAsset()" class="btn" type="button">삭제</button>
     </div>
 </body>
 </html>
