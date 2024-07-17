@@ -1,137 +1,26 @@
-.search-form {
-    width: 60vw;
-    height: 20vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+.form-div {position: relative;box-sizing: border-box;width: 70%;margin-left: 30%;}
 
-.form-div {
-    position: relative;
-    box-sizing: border-box;
-    width: 70%;
-    margin-left: 30%;
-}
-
-.search-form span{
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0%;
-    background-color: #666;
-    width: 0;
-    height: 2px;
-    border-radius: 2px;
-    transition: 0.5s;
-}
-
-.search-form label {
-    position: absolute;
-    color: #aaa;
-    left: 10px;
-    font-size: 20px;
-    bottom: 8px;
-    transition: all .2s;
-}
-
-.search-form input {
-    font-size: 15px;
-    color: #222222;
-    width: 300px;
-    border: none;
-    border-bottom: solid #aaaaaa 1px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    position: relative;
-    background: none;
-    z-index: 5;
-}
-
+.search-form {width: 60vw;height: 20vh;display: flex;justify-content: center;align-items: center;}
+.search-form span{display: block;position: absolute;bottom: 0;left: 0%;background-color: #666;width: 0;height: 2px;border-radius: 2px;transition: 0.5s;}
+.search-form label {position: absolute;color: #aaa;left: 10px;font-size: 20px;bottom: 8px;transition: all .2s;}
+.search-form input {font-size: 15px;color: #222222;width: 300px;border: none;border-bottom: solid #aaaaaa 1px;padding-bottom: 10px;padding-left: 10px;position: relative;background: none;z-index: 5;}
 .search-form input::placeholder { color: #aaaaaa; }
 .search-form input:focus { outline: none; }
+.search-form input:focus ~ label, .search-form input:valid ~ label {font-size: 16px;bottom: 40px;color: #666;font-weight: bold;}
+.search-form input:focus ~ span, .search-form input:valid ~ span {width: 312px;}
 
-.search-form input:focus ~ label, .search-form input:valid ~ label {
-    font-size: 16px;
-    bottom: 40px;
-    color: #666;
-    font-weight: bold;
-}
+.asset-container{width: 80vw;height: auto;display: flex;justify-content: center;align-items: center;flex-flow: row wrap;gap: 75px;justify-content: flex-start;margin-bottom: 50px;}
+.asset-item {width: 250px;height: 400px;box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);border-top-left-radius: 15%;border-top-right-radius: 15%;}
+.asset-item:hover {cursor: pointer;}
+.asset-main {width: auto;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: column;margin-left: 250px;transition: margin-left 0.3s ease;}
+.asset-category {width: 100%;height: 40px;margin-top: 3px;text-align: center;}
+.asset-title {margin-top: 5px;margin-left: 10px;height: 40px;}
+.asset-meta-data {margin-left: 10px;height: 80px;}
+.asset-thumb_img {display: flex;justify-content: space-around;flex-direction: row;}
+.asset-thumb_img img {width: 250px;height: 250px;}
 
-.search-form input:focus ~ span, .search-form input:valid ~ span {
-    width: 312px;
-}
-
-.search-form button {
-
-}
-
-.asset-container{
-    width: 80vw;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: row wrap;
-    gap: 75px;
-    justify-content: flex-start;
-    margin-bottom: 50px;
-}
-
-.asset-item {
-    width: 250px;
-    height: 400px;
-    box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);
-    border-top-left-radius: 15%;
-    border-top-right-radius: 15%;
-}
-
-.asset-item:hover {
-    cursor: pointer;
-}
-
-.asset-main {
-    width: auto;
-    padding-bottom: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
-
-.asset-category {
-    width: 100%;
-    height: 40px;
-    margin-top: 3;
-    text-align: center;
-}
-
-.asset-title {
-    margin-top: 5px;
-    margin-left: 10px;
-    height: 40px;
-}
-
-.asset-meta-data {
-    margin-left: 10px;
-    height: 80px;
-}
-
-.asset-thumb_img img {
-    width: 250px;
-    height: 250px;
-}
-
-#assetDtlForm {
-    z-index: 100001;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 840px;
-    height: 500px;
-    background-color: #fff;
-    border: 2px solid #44b3d1;
-    border-radius: 8px;
-    transform: translate(-50%, -50%);
-}
+#assetForm {margin-top: 50px; display: flex; flex-direction: column; width: 100vw; justify-content: center;}
+#assetForm .form-up {width: 80%;  margin-left: 10%;}
+#assetForm .form-down {width: 60%; margin-left: 10%; margin-top: 5%;}
+#assetForm .form-down .image-list {display: flex; flex-direction: row; justify-content: space-around;}
+#assetDtlForm {z-index: 100001;position: absolute;left: 50%;top: 50%;width: 840px;height: 500px;background-color: #fff;border: 2px solid #44b3d1;border-radius: 8px;transform: translate(-50%, -50%);}

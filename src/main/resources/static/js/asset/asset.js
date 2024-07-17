@@ -1,14 +1,89 @@
-/**
- * 자산 검색
- */
 $(document).ready(function(){
+    /**
+     * 자산 검색 키보드 이벤트
+     */
     $("#searchTerm").keydown(function (event){
         if (event.key === 'Enter') {
             event.preventDefault();
             search();
         }
     }) ;
+
+
+    /**
+     * 상품 상세보기 팝업
+     *
+     */
+    // .asset-container 요소에 클릭 이벤트 리스너 추가, 모든 .asset-item의 하위 요소로 이벤트 위임
+    $('.asset-container').on('click', '.asset-item', function() {
+        // event.currentTarget을 통해 클릭된 .asset-item 요소를 참조
+        let assetId = $(this).find('div').first().text();
+        $("#assetThumbImg").empty();
+
+        $.ajax({
+            type : 'GET',
+            url : '/asset/'+assetId+'/show',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+
+                console.log(data);
+                $("#assetId").text(data.assetId);
+                $("#assetCtg").text(data.assetCtg);
+                for(let i = 1; i<=data.assetImgs.length; i++) {
+                    let span = $("<span>");
+                    let img = $("<img>", {id:"assetImg"+i, src: "/img/uploads/asset/"+data.assetImgs[i-1].saveName});
+                    span.append(img);
+                    $("#assetThumbImg").append(span);
+                }
+                $("#assetTitle > span").text(data.assetName);
+                $("#assetRemainCnt").text(data.assetRemainCnt);
+                $("#assetPos").text(data.assetPos);
+                $("#regTeacherName").text(data.regTeacherName);
+                $("#assetUpdDate").text(data.assetUpdDate);
+
+                if(data.boards.length > 0) {
+                    $("#share-list-now").text(data.boards[0].boardAssetReturnYn + 'when ' + data.boards[0].boardCarryInName);
+                }
+                $("#assetDtlForm").fadeIn(200);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Request failed:');
+                console.log('jqXHR:', jqXHR);
+                console.log('textStatus:', textStatus);
+                console.log('errorThrown:', errorThrown);
+            }
+        })
+    });
+
+    /**
+     * 선택한 사진 미리보기
+     * @type {HTMLElement}
+     */
+    const fileInput = document.getElementById("assetImgFile");
+    $('#assetImgFile').change(function(){
+        let files = $(this)[0].files;
+        if( files.length > 3) {
+            alert("You can upload up to 3 images only");
+            $(this).val('');
+            return;
+        }
+
+        for(let i =0; i<files.length; i++) {
+            let upload_photo = this.files[i];
+
+            let reader = new FileReader();
+            reader.readAsDataURL(upload_photo);
+
+            reader.onload = function(){
+                $("#assetImg"+(i+1)).attr("src", reader.result);
+            };
+        }
+
+    });
 });
+
+
 
 function search(){
     const formData = new FormData(document.getElementById("searchForm"));
@@ -71,3 +146,91 @@ function renderingSearchResult(resultArray){
         assetContainer.append(assetItem);
     }
 };
+
+/**
+ * 자산 상세보기 수정
+ */
+function modifyAsset(){
+
+}
+
+/**
+ * 자산 상세보기 삭제
+ */
+function deleteAsset() {
+    if(confirm("자산이 삭제됩니다. 삭제 처리 하시겠습니까?")) {
+        let assetId = $("#assetId").text();
+        $.ajax({
+            type : 'GET',
+            url : '/asset/'+assetId+'/delete',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(response)
+                alert(response + "!! 자산이 삭제 되었습니다.");
+                location.reload();
+            },
+            error:function (jqXHR, textStatus, errorThrown) {
+                console.log("Request Failed");
+                console.log('jqXHR : ', jqXHR);
+                console.log('textStatus : ', textStatus);
+                console.log('errorThrown : ', errorThrown);
+                alert(jqXHR.responseJSON.status + " : " + jqXHR.responseJSON.error +"\n " +jqXHR.responseJSON.message);
+            }
+        });
+    }else {
+        alert("삭제가 취소되었습니다.");
+    }
+}
+
+/**
+ * 자산 등록 함수
+ */
+function addAsset(){
+    //FormData 객체를 사용하여 form 데이터 수집
+    const formData = new FormData(document.getElementById("assetForm"));
+    const fileInput = document.getElementById("assetImgFile");
+    let files = $("#assetImgFile")[0].files;
+    if( files.length > 3) {
+        alert("You can upload up to 3 images only");
+        $(this).val('');
+        return;
+    }
+
+    for(let i =0; i<files.length; i++) {
+        formData.append('assetImgFile' + (i+1), files[i]);
+    }
+
+    const data = {
+        info: {
+            assetName : $("#assetName").val(),
+            assetTotalCnt : $("#assetCnt").val(),
+            assetRemainCnt : $("#assetCnt").val(),
+            assetPos : $("#assetPos").val(),
+            assetCtg : $("#assetCtg").val(),
+            regTeacherName : $("#regTeacherName").val()
+        }
+    };
+
+    formData.append("assetDto", new Blob([JSON.stringify(data.info)], {type : "application/json"}));
+    console.log(formData);
+
+    $.ajax({
+        type : 'POST',
+        url : '/asset/addList',
+        data : formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+            alert("자산이 등록 되었습니다.");
+            location.href = '/asset/allList';
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            console.log("Request Failed");
+            console.log('jqXHR : ', jqXHR);
+            console.log('textStatus : ', textStatus);
+            console.log('errorThrown : ', errorThrown);
+        }
+    })
+}

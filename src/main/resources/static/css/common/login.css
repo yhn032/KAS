@@ -1,77 +1,10 @@
-body{
-    margin: 0;
-    padding: 0;
-    height:100vh;
-    overflow: hidden;
-}
-
-.login-container {
-    width: inherit;
-    height:100vh;
-    display: flex;
-    flex-direction: row;
-}
-
-.login-thumb {
-    width: 50%;
-    height:100vh;
-    background-image: url('../../img/KAS-dev.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.login-form {
-    width: 50%;
-    height:100vh;
-    background: black;
-    color: white;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.login-inner-form{
-    width: 500px;
-    height: 500px;
-    text-align: center;
-    border-radius: 20px;
-    box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;
-}
-
-.login-inner-form form {
-    padding: 10px 10px 10px 10px;
-}
-form input {
-    background: #000;
-    padding: 16px;
-    margin: 8px 0;
-    width: 65%;
-    border: 0;
-    outline: none;
-    border-radius: 20px;
-    box-shadow: inset 1px 1px 1px #babebc, inset -1px -1px 7px #fff;
-    color :white;
-}
-
-button {
-    width: 30%;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 10px 25px;
-    margin: 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform 80ms ease-in;
-}
-.form_btn {
-    box-shadow: -5px -2px 6px #fff, 5px 2px 6px #babebc;
-}
-.form_btn:active {
-    box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;
-}
+body{margin: 0;padding: 0;height:100vh;overflow: hidden;}
+.login-container {width: inherit;height:100vh;display: flex;flex-direction: row;}
+.login-thumb {width: 50%;height:100vh;background-image: url('../../img/KAS-dev.png');background-size: cover;background-repeat: no-repeat;background-position: center;}
+.login-form {width: 50%;height:100vh;background: black;color: white;font-weight: 700;display: flex;justify-content: center;align-items: center;}
+.login-inner-form{width: 500px;height: 500px;text-align: center;border-radius: 20px;box-shadow: -5px -5px 10px #fff, 5px 5px 10px #babebc;}
+.login-inner-form form {padding: 10px 10px 10px 10px;}
+form input {background: #000;padding: 16px;margin: 8px 0;width: 65%;border: 0;outline: none;border-radius: 20px;box-shadow: inset 1px 1px 1px #babebc, inset -1px -1px 7px #fff;color :white;}
+button {width: 30%;border-radius: 20px;border: none;outline: none;font-size: 12px;font-weight: bold;padding: 10px 25px;margin: 14px;letter-spacing: 1px;text-transform: uppercase;cursor: pointer;transition: transform 80ms ease-in;}
+.form_btn {box-shadow: -5px -2px 6px #fff, 5px 2px 6px #babebc;}
+.form_btn:active {box-shadow: inset 1px 1px 2px #babebc, inset -1px -1px 2px #fff;}

@@ -1,73 +1,15 @@
-.share-list {
-    width: auto;
-    padding-bottom: 100px;
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
-
-.border-bottom {
-    border-bottom: 1px solid #dee2e6;
-}
+.share-list {width: auto;padding-bottom: 100px;margin-left: 250px;transition: margin-left 0.3s ease;}
+.border-bottom {border-bottom: 1px solid #dee2e6;}
 /*
     rem -> root 요소<html>의 폰트 크기에 대한 배율 1rem = 1배
     !important 동일한 선택자에 대해 스타일 적용 우선 순위 지정
 */
-.pcy-4 {
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-}
-
-.pcx-3 {
-    padding-right: 2rem !important;
-    padding-left: 2rem !important;
-}
-.mb-3{
-    margin-bottom: 2rem !important;
-}
-.no-margin {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.form-control {
-    display: block;
-    width: 40%;
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    appearance: none;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-
-#share-board {
-    width: 100%;
-    display: table;
-    border-spacing: 5px;
-    border-width: 0;
-    border-collapse: separate;
-}
-
-#share-board td,
-#share-board th{
-    border-bottom-width: 0px !important;
-}
-#share-board thead {
-    text-align: left;
-}
-
-#share-board tbody tr {
-    cursor: pointer;
-}
-
-#share-board tbody tr:hover {
-    background-color: #dee2e6;
-}
+.form-control {display: block;width: 40%;padding: .375rem .75rem;font-size: 1rem;font-weight: 400;line-height: 1.5;color: #212529;background-color: #fff;background-clip: padding-box;border: 1px solid #ced4da;appearance: none;border-radius: .25rem;transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;}
+#share-board {width: 100%;display: table;border-spacing: 5px;border-width: 0;border-collapse: separate;}
+#share-board thead {text-align: left;}
+#share-board tbody tr {cursor: pointer;}
+#share-board tbody tr:hover {background-color: #dee2e6;}
+#share-board td, #share-board th{border-bottom-width: 0px !important;}
 /*
     table 기본 속성 border-collapse (셀 테두리 처리방식)에 따라서
     thead/tbody에 border 적용 되고 안 되고 하는데, 유독 collapse의 경우 안 된다.
@@ -76,84 +18,18 @@
     The display: table-row-group property prevents padding-top from having an effect.
     Try setting display to something other than table-row-group.
 */
-#share-board>:not(:first-child) {
-    position: relative;
-    padding-top: 2px;
-    border-style: solid;
-}
+#share-board>:not(:first-child) {position: relative;padding-top: 2px;border-style: solid;}
+#share-board>:not(:first-child)::before{border-top: 2px solid black !important;content: "";position: absolute;top: 0;left: 0;right: 0;}
 
-#share-board>:not(:first-child)::before{
-    border-top: 2px solid black !important;
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-}
+.text-end {text-align: right;}
+.board-search {display: flex;justify-content: space-between;}
+#shareForm, #shareEditForm {z-index: 100001;position: absolute;left: 50%;top: 50%;width: 840px;background-color: #fff;border: 2px solid #44b3d1;border-radius: 8px;transform: translate(-50%, -50%);}
+.share-asset-container {border: 2px solid black;width: 80%;height: 300px;width: 600px;margin: 20px auto;padding: 10px;}
+.share-asset-categories {display: flex;justify-content: space-between;border-bottom: 2px solid black;margin-bottom: 10px;width: 100%;height: 40px;}
+.share-asset-category {flex: 1;text-align: center;cursor: pointer;padding: 10px;border-right: 1px solid black;}
+.share-asset-category:last-child {border-right: none;}
+.share-asset-category:hover {background-color: #f0f0f0;}
 
-.text-end {
-    text-align: right;
-}
-
-.board-search {
-    display: flex;
-    justify-content: space-between;
-}
-
-#shareForm, #shareEditForm {
-    z-index: 100001;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 840px;
-    background-color: #fff;
-    border: 2px solid #44b3d1;
-    border-radius: 8px;
-    transform: translate(-50%, -50%);
-}
-
-.share-asset-container {
-    border: 2px solid black;
-    width: 80%;
-    height: 300px;
-    width: 600px;
-    margin: 20px auto;
-    padding: 10px;
-}
-
-.share-asset-categories {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid black;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 40px;
-}
-
-.share-asset-category {
-    flex: 1;
-    text-align: center;
-    cursor: pointer;
-    padding: 10px;
-    border-right: 1px solid black;
-}
-
-.share-asset-category:last-child {
-    border-right: none;
-}
-
-.share-asset-category:hover {
-    background-color: #f0f0f0;
-}
-
-.share-asset-contents {
-    padding: 10px;
-}
-
-.share-asset-content {
-    cursor: pointer;
-}
-
-.share-asset-content:hover {
-    background-color: #f0f0f0;
-}
+.share-asset-contents {padding: 10px;}
+.share-asset-content {cursor: pointer;}
+.share-asset-content:hover {background-color: #f0f0f0;}

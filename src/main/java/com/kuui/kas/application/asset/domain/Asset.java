@@ -102,4 +102,14 @@ public class Asset {
     public void setAssetImgFile(SaveFile saveFile) {
         this.assetImgs.add(saveFile);
     }
+
+    public boolean isDeletable() {
+        for(Board b : this.boards) {
+            if(b.getBoardAssetReturnYn().equalsIgnoreCase("N")) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

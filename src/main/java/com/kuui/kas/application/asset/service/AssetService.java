@@ -10,12 +10,14 @@ import com.kuui.kas.application.file.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileExistsException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -108,5 +110,33 @@ public class AssetService {
     public List<Asset> searchAsset(String searchTerm, int page, int pageUnit) {
 
         return assetRepository.searchAsset(searchTerm, page, pageUnit);
+    }
+
+    /**
+     * 자산 삭제
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Long deleteAsset(String assetId){
+
+        Asset asset = assetRepository.findById(assetId);
+        Long executeCnt = 0L;
+        if(asset == null) {
+            throw new EntityNotFoundException("Entity Not Found");
+        }
+
+        //삭제 가능 여부 파악하기 -> 게시판에 등록되어 있는 물건 삭제 불가.
+        if (!asset.isDeletable()) {
+            throw new DataIntegrityViolationException("Asset cannot be deleted in its current state as it is referenced by Board Entity");
+        }
+
+        try{
+            //실제 삭제
+            executeCnt = assetRepository.deleteAsset(assetId);
+        }catch(DataIntegrityViolationException e) {
+            //외래 키 제약 조건 위반 처리
+            throw new DataIntegrityViolationException("Cannot delete asset as it is referenced by other entities ");
+        }
+
+        return executeCnt;
     }
 }

@@ -124,6 +124,11 @@ public class AssetController {
     }
 
 
+    /**
+     * 자산 상세보기 호출
+     * @param assetId
+     * @return
+     */
     @GetMapping("/{assetId}/show")
     @ResponseBody
     public Asset findById(@PathVariable String assetId) {
@@ -137,5 +142,22 @@ public class AssetController {
         }
 
         return asset;
+    }
+
+    /**
+     * 자산 삭제 기능 비동기 호출
+     */
+    @GetMapping("/{assetId}/delete")
+    public ResponseEntity<?> deleteAsset(@PathVariable String assetId){
+        log.info("=============================================");
+        log.info("자산 삭제 로직 호출 ");
+        log.info("=============================================");
+        Long deleteAsset = assetService.deleteAsset(assetId);
+
+        if(deleteAsset == 0 ) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

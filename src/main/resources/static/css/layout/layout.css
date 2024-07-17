@@ -1,374 +1,86 @@
+@keyframes blink { 50% {opacity: 0;} }
+@keyframes typing { from {width: 0;} to {width: 100%;} }
+@media (min-width: 768px) {  .quote-separator:before {right: 54%;}  .quote-separator:after {left: 54%;}  }
+
 /** header navBar **/
-.content-navBar {
-    display: flex;
-    flex-direction: column;
-    background-color: #333;
-    opacity: 0.5;
-    height: 100vh;
-    background-image: url("../../img/profile-bg.png");
-    background-position: center;
-    background-size: cover;
-}
+.content-navBar {display: flex;flex-direction: column;background-color: #333;opacity: 0.5;height: 100vh;background-image: url("../../img/profile-bg.png");background-position: center;background-size: cover;}
 
 /* 서브 메뉴가 부모 바로 아래에 위치하도록 설정*/
-.has-asset-sub-menu {
-    position: relative;
-}
+.has-asset-sub-menu {position: relative;}
 
-.asset-sub-menu {
-    display: none;
-    position: absolute;
-    top: 100%; /* 부모 요소 아래에 표시 */
-    left: 0;
-    width: 150px;
-    height: auto;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: left;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 20%;
-}
-
-.asset-sub-menu li a {
-    color: #555555;
-}
+.asset-sub-menu {display: none;position: absolute;top: 100%; /* 부모 요소 아래에 표시 */left: 0;width: 150px;height: auto;background: white;border: 1px solid #ddd;padding: 10px;text-align: left;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);border-radius: 20%;}
+.asset-sub-menu li a {color: #555555;}
 
 /* 화살표 스타일 추가 */
-.arrow-up {
-    display: none;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid #f9f9f9;
-    position: absolute;
-    top: 90%;
-    left: 50%;
-    margin-left: -8px; /* 화살표를 가운데 정렬하기 위한 마진 조정 */
-}
-
+.arrow-up {display: none;width: 0;height: 0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-bottom: 8px solid #f9f9f9;position: absolute;top: 90%;left: 50%;margin-left: -8px; /* 화살표를 가운데 정렬하기 위한 마진 조정 */}
 /* nav에 hover 시 서브메뉴 표시 */
-.content-navBar li:hover .asset-sub-menu,
-.content-navBar li:hover .arrow-up{
-    display: block;
-}
-
-.content-nav{
-    /*position: absolute;
-    right: 0;
-    width: 80vw;
-    height: 10vh;
-    background-color: #333;
-    opacity: 0.2;
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 1;*/
-    width: 100%;
-    height: 10vh;
-    /*background-color: #333;*/
-    color: #fff;
-    text-align: center;
-    transition: background-color 0.5s ease;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
+.content-navBar li:hover .asset-sub-menu, .content-navBar li:hover .arrow-up{display: block;}
+.content-nav{width: 100%;height: 10vh;color: #fff;text-align: center;transition: background-color 0.5s ease;display: flex;justify-content: space-around;align-items: center;}
 
 /* navBar-img start*/
-.navBar-img {
-    width: 100%;
-    height: 500px;
-}
+.navBar-img {width: 100%;height: 500px;}
 /* navBar-img end*/
 
 /*수직 중앙 정렬*/
-nav {
-    height: 100%;
-}
-nav li {
-    display: flex; /* 수직 중앙 정렬을 위해 flex 사용 */
-    align-items: center; /* 수직 중앙 정렬 */
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    height: 100%;
-}
-
-nav ul li {
-    margin-right: 20px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-}
+nav {height: 100%;}
+nav li {display: flex; /* 수직 중앙 정렬을 위해 flex 사용 */align-items: center; /* 수직 중앙 정렬 */}
+nav ul {list-style: none;padding: 0;margin: 0;display: flex;height: 100%;}
+nav ul li {margin-right: 20px;}
+nav ul li a {text-decoration: none;color: white;}
 
 /*navBar text animation*/
-.text-container1 {
-    position: relative;
-    overflow: hidden;
-}
-
-.rotating-text {
-    font-size: 70px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    color: rgb(248, 184, 44);
-}
-
-.typing-animation {
-    animation: typing 1s steps(20) infinite;
-}
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-#cursor {
-    display: inline-block;
-    width: 2px;
-    height: 40px; /* 텍스트 크기에 맞게 조절 */
-    background-color: rgb(248, 184, 44);
-    animation: blink 0.7s infinite;
-}
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
-}
+.text-container1 {position: relative;overflow: hidden;}
+.rotating-text {font-size: 70px;font-weight: bold;white-space: nowrap;overflow: hidden;color: rgb(248, 184, 44);}
+.typing-animation {animation: typing 1s steps(20) infinite;}
+#cursor {display: inline-block;width: 2px;height: 40px; /* 텍스트 크기에 맞게 조절 */background-color: rgb(248, 184, 44);animation: blink 0.7s infinite;}
 /*navBar text animation*/
 
 /* dashboard main-text*/
-.bubble-heading {
-    margin-top: 100px;
-    border: 3px solid rgb(248, 184, 44);
-    border-radius: 20px;
-    color: rgb(248, 184, 44);
-    width: 200px;
-    font-size: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-}
+.bubble-heading {margin-top: 100px;border: 3px solid rgb(248, 184, 44);border-radius: 20px;color: rgb(248, 184, 44);width: 200px;font-size: 20px;text-align: center;margin-bottom: 20px;}
+.special-heading {color: white;font-size: 60px;}
+.col{display: flex;flex-direction: column;align-items: center;}
+.quote-separator {width: 100%;height: 34px;background: transparent url('../../img/quotation.jpg') no-repeat center center;position: relative;display: block;margin-bottom: 20px;background-size: 38px !important;}
+.quote-separator:before , .quote-separator:after{content: '';height: 1px;width: 20%;background: rgba(255, 255, 255, 0.7);position: absolute;top: 16px;box-sizing: border-box;}
+.sub-text {color: white;font-size: 20px;font-weight: bold;}
 
-.special-heading {
-    color: white;
-    font-size: 60px;
-}
-
-.col{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.quote-separator {
-    width: 100%;
-    height: 34px;
-    background: transparent url('../../img/quotation.jpg') no-repeat center center;
-    position: relative;
-    display: block;
-    margin-bottom: 20px;
-    background-size: 38px !important;
-}
-
-.quote-separator:before , .quote-separator:after{
-    content: '';
-    height: 1px;
-    width: 20%;
-    background: rgba(255, 255, 255, 0.7);
-    position: absolute;
-    top: 16px;
-    box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-    .quote-separator:before {
-        right: 54%;
-    }
-    .quote-separator:after {
-        left: 54%;
-    }
-}
-
-.sub-text {
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-}
 /* dashboard main-text*/
-.controller {
-    display: flex;
-}
-
-.controller button {
-    margin-right: 20px;
-    background-color: #4CAF50; /* 버튼 배경색 설정 */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
- }
+.controller {display: flex;}
+.controller button {margin-right: 20px;background-color: #4CAF50; /* 버튼 배경색 설정 */color: white;border: none;padding: 10px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;}
 
 /** main container **/
-.content-main{
-    width: 100vw;
-    padding-bottom: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-}
+.content-main{width: 100vw;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: row;}
 
 /** footer **/
-.content-footer{
-    height: 10vh;
-    transition: margin-left 0.3s ease;
-    position: relative;
-    border-top: 1px solid #ddd;
-    margin-top: 25px;
-}
-
-.content-footer .inner {
-    font-size: 15px;
-    letter-spacing: -0.2px;
-    text-align: center;
-    padding: 25px 0;
-    box-sizing: border-box;
-    margin-top: 20px;
-}
+.content-footer{height: 10vh;transition: margin-left 0.3s ease;position: relative;border-top: 1px solid #ddd;margin-top: 25px;}
+.content-footer .inner {font-size: 15px;letter-spacing: -0.2px;text-align: center;padding: 25px 0;box-sizing: border-box;margin-top: 20px;}
 
 /* sidebar start */
-.sidebar {
-    position: fixed;
-    z-index: 10001;
-    left: 0px; /* initially hide the sidebar */
-    top: 0;
-    bottom: 0;
-    width: 250px;
-    background-color: #fff;
-    transition: left 0.3s ease;
-    overflow-y: scroll;
-    -ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */
-    scrollbar-width: none; /* Firefox에 스크롤바 숨기기 */
-    box-shadow: 2px 0px 10px rgba(147 141 201 / 71%);
-}
+.sidebar {position: fixed;z-index: 10001;left: 0px; /* initially hide the sidebar */top: 0;bottom: 0;width: 250px;background-color: #fff;transition: left 0.3s ease;overflow-y: scroll;-ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */scrollbar-width: none; /* Firefox에 스크롤바 숨기기 */box-shadow: 2px 0px 10px rgba(147 141 201 / 71%);}
 
 /* WebKit 브라우저에만 적용되는 스타일 */
-.sidebar::-webkit-scrollbar {
-    display: none; /* WebKit 브라우저에서 스크롤바 숨기기 */
-}
-
-.sidebar nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar nav ul li {
-    padding: 10px;
-}
-
-.sidebar nav ul li a {
-    color: #000000;
-    text-decoration: none;
-}
-.sidebar .profile {
-    width: 100%;
-    height: 250px;
-    background-image: url('../../img/profile-bg.png');
-    background-size: cover;
-    border-bottom: 1px solid rgb(184, 184, 184);
-    text-align: center;
-    display: flex;
-    flex-direction: column-reverse;
-}
-.sidebar .profile .profile-wrapper{
-    background-color: white;
-    z-index: 10;
-    height: 150px;
-}
-
-.sidebar .profile .profile-wrapper .overlay-image {
-    position: absolute;
-    top: 25px;
-    left: 50px;
-    background-image: url('../../img/circleimg.png');
-    background-size: cover;
-    width: 150px;
-    height: 150px;
-    z-index: 20;
-    border-radius: 50%;
-}
-
-.sidebar .profile .profile-wrapper .profile-name {
-    margin-top: 90px;
-}
-
+.sidebar::-webkit-scrollbar {display: none; /* WebKit 브라우저에서 스크롤바 숨기기 */}
+.sidebar nav ul {list-style: none;padding: 0;display: flex;flex-direction: column;}
+.sidebar nav ul li {padding: 10px;}
+.sidebar nav ul li a {color: #000000;text-decoration: none;}
+.sidebar .profile {width: 100%;height: 250px;background-image: url('../../img/profile-bg.png');background-size: cover;border-bottom: 1px solid rgb(184, 184, 184);text-align: center;display: flex;flex-direction: column-reverse;}
+.sidebar .profile .profile-wrapper{background-color: white;z-index: 10;height: 150px;}
+.sidebar .profile .profile-wrapper .overlay-image {position: absolute;top: 25px;left: 50px;background-image: url('../../img/circleimg.png');background-size: cover;width: 150px;height: 150px;z-index: 20;border-radius: 50%;}
+.sidebar .profile .profile-wrapper .profile-name {margin-top: 90px;}
 /* sidebar end */
 
 /* scrollBar end */
 /* 스크롤 바 디자인 */
-::-webkit-scrollbar {
-    width: 10px; /* 스크롤바 너비 */
-    height: 200px;
-}
-
+::-webkit-scrollbar {width: 10px; /* 스크롤바 너비 */height: 200px;}
 /* 스크롤 바 트랙 */
-::-webkit-scrollbar-track {
-    background: #f1f1f1; /* 스크롤바 트랙 배경색 */
-}
-
+::-webkit-scrollbar-track {background: #f1f1f1; /* 스크롤바 트랙 배경색 */}
 /* 스크롤 바 색상 */
-::-webkit-scrollbar-thumb {
-    background: #888; /* 스크롤바 색상 */
-    border-radius: 5px; /* 스크롤바 모서리 반지름 */
-}
-
+::-webkit-scrollbar-thumb {background: #888; /* 스크롤바 색상 */border-radius: 5px; /* 스크롤바 모서리 반지름 */}
 /* 영역에 마우스 호버시 스크롤 바 색상 변경 */
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* 호버시 스크롤바 색상 변경 */
-}
+::-webkit-scrollbar-thumb:hover {background: #555; /* 호버시 스크롤바 색상 변경 */}
 /* scrollBar end */
 
 /* content start */
-.content {
-    height: auto;
-}
-
-.content-toggle-btn {
-    position: absolute;
-    bottom: 50%; /* Adjust the button position as needed */
-    left: 261px;
-    transform: translateX(-50%);
-    background-color: #eeeeee;
-    color: #000;
-    border: none;
-    height: 40px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    cursor: pointer;
-    transition: left 0.3s ease;
-    /*transition: bottom 0.1s ease; !* 스크롤로 위아래 이동시 부드럽게 따라오게 하기 위함이다. 였었는데,,, 중복적용이 불가능함  *!*/
-    z-index: 2;
-}
-
-.content, .content-navBar, .content-main {
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
+.content {height: auto;}
+.content-toggle-btn {position: absolute;bottom: 50%; /* Adjust the button position as needed */left: 261px;transform: translateX(-50%);background-color: #eeeeee;color: #000;border: none;height: 40px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;cursor: pointer;transition: left 0.3s ease; /*transition: bottom 0.1s ease; !* 스크롤로 위아래 이동시 부드럽게 따라오게 하기 위함이다. 였었는데,,, 중복적용이 불가능함  *!*/z-index: 2;}
+.content, .content-navBar, .content-main {margin-left: 250px;transition: margin-left 0.3s ease;}
 /* content end */

@@ -116,4 +116,11 @@ public class AssetRepository{
                 .orderBy(asset.assetRegDate.desc())
                 .fetch();
     }
+
+    public Long deleteAsset(String assetId) {
+        return queryFactory
+                .delete(asset)
+                .where(asset.assetId.eq(assetId))
+                .execute();
+    }
 }
