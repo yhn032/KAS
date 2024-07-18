@@ -81,6 +81,19 @@ $(document).ready(function(){
         }
 
     });
+
+    /**
+     * 자산 수정시 등록된 이미지의 개수 파악하여 기본 이미지 세팅하기
+     */
+    let imgCnt = $(".image-list img").length;
+    const imageList = $(".image-list");
+    if(imgCnt < 3) {
+        for(let i=imgCnt+1; i<=3; i++) {
+            let img = $("<img>", {id: 'assetImg' + i,width: '300px', height: '300px', src:'/img/uploads/profile/default.png'});
+            imageList.append(img);
+        }
+    }
+
 });
 
 
@@ -150,8 +163,13 @@ function renderingSearchResult(resultArray){
 /**
  * 자산 상세보기 수정
  */
-function modifyAsset(){
-
+function modifyAssetForm(){
+    if(confirm("자산 수정 폼으로 가시겠습니까?")) {
+        let assetId = $("#assetId").text();
+        location.href ="/asset/"+assetId+"/modify";
+    }else {
+        return;
+    }
 }
 
 /**
@@ -189,7 +207,6 @@ function deleteAsset() {
 function addAsset(){
     //FormData 객체를 사용하여 form 데이터 수집
     const formData = new FormData(document.getElementById("assetForm"));
-    const fileInput = document.getElementById("assetImgFile");
     let files = $("#assetImgFile")[0].files;
     if( files.length > 3) {
         alert("You can upload up to 3 images only");
@@ -231,6 +248,62 @@ function addAsset(){
             console.log('jqXHR : ', jqXHR);
             console.log('textStatus : ', textStatus);
             console.log('errorThrown : ', errorThrown);
+        }
+    })
+}
+
+
+/**
+ * 자산 수정 함수
+ */
+function modifyAsset(){
+    let assetId = $("#assetId").text();
+    //FormData 객체를 사용하여 form 데이터 수집
+    const formData = new FormData(document.getElementById("modifyForm"));
+    let files = $("#assetImgFile")[0].files;
+    if( files.length > 3) {
+        alert("You can upload up to 3 images only");
+        $(this).val('');
+        return;
+    }
+
+    for(let i =0; i<files.length; i++) {
+        formData.append('assetImgFile' + (i+1), files[i]);
+    }
+
+    const data = {
+        info: {
+            assetId : $("#assetId").val(),
+            assetName : $("#assetName").val(),
+            assetTotalCnt : $("#assetCnt").val(),
+            assetRemainCnt : $("#assetCnt").val(),
+            assetPos : $("#assetPos").val(),
+            assetCtg : $("#assetCtg").val(),
+            regTeacherName : $("#regTeacherName").val(),
+            updTeacherName : $("#updTeacherName").val()
+        }
+    };
+
+    formData.append("assetDto", new Blob([JSON.stringify(data.info)], {type : "application/json"}));
+    console.log(formData);
+
+    $.ajax({
+        type : 'POST',
+        url : '/asset/modify',
+        data : formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+            alert("자산이 수정 되었습니다.");
+            location.href = '/asset/allList';
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            console.log("Request Failed");
+            console.log('jqXHR : ', jqXHR);
+            console.log('textStatus : ', textStatus);
+            console.log('errorThrown : ', errorThrown);
+            alert(jqXHR.responseJSON.status + " : " + jqXHR.responseJSON.error +"\n " +jqXHR.responseJSON.message);
         }
     })
 }

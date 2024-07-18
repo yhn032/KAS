@@ -2,6 +2,7 @@ package com.kuui.kas.application.asset.controller;
 
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.asset.service.AssetService;
+import com.kuui.kas.application.board.exception.NoRemainAssetException;
 import com.kuui.kas.application.common.exception.DuplicateNameAddException;
 import com.kuui.kas.application.teacher.domain.Teacher;
 import com.kuui.kas.application.teacher.service.TeacherService;
@@ -157,6 +158,47 @@ public class AssetController {
         if(deleteAsset == 0 ) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * 자산 수정 폼 호출
+     */
+    @GetMapping("/{assetId}/modify")
+    public String modifyAssetForm(@PathVariable String assetId, Model model, Principal principal) {
+        log.info("=============================================");
+        log.info("자산 수정 폼 호출 ");
+        log.info("=============================================");
+
+        Asset asset = assetService.findById(assetId);
+        List<Teacher> allTeachers = teacherService.findAllTeachers();
+        model.addAttribute("username", principal.getName());
+        model.addAttribute("asset", asset);
+        model.addAttribute("teachers", allTeachers);
+
+        return "/asset/modifyAssetForm";
+    }
+
+    @PostMapping(value = "/modify", produces = "application/json")
+    public ResponseEntity<?> handleFormModify (
+            @RequestPart(value = "assetImgFile", required = false)MultipartFile[] multipartFiles, @RequestPart("assetDto") Asset asset, Principal principal) throws IOException, DuplicateNameAddException, NoRemainAssetException {
+        log.info("AssetController.handleFormModify");
+        log.info("=============================================");
+        log.info("자산 수정");
+        log.info("=============================================");
+        if (multipartFiles.length > 3 ) {
+            return new ResponseEntity<>("You can upload up to 3 images only", HttpStatus.BAD_REQUEST);
+        }
+
+        System.out.println("asset.getAssetId() = " + asset.getAssetId());
+        System.out.println("asset.getAssetTotalCnt() = " + asset.getAssetTotalCnt());
+        System.out.println("asset.getAssetRemainCnt() = " + asset.getAssetRemainCnt());
+        System.out.println("multipartFiles = " + multipartFiles.length);
+        System.out.println("multipartFiles[0].getOriginalFilename() = " + multipartFiles[0].getOriginalFilename());
+        System.out.println("multipartFiles = " + multipartFiles[0].isEmpty());
+        //자산 저장하기
+        assetService.modifyAssetWithImage(asset, multipartFiles, principal);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

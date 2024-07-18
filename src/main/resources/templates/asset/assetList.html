@@ -85,7 +85,7 @@
             </div>
         </div>
         <button class="btn" type="button" onclick="layerPopHide(this)">닫기</button>
-        <button class="btn" type="button" onclick="modifyAsset()">수정</button>
+        <button class="btn" type="button" onclick="modifyAssetForm()">수정</button>
         <button th:if="${#authorization.expression('hasRole(''SUPER'')')}" onclick="deleteAsset()" class="btn" type="button">삭제</button>
     </div>
 </body>

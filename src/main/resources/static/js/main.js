@@ -63,7 +63,7 @@ $(document).ready(function (){
         processData: false,
         contentType: false,
         success: function (data) {
-            $('.overlay-image').css("backgroundImage", "url('" + '../img/uploads/profile/' + data + "')");
+            $('.overlay-image').css("backgroundImage", "url('" + '/img/uploads/profile/' + data + "')");
         }
     });
 

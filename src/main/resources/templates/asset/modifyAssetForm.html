@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/header :: header">
+    <meta charset="UTF-8">
+    <title>물품 등록 폼</title>
+</head>
+<body>
+  <div th:replace="layout/navBar :: navBar"></div>
+  <div th:replace="layout/sidebar :: sidebar"></div>
+  <div class="content-main">
+    <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
+    <form id="modifyForm" enctype="multipart/form-data">
+        <div class="form-up">
+            <h2>자산 수정</h2>
+            <input style="display: none" id="assetId" type="text" name="assetId" th:value="${asset.assetId}"><br>
+            <label for="assetName">물품명</label><br>
+            <input id="assetName" type="text" name="assetName" th:value="${asset.assetName}"><br>
+
+            <label for="assetCtg">물품 카테고리</label><br>
+            <input id="assetCtg" type="text" name="assetCtg" th:value="${asset.assetCtg}"><br>
+
+            <label for="assetCnt">물품 수량</label><br> <!--전체 개수이고, 이 값이 수정되는 경우 잔여 개수도 증가해야 한다.-->
+            <input id="assetCnt" type="text" name="assetCnt" th:value="${asset.assetTotalCnt}"><br>
+
+            <label for="assetPos">물품 위치</label><br>
+            <input id="assetPos" type="text" name="assetPos" th:value="${asset.assetRemainCnt}"><br>
+
+            <label for="regTeacherName">등록자</label><br>
+            <input id="regTeacherName" type="text" name="assetPos" th:value="${asset.regTeacherName}" disabled="disabled"><br>
+
+
+            <label for="updTeacherName">수정자:</label><br>
+            <select id="updTeacherName" name="updTeacherName">
+                <option th:each="teacher : ${teachers}" th:value="${teacher.teacherName}" th:text="${teacher.teacherName}"></option>
+            </select><br>
+        </div>
+        <div class="form-down">
+            <label for="assetImgFile"><h2>자산 사진</h2></label><br>
+            <input type="file" name="assetImgFile" id="assetImgFile" accept=".jpg, .png" class="form-control" multiple><br>
+            <div class="image-list">
+                <img th:each="img, imgStat:${asset.assetImgs}" th:id="@{'assetImg'+${imgStat.count}}" width="300px" height="300px" th:src="@{'/img/uploads/asset/'+${img.saveName}}">
+            </div>
+            <br>
+            <button type="button" onclick="modifyAsset()">수정</button>
+        </div>
+    </form>
+  </div>
+  <div th:replace="layout/footer :: footer"></div>
+</body>
+</html>
