@@ -3,6 +3,12 @@ package com.kuui.kas.application.asset.service;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.kuui.kas.application.asset.domain.Asset;
 import com.kuui.kas.application.asset.repository.AssetRepository;
+import com.kuui.kas.application.board.domain.Board;
+import com.kuui.kas.application.file.domain.SaveFile;
+import com.kuui.kas.application.file.service.FileService;
+import com.kuui.kas.application.teacher.domain.Teacher;
+import com.kuui.kas.application.teacher.service.TeacherService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,6 +17,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,8 +35,43 @@ class AssetServiceTest {
     @Mock       //Mockito의 어노테이션으로 목 객체 생성
     private AssetRepository assetRepository;
 
+    @Mock
+    private FileService fileService;
+    @Mock
+    private TeacherService teacherService;
+
     @InjectMocks//Mockito의 어노테이션으로 객체 생성후 목 객체 주입
     private AssetService assetService;
+
+    private Asset asset;
+    private SaveFile saveFile;
+    private Board board;
+    private Teacher teacher;
+
+    @BeforeEach
+    public void setUp(){
+        saveFile = SaveFile.builder()
+                .orgFileName("test")
+                .saveName("test1")
+                .filePath("D:\\KasImg\\asset")
+                .fileType("png")
+                .uploadUser("김병국")
+                .fileSize(1240L)
+                .build();
+
+        asset = new Asset("id1", "kuui-198", "test", 12L, 12L, "행사", 12, "김병국", "김병국", Arrays.asList(saveFile));
+
+        board = Board.builder()
+                .boardAsset(asset)
+                .boardTeacher(teacherService.findByTeacherNickName(asset.getRegTeacherName()))
+                .boardCarryInName("김병국")
+                .boardAssetReturnYn("N")
+                .boardShareCount(12L)
+                .boardRegDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build();
+
+
+    }
 
     @Test
     public void testDeleteAssetSuccess(){
@@ -65,6 +114,21 @@ class AssetServiceTest {
         });
 
         verify(assetRepository, never()).deleteAsset(assetId);
+    }
+
+    @Test
+    public void testDeleteAsset() {
+        when(assetRepository.findById("id1")).thenReturn(asset);
+
+        //엔티티 삭제 호출
+        assetService.deleteAsset("id1");
+
+        verify(fileService, times(1)).deleteFileForAsset(asset.getAssetImgs());
+        verify(assetRepository, times(1)).deleteAsset(asset.getAssetId());
+
+        // 파일이 실제로 삭제되었는지 확인
+        File file = new File(saveFile.getFilePath(), saveFile.getSaveName());
+        assert !file.exists() : "파일이 삭제되지 않았습니다.";
     }
 }
 

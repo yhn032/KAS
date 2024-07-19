@@ -85,7 +85,7 @@ public class TeacherService implements UserDetailsService {
         String originalFilename = multipartFile.getOriginalFilename();
         String savedName = UUID.randomUUID() + "_" + originalFilename;
         String fileExt = FileUtil.getExtension(originalFilename);
-        String uploadPath = "D:\\KasImg\\profile";
+        String uploadPath = "D:\\KasImg\\profile\\";
         Asset asset = new Asset();
 
         //파일 정보 DB에 저장

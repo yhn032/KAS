@@ -82,5 +82,20 @@ public class FileService {
     public SaveFile findBySaveName(String saveName) {
         return  fileRepository.findBySaveName(saveName);
     }
+
+    public void deleteFileForAsset(List<SaveFile> imgFiles){
+        for(SaveFile file : imgFiles ){
+            String imgPath = file.getFilePath() + file.getSaveName();
+            Path imagePath = Paths.get(imgPath);
+
+            try {
+                Files.deleteIfExists(imagePath);
+                log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
+            } catch (IOException e) {
+                log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
+                e.printStackTrace();
+            }
+        }
+    }
 }
 

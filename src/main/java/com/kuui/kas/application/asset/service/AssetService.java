@@ -66,7 +66,7 @@ public class AssetService {
     public void addAssetWithImage(Asset asset, MultipartFile[] multipartFiles, Principal principal) throws IOException, DuplicateNameAddException {
         //0. 파일 정보 DB에 저장
         List<SaveFile> imageList= new ArrayList<>();
-        String uploadPath = "D:\\KAS\\images";
+        String uploadPath = "D:\\KasImg\\asset\\";
         for(MultipartFile imgFile : multipartFiles) {
 
             if(imgFile.isEmpty()) {
@@ -113,7 +113,7 @@ public class AssetService {
     //재고 및 이미지 추가하기
     public void modifyAssetWithImage(Asset asset, MultipartFile[] multipartFiles, Principal principal) throws IOException, DuplicateNameAddException, NoRemainAssetException {
         List<SaveFile> imageList= new ArrayList<>();
-        String uploadPath = "D:\\KAS\\images";
+        String uploadPath = "D:\\KasImg\\asset\\";
         //변경 감지
         String assetId = asset.getAssetId();
 
@@ -200,18 +200,19 @@ public class AssetService {
 
         try{
             //파일 시스템에서 삭제하기
-            for(SaveFile file : asset.getAssetImgs()) {
-                String imgPath = file.getFilePath() + "\\" + file.getSaveName();
-                Path imagePath = Paths.get(imgPath);
-
-                try {
-                    Files.deleteIfExists(imagePath);
-                    log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
-                } catch (IOException e) {
-                    log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
-                    e.printStackTrace();
-                }
-            }
+            fileService.deleteFileForAsset(asset.getAssetImgs());
+//            for(SaveFile file : asset.getAssetImgs()) {
+//                String imgPath = file.getFilePath() + "\\" + file.getSaveName();
+//                Path imagePath = Paths.get(imgPath);
+//
+//                try {
+//                    Files.deleteIfExists(imagePath);
+//                    log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
+//                } catch (IOException e) {
+//                    log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
+//                    e.printStackTrace();
+//                }
+//            }
 
             //실제 삭제
             executeCnt = assetRepository.deleteAsset(assetId);
