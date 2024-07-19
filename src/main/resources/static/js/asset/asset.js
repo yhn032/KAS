@@ -62,6 +62,10 @@ $(document).ready(function(){
      */
     const fileInput = document.getElementById("assetImgFile");
     $('#assetImgFile').change(function(){
+        $("#assetImg1").attr("src", "/img/uploads/profile/default.png");
+        $("#assetImg2").attr("src", "/img/uploads/profile/default.png");
+        $("#assetImg3").attr("src", "/img/uploads/profile/default.png");
+
         let files = $(this)[0].files;
         if( files.length > 3) {
             alert("You can upload up to 3 images only");

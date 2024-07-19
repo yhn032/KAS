@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -129,16 +130,7 @@ public class TeacherService implements UserDetailsService {
 
             if(!img.getOrgFileName().equals("default-profile.jpg")) {//기본이미지에서 수정이라면 그냥 파일만 업로드
                 //파일 변경이므로 디비데이터는 그냥 수정하면 되지만 파일시스템에 기존에 있던 이미지는 삭제하고 새로 업로드 한다.
-                String imgPath = img.getFilePath() + "\\" + img.getSaveName();
-                Path imagePath = Paths.get(imgPath);
-
-                try {
-                    Files.deleteIfExists(imagePath);
-                    log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
-                } catch (IOException e) {
-                    log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
-                    e.printStackTrace();
-                }
+                fileService.deleteFileForAsset(Arrays.asList(img));
             }
 
             //DB데이터 변경 감지용 수정

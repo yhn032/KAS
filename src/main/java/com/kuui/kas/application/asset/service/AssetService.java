@@ -109,12 +109,21 @@ public class AssetService {
         Asset saveAsset = saveAsset(newAsset);
     }
 
+    /**
+     * 자산 수정
+     * @param asset
+     * @param multipartFiles
+     * @param principal
+     * @throws IOException
+     * @throws DuplicateNameAddException
+     * @throws NoRemainAssetException
+     */
     @Transactional(rollbackFor = Exception.class)   //언제든 익셉션이 터지면 롤백
     //재고 및 이미지 추가하기
     public void modifyAssetWithImage(Asset asset, MultipartFile[] multipartFiles, Principal principal) throws IOException, DuplicateNameAddException, NoRemainAssetException {
         List<SaveFile> imageList= new ArrayList<>();
         String uploadPath = "D:\\KasImg\\asset\\";
-        //변경 감지
+        //변경 감지를 위한 영속성 객체 꺼내기
         String assetId = asset.getAssetId();
 
         Asset prevAsset = assetRepository.findById(assetId);
@@ -126,25 +135,13 @@ public class AssetService {
 
         //0. 파일 정보 DB에 저장
         if(!multipartFiles[0].isEmpty()) { //파일을 수정한 경우에만 수정하기.
-            //기존 파일 삭제
-            for(SaveFile file : prevAsset.getAssetImgs() ){
-                String imgPath = uploadPath + "\\" + file.getSaveName();
-                Path imagePath = Paths.get(imgPath);
+            //기존 파일 파일시스템으로부터 삭제
+            fileService.deleteFileForAsset(prevAsset.getAssetImgs());
 
-                try {
-                    Files.deleteIfExists(imagePath);
-                    log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
-                } catch (IOException e) {
-                    log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
-                    e.printStackTrace();
-                }
-            }
+            //기존 파일 엔티티 삭제 삭제할 것 없이 신규로 넣으면 알아서 삭제 되지 않을까?
+
             //신규 파일 등록
             for(MultipartFile imgFile : multipartFiles) {
-
-                if(imgFile.isEmpty()) {
-                    throw new FileExistsException("Please select a file to upload");
-                }
 
                 String originalFilename = imgFile.getOriginalFilename();
                 String saveName = UUID.randomUUID().toString() + "_" + originalFilename;
@@ -170,7 +167,7 @@ public class AssetService {
             }
         }
 
-        Asset newAsset = new Asset(prevAsset.getAssetId(), prevAsset.getAssetNo(), asset.getAssetName(), asset.getAssetTotalCnt(), remainCnt, asset.getAssetCtg(), asset.getAssetPos(), asset.getRegTeacherName(), asset.getUpdTeacherName(), multipartFiles.length==0 ? prevAsset.getAssetImgs() : imageList);
+        Asset newAsset = new Asset(prevAsset.getAssetId(), prevAsset.getAssetNo(), asset.getAssetName(), asset.getAssetTotalCnt(), remainCnt, asset.getAssetCtg(), asset.getAssetPos(), asset.getRegTeacherName(), asset.getUpdTeacherName(), multipartFiles.length==1 && multipartFiles[0].isEmpty() ? prevAsset.getAssetImgs() : imageList);
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);
     }
@@ -193,7 +190,7 @@ public class AssetService {
             throw new EntityNotFoundException("Entity Not Found");
         }
 
-        //삭제 가능 여부 파악하기 -> 게시판에 등록되어 있는 물건 삭제 불가.
+        //삭제 가능 여부 파악하기 -> 게시판에 등록되어 반납 되지 않은 물건 삭제 불가.
         if (!asset.isDeletable()) {
             throw new DataIntegrityViolationException("Asset cannot be deleted in its current state as it is referenced by Board Entity");
         }
@@ -201,20 +198,7 @@ public class AssetService {
         try{
             //파일 시스템에서 삭제하기
             fileService.deleteFileForAsset(asset.getAssetImgs());
-//            for(SaveFile file : asset.getAssetImgs()) {
-//                String imgPath = file.getFilePath() + "\\" + file.getSaveName();
-//                Path imagePath = Paths.get(imgPath);
-//
-//                try {
-//                    Files.deleteIfExists(imagePath);
-//                    log.info("이미지 파일이 파일 시스템에서 성공적으로 삭제되었습니다.");
-//                } catch (IOException e) {
-//                    log.info("이미지 파일을 삭제하는 중에 오류가 발생했습니다.");
-//                    e.printStackTrace();
-//                }
-//            }
-
-            //실제 삭제
+            //실제 삭제 cascade가 걸려 있어서 삭제하는 자산과 연관된 이미지 모두 삭제
             executeCnt = assetRepository.deleteAsset(assetId);
         }catch(DataIntegrityViolationException e) {
             //외래 키 제약 조건 위반 처리
