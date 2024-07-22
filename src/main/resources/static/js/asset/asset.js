@@ -9,6 +9,16 @@ $(document).ready(function(){
         }
     }) ;
 
+    $('#excelDown').on('click', function() {
+        const link = $('<a></a>')
+            .attr('href', '/common/export')
+            .attr('download', '자산리스트.xlsx')
+            .appendTo('body');
+
+        link[0].click();
+        link.remove();
+    });
+
 
     /**
      * 상품 상세보기 팝업

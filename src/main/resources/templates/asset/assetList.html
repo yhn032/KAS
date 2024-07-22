@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="layout/header :: header">
     <meta charset="UTF-8">
     <title>재고 조회</title>
@@ -16,6 +16,12 @@
                 <span></span>
                 <button type="button" onclick="search()">검색</button>
             </div>
+        </form>
+        <form id="excel-download">
+
+            <button type="button">이미지로 보기</button>
+            <button type="button">표로 보기</button>
+            <button type="button" id="excelDown">Export</button>
         </form>
         <div class="asset-container" th:if="${assetList.size() > 0}">
             <div class="asset-item" th:each="asset : ${assetList}">

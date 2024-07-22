@@ -1,5 +1,6 @@
 package com.kuui.kas.application.common.controller;
 
+import com.kuui.kas.application.common.service.CommonService;
 import com.kuui.kas.application.file.domain.SaveFile;
 import com.kuui.kas.application.file.dto.FileDto;
 import com.kuui.kas.application.file.service.FileService;
@@ -17,38 +18,43 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/common")
 public class CommonController {
     private final PasswordEncoder passwordEncoder;
     private final TeacherService teacherService;
     private final FileService fileService;
+    private final CommonService commonService;
 
-    @GetMapping("/common/login")
+    @GetMapping("/login")
     public String login(){
         return "common/login";
     }
 
-    @GetMapping("/common/signup")
+    @GetMapping("/signup")
     public String signUp(){
         return "common/signup";
     }
 
-    @GetMapping("/common/dashboard")
+    @GetMapping("/dashboard")
     public String dashboard(Principal principal, Model model, Authentication authentication){
         UserDetails user = (UserDetails) authentication.getPrincipal();
         model.addAttribute("username", principal.getName());
         return "common/dashboard";
     }
 
-    @PostMapping("/common/signup")
+    @PostMapping("/signup")
     public String createTeacher(Teacher teacher) throws IOException {
         log.info("=============================================");
         log.info("회원가입 시도");
@@ -98,5 +104,10 @@ public class CommonController {
         teacherService.saveTeacher(buildTeacher);
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/export")
+    public void exportToExcel(HttpServletResponse response) {
+        commonService.export(response);
     }
 }
