@@ -19,6 +19,10 @@ function toggleSidebar() {
         $(".content-navBar").css("margin-left", '250px');
         $(".content-main").css("margin-left", '250px');
         $(".content-footer").css("margin-left", '250px');
+        $(".upload-option-btn").css("margin-right", '250px');
+        $("#assetForm").css("margin-right", '250px');
+        $("#multiUpload").css("margin-right", '250px');
+        $("#searchForm").css("margin-right", '250px');
         $(".content-toggle-btn").text("◀");
         $(".content-toggle-btn").css("left", '261px');
     } else {
@@ -29,6 +33,10 @@ function toggleSidebar() {
         $(".content-navBar").css("margin-left", '0');
         $(".content-main").css("margin-left", '0');
         $(".content-footer").css("margin-left", '0');
+        $(".upload-option-btn").css("margin-right", '0');
+        $("#assetForm").css("margin-right", '0');
+        $("#multiUpload").css("margin-right", '0');
+        $("#searchForm").css("margin-right", '0');
         $(".content-toggle-btn").text("▶");
         $(".content-toggle-btn").css("left", '11px');
     }

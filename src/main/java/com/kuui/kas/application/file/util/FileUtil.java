@@ -12,8 +12,7 @@ import java.util.UUID;
 public class FileUtil {
     private FileUtil(){}
 
-    @Value("${com.kuui.kas.path.assetImg}")
-    public static String uploadPath;
+    public static String uploadPath = "D:\\KasImg\\asset\\";
 
     //확장자를 가져오는 메소드
     public static String getExtension(String fileName){

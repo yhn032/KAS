@@ -11,6 +11,10 @@ import com.kuui.kas.application.file.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileExistsException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,11 +26,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -45,10 +52,14 @@ public class AssetService {
         return assetRepository.findAll(page, pageUnit);
     }
 
+    public List<Asset> findAll(){
+        return assetRepository.findAll();
+    }
+
     @Transactional
     public Asset saveAsset(Asset asset) {return assetRepository.saveAsset(asset);}
 
-    public String LastAssetNo(){return assetRepository.LastAssetNo();}
+    public int LastAssetNo(){return assetRepository.LastAssetNo();}
 
     //Controller 레벨에 익셉션 위임
     public void duplicateAssetName(String name) throws DuplicateNameAddException {
@@ -101,9 +112,8 @@ public class AssetService {
         //--예외가 터지지 않으면 신규 등록 가능한 재고이다.--
 
         //2. 마지막으로 저장된 재고 번호 조회하기
-        String lastAssetNo = LastAssetNo();
-        int num = Integer.parseInt(lastAssetNo.substring(lastAssetNo.indexOf("-") + 1, lastAssetNo.length()));
-        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++num), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName(), imageList);
+        int lastAssetNo = LastAssetNo();
+        Asset newAsset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++lastAssetNo), asset.getAssetName(), asset.getAssetTotalCnt(), asset.getAssetRemainCnt(), asset.getAssetCtg(),asset.getAssetPos(), asset.getRegTeacherName(), asset.getRegTeacherName(), imageList, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),  LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);
@@ -119,7 +129,7 @@ public class AssetService {
      * @throws NoRemainAssetException
      */
     @Transactional(rollbackFor = Exception.class)   //언제든 익셉션이 터지면 롤백
-    //재고 및 이미지 추가하기
+    //재고 및 이미지 수정하기
     public void modifyAssetWithImage(Asset asset, MultipartFile[] multipartFiles, Principal principal) throws IOException, DuplicateNameAddException, NoRemainAssetException {
         List<SaveFile> imageList= new ArrayList<>();
         String uploadPath = "D:\\KasImg\\asset\\";
@@ -167,7 +177,7 @@ public class AssetService {
             }
         }
 
-        Asset newAsset = new Asset(prevAsset.getAssetId(), prevAsset.getAssetNo(), asset.getAssetName(), asset.getAssetTotalCnt(), remainCnt, asset.getAssetCtg(), asset.getAssetPos(), asset.getRegTeacherName(), asset.getUpdTeacherName(), multipartFiles.length==1 && multipartFiles[0].isEmpty() ? prevAsset.getAssetImgs() : imageList);
+        Asset newAsset = new Asset(prevAsset.getAssetId(), prevAsset.getAssetNo(), asset.getAssetName(), asset.getAssetTotalCnt(), remainCnt, asset.getAssetCtg(), asset.getAssetPos(), prevAsset.getRegTeacherName(), asset.getUpdTeacherName(), multipartFiles.length==1 && multipartFiles[0].isEmpty() ? prevAsset.getAssetImgs() : imageList, prevAsset.getAssetRegDate(),  LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         //3. 물품 저장하기
         Asset saveAsset = saveAsset(newAsset);
     }
@@ -207,4 +217,45 @@ public class AssetService {
 
         return executeCnt;
     }
+
+    @Transactional
+    public void uploadBulkExcel(MultipartFile file) throws IOException {
+        try(InputStream inputStream = file.getInputStream();
+            Workbook workbook = new XSSFWorkbook(inputStream)) {
+
+            Sheet sheet = workbook.getSheetAt(0);
+
+            List<Asset> assetList = new ArrayList<>();
+
+            int lastAssetNo = LastAssetNo();
+
+            for( Row row : sheet) {
+                if (row.getRowNum() == 0)  { //header skip
+                    continue;
+                }
+                List<SaveFile> imageList = new ArrayList<>();
+
+                Asset asset = new Asset(UUID.randomUUID().toString(), "kuui-" + (++lastAssetNo), row.getCell(0).getStringCellValue(), (long) row.getCell(3).getNumericCellValue(), (long) row.getCell(3).getNumericCellValue(), row.getCell(1).getStringCellValue(), (int) row.getCell(2).getNumericCellValue(), row.getCell(4).getStringCellValue(), row.getCell(4).getStringCellValue(), imageList,  LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),  LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                assetList.add(asset);
+            }
+            //자산 벌크 insert 연산
+            assetRepository.saveAll(assetList);
+        }
+
+    }
+
+    /*private SaveFile makeSaveFile(String fileName, Row row) {
+        String uploadPath = "D:\\KasImg\\asset\\";
+        String saveName = UUID.randomUUID().toString() + "_" + fileName;
+        String fileExt = FileUtil.getExtension(fileName);
+
+        return SaveFile.builder()
+                .orgFileName(fileName)
+                .saveName(saveName)
+                .filePath(uploadPath)
+                .fileType(fileExt)
+                .uploadUser(row.getCell(4).getStringCellValue())
+                .fileSize(10240L)
+                .build();
+    }*/
 }

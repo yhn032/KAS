@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -18,9 +19,7 @@ import java.sql.*;
 @Service
 @RequiredArgsConstructor
 public class CommonService {
-    private final CommonRepository commonRepository;
     private final DataSource dataSource;
-
 
     public void export(HttpServletResponse response) {
         try(Connection connection = dataSource.getConnection()) {

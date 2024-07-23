@@ -1,6 +1,8 @@
 package com.kuui.kas.application.asset.repository;
 
 import com.kuui.kas.application.asset.domain.Asset;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +44,12 @@ public class AssetRepository{
 
     //가장 마지막 물품 번호 구하기
     //이슈 발생 -> 결과값이 2개 이상 -> 쿼리 자체에서 limit 걸었음
-    public String LastAssetNo(){
-        Asset newAsset = queryFactory
-                .selectFrom(asset)
-                .orderBy(asset.assetRegDate.desc())
-                .limit(1)
-                .fetchOne();
+    public int LastAssetNo(){
+        String sql = "SELECT MAX(CAST(SUBSTRING_INDEX(asset_no, '-', -1) AS UNSIGNED)) AS max_number FROM kuui.asset";
+        Query query = em.createNativeQuery(sql);
+        BigInteger maxNumber = (BigInteger) query.getSingleResult();
 
-        if(newAsset == null) return "kuui-0";
-        else return newAsset.getAssetNo();
+        return maxNumber != null ? maxNumber.intValue() : 0;
     }
 
     //동일한 재고명이 존재하는지 파악하기
@@ -80,6 +81,13 @@ public class AssetRepository{
                 .offset(offset)
                 .fetch();
     }
+
+    public List<Asset> findAll() {
+        return queryFactory
+                .selectFrom(asset)
+                .fetch();
+    }
+
 
     public Asset findById(String assetId) {
         return queryFactory
@@ -123,4 +131,17 @@ public class AssetRepository{
                 .where(asset.assetId.eq(assetId))
                 .execute();
     }
+
+    public void saveAll(List<Asset> assetList) {
+        for (int i = 0; i < assetList.size(); i++) {
+            em.persist(assetList.get(i));
+            if (i % 10 == 0) { // 50 is batch size, you can adjust it as needed
+                em.flush();
+                em.clear();
+            }
+        }
+        em.flush();
+        em.clear();
+    }
+
 }

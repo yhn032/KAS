@@ -11,19 +11,65 @@
         <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
         <form class="search-form" id="searchForm">
             <div class="form-div">
-                <input type="text" id="searchTerm" name="searchTerm" autocomplete="off" required>
+                <input type="text" id="searchTerm" name="searchTerm" autocomplete="off" required th:value="${searchTerm}">
                 <label>Searching Asset</label>
                 <span></span>
                 <button type="button" onclick="search()">검색</button>
             </div>
         </form>
-        <form id="excel-download">
+        <form id="excel-download" th:if="${assetList.size() > 0}">
 
-            <button type="button">이미지로 보기</button>
-            <button type="button">표로 보기</button>
+            <button type="button" onclick="showImage()">이미지로 보기</button>
+            <button type="button" onclick="showTable()">표로 보기</button>
             <button type="button" id="excelDown">Export</button>
         </form>
-        <div class="asset-container" th:if="${assetList.size() > 0}">
+        <div class="asset-container" id="assetContainerTable" th:if="${assetList.size() > 0}">
+            <table class="table mb-5 pcx-3 text-decoration-none" id="share-board">
+                <colgroup>
+                    <col width="10%" />
+                    <col width="*" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="20%" />
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="col" style="display: none" >자산 ID</th>
+                    <th scope="col">자산 번호</th>
+                    <th scope="col">자산명</th>
+                    <th scope="col">카테고리</th>
+                    <th scope="col">전체 수량</th>
+                    <th scope="col">잔여 수량</th>
+                    <th scope="col">자산 위치</th>
+                    <th scope="col">등록자</th>
+                    <th scope="col">등록일자</th>
+                    <th scope="col">기타</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="asset : ${assetList}"  class="asset-list">
+                    <td th:text="${asset.assetId}" style="display: none"></td>
+                    <td th:text="${asset.assetNo}"></td>
+                    <td th:text="${asset.assetName}"></td>
+                    <td th:text="${asset.assetCtg}"></td>
+                    <td th:text="${asset.assetTotalCnt}"></td>
+                    <td th:text="${asset.assetRemainCnt}"></td>
+                    <td th:text="${asset.assetPos}"></td>
+                    <td th:text="${asset.regTeacherName}"></td>
+                    <td th:text="${asset.assetRegDate}"></td>
+                    <td>
+                        <button type="button" class="btn edit-btn" >수정</button>
+                        <button th:if="${#authorization.expression('hasRole(''SUPER'')')}" type="button" class="btn delete-btn">삭제</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="asset-container" id="assetContainerImage" th:if="${assetList.size() > 0}" style="display: none">
             <div class="asset-item" th:each="asset : ${assetList}">
                 <div style="display: none" th:text="${asset.getAssetId()}"></div>
                 <div class="asset-category">

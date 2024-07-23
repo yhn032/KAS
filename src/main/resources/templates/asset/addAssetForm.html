@@ -9,7 +9,11 @@
   <div th:replace="layout/sidebar :: sidebar"></div>
   <div class="content-main">
     <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-    <form id="assetForm" enctype="multipart/form-data">
+    <div class="upload-option-btn">
+      <button class="simple" onclick="simpleUpload()">단일 상품 등록</button>
+      <button class="multi" onclick="multiUpload()">일괄 상품 등록</button>
+    </div>
+    <form id="assetForm" enctype="multipart/form-data" style="display: none">
         <div class="form-up">
             <h2>자산 등록</h2>
             <label for="assetName">물품명</label><br>
@@ -36,6 +40,10 @@
             </div>
             <button type="button" onclick="addAsset()">등록</button>
         </div>
+    </form>
+    <form id="multiUpload" style="display: none" method="post" action="/asset/upload" enctype="multipart/form-data">
+        <input type="file" name="excelUpload" id="excelUpload" accept=".xlsx, .xlx" class="form-control"><br>
+        <button type="button" onclick="insertBulk()">등록</button>
     </form>
   </div>
   <div th:replace="layout/footer :: footer"></div>

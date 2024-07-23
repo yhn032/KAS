@@ -59,7 +59,7 @@ class AssetServiceTest {
                 .fileSize(1240L)
                 .build();
 
-        asset = new Asset("id1", "kuui-198", "test", 12L, 12L, "행사", 12, "김병국", "김병국", Arrays.asList(saveFile));
+        asset = new Asset("id1", "kuui-198", "test", 12L, 12L, "행사", 12, "김병국", "김병국", Arrays.asList(saveFile),"","");
 
         board = Board.builder()
                 .boardAsset(asset)
@@ -76,7 +76,7 @@ class AssetServiceTest {
     @Test
     public void testDeleteAssetSuccess(){
         String assetId = "86478c92-f33d-46df-af12-ecb6776cd625";
-        Asset asset = new Asset(assetId, "kuui-12", "자물쇠", 123L, 123L, "", 1, "", "" ,null);
+        Asset asset = new Asset(assetId, "kuui-12", "자물쇠", 123L, 123L, "", 1, "", "" ,null,"","");
 
         when(assetRepository.findById(assetId)).thenReturn(asset);
 
@@ -105,7 +105,7 @@ class AssetServiceTest {
     @Test
     public void testDeleteAssetBuisnessLogic(){
         String assetId = "40e395b1-0cdf-45ed-971f-4c6a0e62a327";
-        Asset asset = new Asset(assetId, "", "", 0L, 0L, "", 1, "", "" ,null);
+        Asset asset = new Asset(assetId, "", "", 0L, 0L, "", 1, "", "" ,null,"","");
 
         when(assetRepository.findById(assetId)).thenReturn(asset);
 

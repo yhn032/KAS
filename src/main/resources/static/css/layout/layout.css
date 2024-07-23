@@ -48,7 +48,7 @@ nav ul li a {text-decoration: none;color: white;}
 .controller button {margin-right: 20px;background-color: #4CAF50; /* 버튼 배경색 설정 */color: white;border: none;padding: 10px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;}
 
 /** main container **/
-.content-main{width: 100vw;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: row;}
+.content-main{width: 100vw;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: column;}
 
 /** footer **/
 .content-footer{height: 10vh;transition: margin-left 0.3s ease;position: relative;border-top: 1px solid #ddd;margin-top: 25px;}

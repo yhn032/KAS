@@ -1,6 +1,6 @@
 .form-div {position: relative;box-sizing: border-box;width: 70%;margin-left: 30%;}
 
-.search-form {width: 60vw;height: 20vh;display: flex;justify-content: center;align-items: center;}
+.search-form {width: 60vw;height: 20vh;display: flex;justify-content: center;align-items: center; }
 .search-form span{display: block;position: absolute;bottom: 0;left: 0%;background-color: #666;width: 0;height: 2px;border-radius: 2px;transition: 0.5s;}
 .search-form label {position: absolute;color: #aaa;left: 10px;font-size: 20px;bottom: 8px;transition: all .2s;}
 .search-form input {font-size: 15px;color: #222222;width: 300px;border: none;border-bottom: solid #aaaaaa 1px;padding-bottom: 10px;padding-left: 10px;position: relative;background: none;z-index: 5;}
@@ -19,8 +19,11 @@
 .asset-thumb_img {display: flex;justify-content: space-around;flex-direction: row;}
 .asset-thumb_img img {width: 250px;height: 250px;}
 
-#modifyForm, #assetForm {margin-top: 50px; display: flex; flex-direction: column; width: 100vw; justify-content: center;}
+#modifyForm, #assetForm {margin-top: 50px; display: flex; flex-direction: column; /*width: 100vw;*/ justify-content: center; margin-right: 250px; transition: margin-right 0.3s ease;}
 #modifyForm .form-up, #assetForm .form-up {width: 80%;  margin-left: 10%;}
 #modifyForm .form-down, #assetForm .form-down {width: 60%; margin-left: 10%; margin-top: 5%;}
 #modifyForm .form-down .image-list, #assetForm .form-down .image-list {display: flex; flex-direction: row; justify-content: space-around;}
 #assetDtlForm {z-index: 100001;position: absolute;left: 50%;top: 50%;width: 840px;height: 500px;background-color: #fff;border: 2px solid #44b3d1;border-radius: 8px;transform: translate(-50%, -50%);}
+
+.upload-option-btn {display: flex; justify-content: center; width: 100vw; align-items: center; margin-right: 250px; height: 100px; transition: margin-right 0.3s ease;}
+#multiUpload {margin-right: 250px; height: 100px; transition: margin-right 0.3s ease;}

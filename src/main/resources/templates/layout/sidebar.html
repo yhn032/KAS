@@ -7,11 +7,10 @@
 <body>
 <div class="sidebar" th:fragment="sidebar">
   <div class="profile">
-    <!--<img src="img/profile-bg.png" width="250px" height="200px">-->
     <div class="profile-wrapper">
       <div class="overlay-image"></div>
       <div class="profile-name">
-        <span>Leo.K</span><br>
+        <span th:text="${username}"></span><br>
         <span>(～￣▽￣)～</span>
       </div>
     </div>

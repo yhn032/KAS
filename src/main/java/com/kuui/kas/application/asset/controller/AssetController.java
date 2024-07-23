@@ -49,17 +49,22 @@ public class AssetController {
         int pageUnit = paramMap.get("pageUnit") == null ? 10 : Integer.parseInt(paramMap.get("pageUnit").toString());
 
         List<Asset> assetList = null;
+
+        int totalSize = 0, realSize = 0;
         if(searchTerm.equals("")) {
             assetList = assetService.findAll(page, pageUnit);
+            totalSize = assetService.findAll().size();
         }else {
             assetList = assetService.searchAsset(searchTerm, page, pageUnit);
+            totalSize = assetList.size();
         }
 
         model.addAttribute("username", principal.getName());
         model.addAttribute("assetList", assetList);
+        model.addAttribute("searchTerm", searchTerm);
         //페이징 처리를 위한 정보
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPage", assetList.size() > 10 ? assetList.size() / 10 : 1);
+        model.addAttribute("totalPage", totalSize > 10 ? totalSize%10==0? totalSize / 10:(totalSize / 10)+1 : 1);
         model.addAttribute("pageUnit", pageUnit);
 
         model.addAttribute("assetList", assetList);
@@ -191,15 +196,22 @@ public class AssetController {
             return new ResponseEntity<>("You can upload up to 3 images only", HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("asset.getAssetId() = " + asset.getAssetId());
-        System.out.println("asset.getAssetTotalCnt() = " + asset.getAssetTotalCnt());
-        System.out.println("asset.getAssetRemainCnt() = " + asset.getAssetRemainCnt());
-        System.out.println("multipartFiles = " + multipartFiles.length);
-        System.out.println("multipartFiles[0].getOriginalFilename() = " + multipartFiles[0].getOriginalFilename());
-        System.out.println("multipartFiles = " + multipartFiles[0].isEmpty());
         //자산 저장하기
         assetService.modifyAssetWithImage(asset, multipartFiles, principal);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadExcelFile(@RequestParam("excelUpload") MultipartFile file) {
+        try{
+
+            assetService.uploadBulkExcel(file);
+            return new ResponseEntity<>("File uploaded and data saved successfully!", HttpStatus.OK);
+        }catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error occured while processing file.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

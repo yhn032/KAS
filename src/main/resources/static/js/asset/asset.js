@@ -19,6 +19,46 @@ $(document).ready(function(){
         link.remove();
     });
 
+    $(".edit-btn").click(function (){
+        if(confirm("자산 수정 폼으로 가시겠습니까?")) {
+            const row = $(this).closest('tr');
+
+            let assetId = row.find('td:first').text();
+            location.href ="/asset/"+assetId+"/modify";
+        }else {
+            return;
+        }
+
+    });
+
+    $(".delete-btn").click(function (){
+        if(confirm("자산이 삭제됩니다. 삭제 처리 하시겠습니까?")) {
+            const row = $(this).closest('tr');
+            let assetId = row.find('td:first').text();
+            $.ajax({
+                type : 'GET',
+                url : '/asset/'+assetId+'/delete',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response)
+                    alert(response + "!! 자산이 삭제 되었습니다.");
+                    location.reload();
+                },
+                error:function (jqXHR, textStatus, errorThrown) {
+                    console.log("Request Failed");
+                    console.log('jqXHR : ', jqXHR);
+                    console.log('textStatus : ', textStatus);
+                    console.log('errorThrown : ', errorThrown);
+                    alert(jqXHR.responseJSON.status + " : " + jqXHR.responseJSON.error +"\n " +jqXHR.responseJSON.message);
+                }
+            });
+        }else {
+            alert("삭제가 취소되었습니다.");
+        }
+
+    });
+
 
     /**
      * 상품 상세보기 팝업
@@ -320,4 +360,57 @@ function modifyAsset(){
             alert(jqXHR.responseJSON.status + " : " + jqXHR.responseJSON.error +"\n " +jqXHR.responseJSON.message);
         }
     })
+}
+
+function simpleUpload() {
+    $("#assetForm").css("display","block");
+    $("#multiUpload").css("display", "none");
+}
+
+function multiUpload(){
+    $("#assetForm").css("display","none");
+    $("#multiUpload").css("display", "block");
+}
+
+function showImage() {
+    $("#assetContainerTable").css("display", "none");
+    $("#assetContainerImage").css("display", "flex");
+}
+
+function showTable(){
+    $("#assetContainerTable").css("display", "flex");
+    $("#assetContainerImage").css("display", "none");
+}
+
+function insertBulk(){
+    //FormData 객체를 사용하여 form 데이터 수집
+    const formData = new FormData(document.getElementById("multiUpload"));
+    let files = $("#excelUpload")[0].files;
+
+    if(files.length === 0 ) {
+        alert("엑셀 파일을 선택하세요!");
+        return;
+    }
+
+    formData.append('excelUpload', files[0]);
+
+    $.ajax({
+        type : 'POST',
+        url : '/asset/upload',
+        data : formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+
+            alert("일괄 등록이 완료되었습니다.");
+            location.href = '/asset/allList';
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            console.log("Request Failed");
+            console.log('jqXHR : ', jqXHR);
+            console.log('textStatus : ', textStatus);
+            console.log('errorThrown : ', errorThrown);
+            alert(jqXHR.responseJSON.status + " : " + jqXHR.responseJSON.error +"\n " +jqXHR.responseJSON.message);
+        }
+    });
 }

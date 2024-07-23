@@ -49,10 +49,10 @@ public class Asset {
     private String updTeacherName;
 
     @Column(name = "asset_reg_date")
-    String assetRegDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    String assetRegDate;
 
     @Column(name = "asset_upd_date")
-    String assetUpdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    String assetUpdDate;
 
     @Column(name = "asset_position")
     Integer assetPos;
@@ -68,7 +68,7 @@ public class Asset {
     @OneToMany(mappedBy = "boardAsset")
     private List<Board> boards;
 
-    public Asset(String assetId, String assetNo, String assetName, Long assetTotalCnt, Long assetRemainCnt, String assetCtg, int assetPos,String regTeacherName, String updTeacherName, List<SaveFile> assetImgs) {
+    public Asset(String assetId, String assetNo, String assetName, Long assetTotalCnt, Long assetRemainCnt, String assetCtg, int assetPos,String regTeacherName, String updTeacherName, List<SaveFile> assetImgs, String assetRegDate, String assetUpdDate) {
         this.assetId = assetId;
         this.assetNo = assetNo;
         this.assetName = assetName;
@@ -79,6 +79,8 @@ public class Asset {
         this.regTeacherName = regTeacherName;
         this.updTeacherName = updTeacherName;
         this.assetImgs = assetImgs;
+        this.assetRegDate = assetRegDate;
+        this.assetUpdDate = assetUpdDate;
     }
 
     //비즈니스 로직 수행
