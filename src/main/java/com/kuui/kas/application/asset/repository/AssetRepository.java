@@ -39,7 +39,6 @@ public class AssetRepository{
             em.persist(asset);
             return asset;
         }
-
     }
 
     //가장 마지막 물품 번호 구하기
