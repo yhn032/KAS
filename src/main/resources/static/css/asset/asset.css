@@ -9,7 +9,7 @@
 .search-form input:focus ~ label, .search-form input:valid ~ label {font-size: 16px;bottom: 40px;color: #666;font-weight: bold;}
 .search-form input:focus ~ span, .search-form input:valid ~ span {width: 312px;}
 
-.asset-container{width: 80vw;height: auto;display: flex;justify-content: center;align-items: center;flex-flow: row wrap;gap: 75px;justify-content: flex-start;margin-bottom: 50px;}
+.asset-container{width: 80vw;height: auto;display: flex;justify-content: center;align-items: center;flex-flow: row wrap;gap: 75px;margin-bottom: 50px;}
 .asset-item {width: 250px;height: 400px;box-shadow: 5px 5px 25px 2px rgba(227, 243, 8, 0.12);border-top-left-radius: 15%;border-top-right-radius: 15%;}
 .asset-item:hover {cursor: pointer;transform: translateY(-5px);box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);}
 .asset-main {width: auto;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: column;margin-left: 250px;transition: margin-left 0.3s ease;}

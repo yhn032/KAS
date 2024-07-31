@@ -30,15 +30,6 @@ public class AssetController {
     private final AssetService assetService;
     private final TeacherService teacherService;
 
-//    @GetMapping("/mainAsset")
-//    public String mainAsset(Principal principal, Model model){
-//        log.info("=============================================");
-//        log.info("전체 자산 조회 ");
-//        log.info("=============================================");
-//        model.addAttribute("username", principal.getName());
-//        return "/asset/mainAsset";
-//    }
-
     @GetMapping("/allList")
     public String allList(@RequestParam Map<String, Object> paramMap, Principal principal, Model model){
         log.info("=============================================");
@@ -59,7 +50,9 @@ public class AssetController {
             totalSize = assetList.size();
         }
 
+        Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("assetList", assetList);
         model.addAttribute("searchTerm", searchTerm);
         //페이징 처리를 위한 정보
@@ -81,8 +74,10 @@ public class AssetController {
         //등록자 기록을 위해 모든 교사 정보 조회
         List<Teacher> teachers = teacherService.findAllTeachers();
         List<String> names = teachers.stream().map(teacher -> teacher.getTeacherName()).collect(Collectors.toList());
-        model.addAttribute("teacherNames", names);
+        Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
+        model.addAttribute("teacherNames", names);
         return "/asset/addAssetForm";
     }
 
@@ -178,7 +173,9 @@ public class AssetController {
 
         Asset asset = assetService.findById(assetId);
         List<Teacher> allTeachers = teacherService.findAllTeachers();
+        Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("asset", asset);
         model.addAttribute("teachers", allTeachers);
 

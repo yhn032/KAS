@@ -54,7 +54,9 @@ public class CommonController {
     @GetMapping("/dashboard")
     public String dashboard(Principal principal, Model model, Authentication authentication){
         UserDetails user = (UserDetails) authentication.getPrincipal();
+        Teacher teacher = teacherService.findByTeacherNickName(user.getUsername());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         return "common/dashboard";
     }
 
@@ -96,6 +98,7 @@ public class CommonController {
                 .teacherPhoneNumber(teacher.getTeacherPhoneNumber())
                 .teacherNickname(teacher.getTeacherNickname())
                 .teacherEmailAddress(teacher.getTeacherEmailAddress())
+                .teacherIntro(makeIntro(teacher.getTeacherName()))
                 .teacherRole(TeacherRole.USER)
                 .teacherName(teacher.getTeacherName())
                 .teacherChristianName(teacher.getTeacherChristianName())
@@ -108,6 +111,24 @@ public class CommonController {
         teacherService.saveTeacher(buildTeacher);
 
         return "redirect:/login";
+    }
+
+    private String makeIntro(String teacherName) {
+        if(teacherName.contains("병국")){
+            return "엣헴 나는 개발자";
+        }else if (teacherName.contains("용수")) {
+            return "엣헴 나는 구의동 모찌찌찌";
+        }else if (teacherName.contains("경빈")) {
+            return "엣헴 나는 그냥 배고파 계속";
+        }else if (teacherName.contains("민정")) {
+            return "엣헴 나는 척척 박박사님";
+        }else if (teacherName.contains("지희")) {
+            return "엣헴 나는 보안을 담당하는 하리보";
+        }else if (teacherName.contains("윤형")) {
+            return "엣헴 나는 X반도 폴댄서";
+        }else {
+            return "엣헴 나는 교사";
+        }
     }
 
     @GetMapping("/export")

@@ -34,6 +34,9 @@ public class Teacher {
     @Column(name = "teacher_email_address")
     String teacherEmailAddress;
 
+    @Column(name = "teacher_introduce")
+    String teacherIntro;
+
     @Column(name = "teacher_role")
     @Enumerated(EnumType.STRING)
     TeacherRole teacherRole;
@@ -56,12 +59,13 @@ public class Teacher {
     SaveFile teacherProfileImg;
 
     @Builder
-    public Teacher(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, SaveFile teacherProfileImg) {
+    public Teacher(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, String teacherIntro, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, SaveFile teacherProfileImg) {
         this.teacherLogInID = teacherLogInID;
         this.teacherLogInPW = teacherLogInPW;
         this.teacherPhoneNumber = teacherPhoneNumber;
         this.teacherNickname = teacherNickname;
         this.teacherEmailAddress = teacherEmailAddress;
+        this.teacherIntro = teacherIntro;
         this.teacherRole = teacherRole;
         this.teacherName = teacherName;
         this.teacherChristianName = teacherChristianName;
@@ -77,6 +81,7 @@ public class Teacher {
                 .teacherPhoneNumber(teacherFormDto.getTeacherPhoneNumber())
                 .teacherNickname(teacherFormDto.getTeacherNickname())
                 .teacherEmailAddress(teacherFormDto.getTeacherEmailAddress())
+                .teacherIntro(teacherFormDto.getTeacherIntro())
                 .teacherRole(teacherFormDto.getTeacherRole())
                 .teacherName(teacherFormDto.getTeacherName())
                 .teacherChristianName(teacherFormDto.getTeacherChristianName())

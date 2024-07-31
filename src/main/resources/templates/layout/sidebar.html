@@ -9,22 +9,28 @@
   <div class="profile">
     <div class="profile-wrapper">
       <div class="overlay-image"></div>
-      <div class="profile-name">
-        <span th:text="${username}"></span><br>
-        <span>(～￣▽￣)～</span>
-      </div>
     </div>
   </div>
-  <nav>
-    <ul>
-      <li><a href="/common/dashboard">Home</a></li>
-      <li><a href="/asset/allList">재고 검색</a></li>
-      <li><a href="/asset/addList">재고 등록</a></li>
-      <li><a href="/board/shareList">반출 리스트</a></li>
-      <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
-      <!-- Add more menu items here -->
-    </ul>
-  </nav>
+  <div class="profile-name">
+    <img th:if="${#authorization.expression('hasRole(''SUPER'')')}" src="../../img/grade_super.png" width="20px" height="20px" style="display: inline">
+    <img th:if="${#authorization.expression('hasRole(''ADMIN'')')}" src="../../img/grade_admin.png" width="20px" height="20px">
+    <img th:if="${#authorization.expression('hasRole(''USER'')')}" src="../../img/grade_user.png" width="20px" height="20px">
+    <span th:text="${username}"></span>
+    <p th:text="${intro}"></p>
+  </div>
+  <ul class="main-list">
+    <li><a href="/common/dashboard">홈</a></li>
+    <li class="sub-list">
+      재고 관리
+      <ul class="sub-ul none">
+        <li><a href="/asset/allList">재고 검색</a></li>
+        <li><a href="/asset/addList">재고 등록</a></li>
+      </ul>
+    </li>
+    <li><a href="/board/shareList">반출 대장</a></li>
+    <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
+    <!-- Add more menu items here -->
+  </ul>
 </div>
 </body>
 </html>

@@ -3,9 +3,9 @@
 
 <div class="content-navBar" th:fragment="navBar">
     <div class="content-nav">
-        <nav>
+        <nav class="header-nav">
             <ul>
-                <li><a href="/common/dashboard">Home</a></li>
+                <li><a href="/common/dashboard">홈</a></li>
                 <li class="has-asset-sub-menu"><a href="#">재고관리<span class="arrow-up"></span></a>
                     <ul class="asset-sub-menu">
                         <li><a href="/asset/allList">재고 검색</a></li>
@@ -16,10 +16,10 @@
                 <li th:if="${#authorization.expression('hasRole(''SUPER'')')}"><a href="/teacher/manage">교사관리</a></li>
             </ul>
         </nav>
-        <form class="controller" method="post" action="/logout">
-            <p th:text="${username + '님'}" style="margin-right: 20px;"></p>
-            <button type="submit">Logout</button>
-            <button type="button" onclick="location.href='/teacher/myPage'">MyPage</button>
+        <form class="controller" method="post" action="/logout" style="height: 100%">
+            <div th:text="${username + '님'}" style="display: flex; align-items:center;color: black; margin: 0 auto; font-weight: bold; font-size: 20px;"></div>
+            <button class="btn" type="submit" style="margin-left: 15px;">Logout</button>
+            <button class="btn" type="button" onclick="location.href='/teacher/myPage'">MyPage</button>
         </form>
     </div>
     <div class="navBar-img">
@@ -29,7 +29,7 @@
                     <h6 class="bubble-heading">I Love Jesus</h6>
                     <h2 style="display: inline" class="special-heading text-container1">평화가 <span class="rotating-text"></span><span id="cursor"></span> 와 함께!</h2>
                     <div class="quote-separator"></div>
-                    <p class="sub-text">경식이 바보</p>
+                    <p class="sub-text">구의동 성당 중고등부 주일학교</p>
                 </div>
             </div>
         </div>
