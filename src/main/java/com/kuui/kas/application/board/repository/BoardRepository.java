@@ -46,4 +46,21 @@ public class BoardRepository {
                 .offset(offSet)
                 .fetch();
     }
+
+    public List<Board> findRecentRentList(int page, int pageUnit) {
+        long offSet = (page-1)*pageUnit;        //offSet값부터 limitsize개수만큼 결과를 가져온다.
+        return queryFactory
+                .selectFrom(board)
+                .where(board.boardAssetReturnYn.eq("N"))
+                .orderBy(board.boardRegDate.desc())
+                .limit(pageUnit)
+                .offset(offSet)
+                .fetch();
+    }
+
+    public List<Board> findAll() {
+        return queryFactory
+                .selectFrom(board)
+                .fetch();
+    }
 }

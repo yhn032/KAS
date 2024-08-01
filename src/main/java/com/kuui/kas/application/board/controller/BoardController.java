@@ -84,13 +84,15 @@ public class BoardController {
 
         List<Teacher> teachers = teacherService.findAllTeachers();
         List<Board> allShareList = boardService.findAllShareList(page, pageUnit);
+        int allBoardSize = boardService.findAll().size();
 
         //페이징 처리를 위한 정보
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPage", allShareList.size() > 10 ? allShareList.size() / 10 : 1);
+        model.addAttribute("totalPage", allBoardSize > 10 ? allBoardSize%10 ==0 ? allBoardSize/10 : (allBoardSize/10)+1 : 1);
         model.addAttribute("pageUnit", pageUnit);
 
         model.addAttribute("teacherList", teachers);
+        model.addAttribute("allBoardSize", allBoardSize);
         model.addAttribute("boards", allShareList);
         model.addAttribute("username", principal.getName());
 

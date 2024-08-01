@@ -1,5 +1,9 @@
 package com.kuui.kas.application.common.controller;
 
+import com.kuui.kas.application.asset.domain.Asset;
+import com.kuui.kas.application.asset.service.AssetService;
+import com.kuui.kas.application.board.domain.Board;
+import com.kuui.kas.application.board.service.BoardService;
 import com.kuui.kas.application.common.service.CommonService;
 import com.kuui.kas.application.file.domain.SaveFile;
 import com.kuui.kas.application.file.dto.FileDto;
@@ -30,6 +34,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -40,6 +45,8 @@ public class CommonController {
     private final TeacherService teacherService;
     private final FileService fileService;
     private final CommonService commonService;
+    private final AssetService assetService;
+    private final BoardService boardService;
 
     @GetMapping("/login")
     public String login(){
@@ -57,6 +64,11 @@ public class CommonController {
         Teacher teacher = teacherService.findByTeacherNickName(user.getUsername());
         model.addAttribute("username", principal.getName());
         model.addAttribute("intro", teacher.getTeacherIntro());
+
+        List<Asset> recentUpdate = assetService.findAll(1, 3);
+        List<Board> recentRent = boardService.findRecentRentList(1, 3);
+        model.addAttribute("recentUpdate", recentUpdate);
+        model.addAttribute("recentRent", recentRent);
         return "common/dashboard";
     }
 

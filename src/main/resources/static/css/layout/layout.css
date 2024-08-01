@@ -87,4 +87,26 @@ nav ul li a {text-decoration: none;color: black; font-size: 18px; font-weight: b
 .content {height: auto;}
 .content-toggle-btn {position: absolute;bottom: 50%; /* Adjust the button position as needed */left: 261px;transform: translateX(-50%);background-color: #eeeeee;color: #000;border: none;height: 40px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;cursor: pointer;transition: left 0.3s ease; /*transition: bottom 0.1s ease; !* 스크롤로 위아래 이동시 부드럽게 따라오게 하기 위함이다. 였었는데,,, 중복적용이 불가능함  *!*/z-index: 2;}
 .content, .content-navBar, .content-main {margin-left: 250px;transition: margin-left 0.3s ease;}
+
+.main-home-container {position: relative;width: 70vw;height: 750px;margin: 20px auto;}
+.main-home-text {position: absolute; top: 0; left: 0; background-color: white; margin: 0 20px; padding:0 5px;z-index: 1001}
+.main-home-border {position: absolute;top: 25px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgb(245, 207, 139);box-shadow: 2px 0px 10px rgb(255, 183, 27);}
+
+.sub-home-container {position: relative;width: 90%;height: 300px;margin: 20px auto;}
+.sub-home-border1 {position: absolute;top: 100px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgba(103, 78, 255, 0.71);box-shadow: 2px 0px 10px rgba(78, 55, 255, 0.71);}
+.sub-home-border2 {position: absolute;top: 100px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgb(182, 255, 176);box-shadow: 2px 0px 10px rgb(81, 255, 64);}
+.sub-home-text {position: absolute; top: 85px; left: 0; background-color: white; margin: 0 20px; padding:0 5px;z-index: 1001}
+
+.recent-asset-container{position: absolute; top: 140px;width: 100%}
+.recent-rent-container{position: absolute; top: 140px;width: 100%}
+.asset-item {width: 250px;height: 400px;box-shadow: 5px 5px 25px 2px rgba(227, 243, 8, 0.12);border-top-left-radius: 15%;border-top-right-radius: 15%;}
+.asset-item:hover {cursor: pointer;transform: translateY(-5px);box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);}
+
+.share-board {width: 100%;display: table;border-spacing: 5px;border-width: 0;border-collapse: separate;}
+.share-board thead {text-align: left;}
+.share-board tbody tr {cursor: pointer;}
+.share-board tbody tr:hover {background-color: #dee2e6;}
+.share-board td, #share-board th{border-bottom-width: 0px !important;}
+
+.share-board>:not(:first-child) {position: relative;padding-top: 2px;border-style: solid;}
 /* content end */
