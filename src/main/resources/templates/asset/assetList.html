@@ -19,9 +19,9 @@
         </form>
         <form id="excel-download" th:if="${assetList.size() > 0}">
 
-            <button type="button" onclick="showImage()">이미지로 보기</button>
-            <button type="button" onclick="showTable()">표로 보기</button>
-            <button type="button" id="excelDown">Export</button>
+            <button class="btn info" type="button" onclick="showImage()">이미지로 보기</button>
+            <button class="btn warning" type="button" onclick="showTable()">표로 보기</button>
+            <button class="btn special" type="button" id="excelDown">Export</button>
         </form>
         <div class="asset-container" id="assetContainerTable" th:if="${assetList.size() > 0}">
             <table class="table mb-5 pcx-3 text-decoration-none" id="share-board">

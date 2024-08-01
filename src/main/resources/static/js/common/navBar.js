@@ -22,4 +22,8 @@ $(document).ready(function(){
         $('.arrow-up').toggle();
         $('.asset-sub-menu').toggle();
     });
+
+    $('.sub-list').click(function (){
+        $('.sub-list > ul').toggleClass('none');
+    });
 });

@@ -40,6 +40,14 @@ public class BoardService {
         return boardRepository.findAllShareList(page, pageUnit);
     }
 
+    public List<Board> findRecentRentList(int page, int pageUnit){
+        return boardRepository.findRecentRentList(page, pageUnit);
+    }
+
+    public List<Board> findAll(){
+        return boardRepository.findAll();
+    }
+
     @Transactional(rollbackFor =  Exception.class)
     public Long returnAsset(Long boardId) {
         Board board = boardRepository.findById(boardId);

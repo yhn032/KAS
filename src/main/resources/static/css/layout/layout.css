@@ -3,7 +3,7 @@
 @media (min-width: 768px) {  .quote-separator:before {right: 54%;}  .quote-separator:after {left: 54%;}  }
 
 /** header navBar **/
-.content-navBar {display: flex;flex-direction: column;background-color: #333;opacity: 0.5;height: 100vh;background-image: url("../../img/profile-bg.png");background-position: center;background-size: cover;}
+.content-navBar {display: flex;flex-direction: column;background-color: #333;opacity: 0.5;height: 100vh;background-image: url("../../img/header-bg.jpg");background-position: center;background-size: 100% 100%; background-repeat: no-repeat;}
 
 /* 서브 메뉴가 부모 바로 아래에 위치하도록 설정*/
 .has-asset-sub-menu {position: relative;}
@@ -26,7 +26,7 @@ nav {height: 100%;}
 nav li {display: flex; /* 수직 중앙 정렬을 위해 flex 사용 */align-items: center; /* 수직 중앙 정렬 */}
 nav ul {list-style: none;padding: 0;margin: 0;display: flex;height: 100%;}
 nav ul li {margin-right: 20px;}
-nav ul li a {text-decoration: none;color: white;}
+nav ul li a {text-decoration: none;color: black; font-size: 18px; font-weight: bold}
 
 /*navBar text animation*/
 .text-container1 {position: relative;overflow: hidden;}
@@ -37,35 +37,39 @@ nav ul li a {text-decoration: none;color: white;}
 
 /* dashboard main-text*/
 .bubble-heading {margin-top: 100px;border: 3px solid rgb(248, 184, 44);border-radius: 20px;color: rgb(248, 184, 44);width: 200px;font-size: 20px;text-align: center;margin-bottom: 20px;}
-.special-heading {color: white;font-size: 60px;}
+.special-heading {color: black;font-size: 60px;}
 .col{display: flex;flex-direction: column;align-items: center;}
 .quote-separator {width: 100%;height: 34px;background: transparent url('../../img/quotation.jpg') no-repeat center center;position: relative;display: block;margin-bottom: 20px;background-size: 38px !important;}
 .quote-separator:before , .quote-separator:after{content: '';height: 1px;width: 20%;background: rgba(255, 255, 255, 0.7);position: absolute;top: 16px;box-sizing: border-box;}
-.sub-text {color: white;font-size: 20px;font-weight: bold;}
+.sub-text {color: black;font-size: 20px;font-weight: bold;}
 
 /* dashboard main-text*/
 .controller {display: flex;}
-.controller button {margin-right: 20px;background-color: #4CAF50; /* 버튼 배경색 설정 */color: white;border: none;padding: 10px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;}
+.controller button {margin-right: 20px;background-color: #939393; /* 버튼 배경색 설정 */color: white;border: none;padding: 10px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;cursor: pointer;}
 
 /** main container **/
 .content-main{width: 100vw;padding-bottom: 100px;display: flex;justify-content: center;align-items: center;flex-direction: column;}
 
 /** footer **/
-.content-footer{height: 10vh;transition: margin-left 0.3s ease;position: relative;border-top: 1px solid #ddd;margin-top: 25px;}
+.content-footer{height: 10vh;transition: margin-left 0.3s ease;position: relative;border-top: 1px solid #ddd;margin-top: 25px; margin-left: 250px;}
 .content-footer .inner {font-size: 15px;letter-spacing: -0.2px;text-align: center;padding: 25px 0;box-sizing: border-box;margin-top: 20px;}
 
 /* sidebar start */
-.sidebar {position: fixed;z-index: 10001;left: 0px; /* initially hide the sidebar */top: 0;bottom: 0;width: 250px;background-color: #fff;transition: left 0.3s ease;overflow-y: scroll;-ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */scrollbar-width: none; /* Firefox에 스크롤바 숨기기 */box-shadow: 2px 0px 10px rgba(147 141 201 / 71%);}
+.sidebar {position: fixed;z-index: 10001;left: 0px; /* initially hide the sidebar */top: 0;bottom: 0; width: 250px;background-color: #fff;transition: left 0.3s ease;-ms-overflow-style: none; /* IE 및 Edge에서 스크롤바 숨기기 */scrollbar-width: none; /* Firefox에 스크롤바 숨기기 */box-shadow: 2px 0px 10px rgba(147 141 201 / 71%);}
 
 /* WebKit 브라우저에만 적용되는 스타일 */
 .sidebar::-webkit-scrollbar {display: none; /* WebKit 브라우저에서 스크롤바 숨기기 */}
-.sidebar nav ul {list-style: none;padding: 0;display: flex;flex-direction: column;}
-.sidebar nav ul li {padding: 10px;}
-.sidebar nav ul li a {color: #000000;text-decoration: none;}
+.sidebar ul.main-list {list-style: none;padding: 0;display: flex;flex-direction: column; height: 0; !important;}
+.sidebar ul.main-list li {padding: 10px;}
+.sidebar ul.main-list li a {color: #000000;text-decoration: none;}
 .sidebar .profile {width: 100%;height: 250px;background-image: url('../../img/profile-bg.png');background-size: cover;border-bottom: 1px solid rgb(184, 184, 184);text-align: center;display: flex;flex-direction: column-reverse;}
-.sidebar .profile .profile-wrapper{background-color: white;z-index: 10;height: 150px;}
-.sidebar .profile .profile-wrapper .overlay-image {position: absolute;top: 25px;left: 50px;background-image: url('../../img/circleimg.png');background-size: cover;width: 150px;height: 150px;z-index: 20;border-radius: 50%;}
-.sidebar .profile .profile-wrapper .profile-name {margin-top: 90px;}
+.sidebar .profile .profile-wrapper{background-color: white;z-index: 10;height: 125px;}
+.sidebar .profile .profile-wrapper .overlay-image {position: absolute;top: 15px;left: 15px;background-image: url('../../img/circleimg.png');background-size: cover;width: 220px;height: 220px;z-index: 20;border-radius: 50%;}
+
+.profile-name {border-bottom: 1px solid rgb(184, 184, 184);text-align: left; padding-left: 15px;}
+
+.main-list a {display: inline-block; width: 100%; height: 100%}
+.main-list li:hover {box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); cursor: pointer}
 /* sidebar end */
 
 /* scrollBar end */
@@ -83,4 +87,26 @@ nav ul li a {text-decoration: none;color: white;}
 .content {height: auto;}
 .content-toggle-btn {position: absolute;bottom: 50%; /* Adjust the button position as needed */left: 261px;transform: translateX(-50%);background-color: #eeeeee;color: #000;border: none;height: 40px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;cursor: pointer;transition: left 0.3s ease; /*transition: bottom 0.1s ease; !* 스크롤로 위아래 이동시 부드럽게 따라오게 하기 위함이다. 였었는데,,, 중복적용이 불가능함  *!*/z-index: 2;}
 .content, .content-navBar, .content-main {margin-left: 250px;transition: margin-left 0.3s ease;}
+
+.main-home-container {position: relative;width: 70vw;height: 750px;margin: 20px auto;}
+.main-home-text {position: absolute; top: 0; left: 0; background-color: white; margin: 0 20px; padding:0 5px;z-index: 1001}
+.main-home-border {position: absolute;top: 25px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgb(245, 207, 139);box-shadow: 2px 0px 10px rgb(255, 183, 27);}
+
+.sub-home-container {position: relative;width: 90%;height: 300px;margin: 20px auto;}
+.sub-home-border1 {position: absolute;top: 100px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgba(103, 78, 255, 0.71);box-shadow: 2px 0px 10px rgba(78, 55, 255, 0.71);}
+.sub-home-border2 {position: absolute;top: 100px; /* 텍스트 높이 /2 만큼 내림 */left: 0;width: 100%;height: calc(100% - 20px); /* 텍스트 높이만큼 뺌 */border: 2px solid rgb(182, 255, 176);box-shadow: 2px 0px 10px rgb(81, 255, 64);}
+.sub-home-text {position: absolute; top: 85px; left: 0; background-color: white; margin: 0 20px; padding:0 5px;z-index: 1001}
+
+.recent-asset-container{position: absolute; top: 140px;width: 100%}
+.recent-rent-container{position: absolute; top: 140px;width: 100%}
+.asset-item {width: 250px;height: 400px;box-shadow: 5px 5px 25px 2px rgba(227, 243, 8, 0.12);border-top-left-radius: 15%;border-top-right-radius: 15%;}
+.asset-item:hover {cursor: pointer;transform: translateY(-5px);box-shadow: 5px 5px 25px 2px rgb(255 164 179 / 29%);}
+
+.share-board {width: 100%;display: table;border-spacing: 5px;border-width: 0;border-collapse: separate;}
+.share-board thead {text-align: left;}
+.share-board tbody tr {cursor: pointer;}
+.share-board tbody tr:hover {background-color: #dee2e6;}
+.share-board td, #share-board th{border-bottom-width: 0px !important;}
+
+.share-board>:not(:first-child) {position: relative;padding-top: 2px;border-style: solid;}
 /* content end */

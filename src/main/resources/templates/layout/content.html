@@ -6,100 +6,86 @@
 <body>
 <div class="content" th:fragment="content">
   <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
-  <h1>Main Content</h1>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
-  <p>This is the main content area.</p>
+  <div class="main-home-container">
+    <h1 class="main-home-text">Kuui Asset Management System</h1>
+    <div class="main-home-border"></div>
+    <div id="recent-update" class="sub-home-container" style="padding-top: 80px;">
+      <h4 class="sub-home-text">최근 수정된 자산 목록</h4>
+      <div class="sub-home-border1"></div>
+      <div class="recent-asset-container">
+        <table class="table mb-5 pcx-3 text-decoration-none share-board">
+          <colgroup>
+            <col width="*" />
+            <col width="10%" />
+            <col width="10%" />
+            <col width="10%" />
+            <col width="10%" />
+            <col width="10%" />
+          </colgroup>
+          <thead>
+          <tr>
+            <th scope="col">자산 번호</th>
+            <th scope="col">자산명</th>
+            <th scope="col">카테고리</th>
+            <th scope="col">전체 수량</th>
+            <th scope="col">잔여 수량</th>
+            <th scope="col">자산 위치</th>
+            <th scope="col">등록자</th>
+            <th scope="col">등록일자</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="asset : ${recentUpdate}"  class="recent-asset-list">
+            <td th:text="${asset.assetNo}"></td>
+            <td th:text="${asset.assetName}"></td>
+            <td th:text="${asset.assetCtg}"></td>
+            <td th:text="${asset.assetTotalCnt}"></td>
+            <td th:text="${asset.assetRemainCnt}"></td>
+            <td th:text="${asset.assetPos}"></td>
+            <td th:text="${asset.regTeacherName}"></td>
+            <td th:text="${asset.assetRegDate}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div id="recent-rent" class="sub-home-container">
+      <h4 class="sub-home-text">최근 반출된 자산 목록</h4>
+      <div class="sub-home-border2"></div>
+      <div class="recent-rent-container">
+        <table class="table mb-5 pcx-3 text-decoration-none share-board">
+          <colgroup>
+            <col width="10%" />
+            <col width="*" />
+            <col width="10%" />
+            <col width="10%" />
+            <col width="20%" />
+            <col width="10%" />
+          </colgroup>
+          <thead>
+          <tr>
+            <th scope="col">순번</th>
+            <th scope="col">자산명</th>
+            <th scope="col">반출자</th>
+            <th scope="col">인수자</th>
+            <th scope="col">등록일자</th>
+            <th scope="col">반납여부</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="board, iterStat : ${recentRent}" onclick="openDtlShare(this)" class="share-lists">
+            <td th:text="${iterStat.size - iterStat.index}"></td>
+            <td th:text="${board.boardAsset.assetName}"></td>
+            <td th:text="${board.boardTeacher.teacherName}"></td>
+            <td th:text="${board.boardCarryInName}"></td>
+            <td th:text="${board.boardRegDate}"></td>
+            <td th:text="${board.boardAssetReturnYn}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>

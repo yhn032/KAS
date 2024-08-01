@@ -1,5 +1,9 @@
 package com.kuui.kas.application.common.controller;
 
+import com.kuui.kas.application.asset.domain.Asset;
+import com.kuui.kas.application.asset.service.AssetService;
+import com.kuui.kas.application.board.domain.Board;
+import com.kuui.kas.application.board.service.BoardService;
 import com.kuui.kas.application.common.service.CommonService;
 import com.kuui.kas.application.file.domain.SaveFile;
 import com.kuui.kas.application.file.dto.FileDto;
@@ -30,6 +34,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -40,6 +45,8 @@ public class CommonController {
     private final TeacherService teacherService;
     private final FileService fileService;
     private final CommonService commonService;
+    private final AssetService assetService;
+    private final BoardService boardService;
 
     @GetMapping("/login")
     public String login(){
@@ -54,7 +61,14 @@ public class CommonController {
     @GetMapping("/dashboard")
     public String dashboard(Principal principal, Model model, Authentication authentication){
         UserDetails user = (UserDetails) authentication.getPrincipal();
+        Teacher teacher = teacherService.findByTeacherNickName(user.getUsername());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
+
+        List<Asset> recentUpdate = assetService.findAll(1, 3);
+        List<Board> recentRent = boardService.findRecentRentList(1, 3);
+        model.addAttribute("recentUpdate", recentUpdate);
+        model.addAttribute("recentRent", recentRent);
         return "common/dashboard";
     }
 
@@ -96,6 +110,7 @@ public class CommonController {
                 .teacherPhoneNumber(teacher.getTeacherPhoneNumber())
                 .teacherNickname(teacher.getTeacherNickname())
                 .teacherEmailAddress(teacher.getTeacherEmailAddress())
+                .teacherIntro(makeIntro(teacher.getTeacherName()))
                 .teacherRole(TeacherRole.USER)
                 .teacherName(teacher.getTeacherName())
                 .teacherChristianName(teacher.getTeacherChristianName())
@@ -108,6 +123,24 @@ public class CommonController {
         teacherService.saveTeacher(buildTeacher);
 
         return "redirect:/login";
+    }
+
+    private String makeIntro(String teacherName) {
+        if(teacherName.contains("병국")){
+            return "엣헴 나는 개발자";
+        }else if (teacherName.contains("용수")) {
+            return "엣헴 나는 구의동 모찌찌찌";
+        }else if (teacherName.contains("경빈")) {
+            return "엣헴 나는 그냥 배고파 계속";
+        }else if (teacherName.contains("민정")) {
+            return "엣헴 나는 척척 박박사님";
+        }else if (teacherName.contains("지희")) {
+            return "엣헴 나는 보안을 담당하는 하리보";
+        }else if (teacherName.contains("윤형")) {
+            return "엣헴 나는 X반도 폴댄서";
+        }else {
+            return "엣헴 나는 교사";
+        }
     }
 
     @GetMapping("/export")

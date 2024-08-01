@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <h2 class="pcx-3 pcy-4 no-margin">반출 리스트</h2>
+        <h2 class="pcx-3 pcy-4 no-margin">반출 내역</h2>
 
         <table class="table mb-5 pcx-3 text-decoration-none" id="share-board">
             <colgroup>
@@ -44,7 +44,7 @@
             <tbody>
                 <tr th:each="board, iterStat : ${boards}" onclick="openDtlShare(this)" class="share-lists">
                     <td th:text="${board.boardId}" style="display: none"></td>
-                    <td th:text="${iterStat.size - iterStat.index}"></td>
+                    <td th:text="${allBoardSize - iterStat.index}"></td>
                     <td th:text="${board.boardAsset.assetName}"></td>
                     <td th:text="${board.boardTeacher.teacherName}"></td>
                     <td th:text="${board.boardCarryInName}"></td>

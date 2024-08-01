@@ -59,7 +59,9 @@ public class TeacherController {
         log.info("교사 관리 페이지 호출");
         log.info("=============================================");
         List<Teacher> allTeachers = teacherService.findAllTeachers();
+        Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("teachers", allTeachers);
         return "teacher/allTeacherList";
     }
@@ -96,6 +98,7 @@ public class TeacherController {
         Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
 
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("teacherInfo", teacher);
         log.info("정적 페이지(myPage) 포워딩 ");
         return "teacher/myPage";
@@ -109,6 +112,7 @@ public class TeacherController {
         Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
 
         model.addAttribute("username", principal.getName());
+        model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("teacherInfo", teacher);
         return "teacher/modifyTeacherInfo";
     }

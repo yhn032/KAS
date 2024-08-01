@@ -24,6 +24,8 @@ public class TeacherFormDto {
 
     String teacherEmailAddress;
 
+    String teacherIntro;
+
     @Enumerated(EnumType.STRING)
     TeacherRole teacherRole;
 
@@ -38,13 +40,14 @@ public class TeacherFormDto {
     SaveFile teacherProfileImg;
 
     @Builder
-    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, SaveFile teacherProfileImg) {
+    public TeacherFormDto(String teacherLogInID, String teacherLogInPW, String teacherPhoneNumber, String teacherNickname, String teacherEmailAddress, String teacherIntro, TeacherRole teacherRole, String teacherName, String teacherChristianName, String teacherSaintsDay, LocalDateTime teacherInsertDate, SaveFile teacherProfileImg) {
         this.teacherLogInID = teacherLogInID;
         this.teacherLogInPW = teacherLogInPW;
         this.teacherPhoneNumber = teacherPhoneNumber;
         this.teacherNickname = teacherNickname;
         this.teacherEmailAddress = teacherEmailAddress;
         this.teacherRole = teacherRole;
+        this.teacherIntro = teacherIntro;
         this.teacherName = teacherName;
         this.teacherChristianName = teacherChristianName;
         this.teacherSaintsDay = teacherSaintsDay;
