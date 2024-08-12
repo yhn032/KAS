@@ -98,7 +98,7 @@ public class BoardController {
 
         Teacher teacher = teacherService.findByTeacherNickName(principal.getName());
         model.addAttribute("intro", teacher.getTeacherIntro());
-        return "/board/shareList";
+        return "board/shareList";
     }
 
     /**
