@@ -73,7 +73,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each="board, iterStat : ${recentRent}" onclick="openDtlShare(this)" class="share-lists">
+          <tr th:each="board, iterStat : ${recentRent}" class="share-lists">
             <td th:text="${iterStat.size - iterStat.index}"></td>
             <td th:text="${board.boardAsset.assetName}"></td>
             <td th:text="${board.boardTeacher.teacherName}"></td>
