@@ -159,3 +159,5 @@ replay_pid*
 kasRunTime.log.2024-07-05.0.gz
 *.gz
 *.tmp
+배포체크.txt
+*.MF

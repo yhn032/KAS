@@ -63,7 +63,7 @@ public class AssetController {
         model.addAttribute("assetList", assetList);
         model.addAttribute("username", principal.getName());
 
-        return "/asset/assetList";
+        return "asset/assetList";
     }
 
     @GetMapping("/addList")
@@ -78,7 +78,7 @@ public class AssetController {
         model.addAttribute("username", principal.getName());
         model.addAttribute("intro", teacher.getTeacherIntro());
         model.addAttribute("teacherNames", names);
-        return "/asset/addAssetForm";
+        return "asset/addAssetForm";
     }
 
     @PostMapping(value = "/addList", produces = "application/json")
@@ -179,7 +179,7 @@ public class AssetController {
         model.addAttribute("asset", asset);
         model.addAttribute("teachers", allTeachers);
 
-        return "/asset/modifyAssetForm";
+        return "asset/modifyAssetForm";
     }
 
     @PostMapping(value = "/modify", produces = "application/json")

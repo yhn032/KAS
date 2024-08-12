@@ -76,3 +76,8 @@ sourceSets {
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
+
+bootJar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
