@@ -22,6 +22,7 @@ function toggleSidebar() {
         $(".upload-option-btn").css("margin-right", '250px');
         $("#assetForm").css("margin-right", '250px');
         $("#multiUpload").css("margin-right", '250px');
+        $(".teacher-board-main").css("margin-right", '250px');
         $(".content-toggle-btn").text("◀");
         $(".content-toggle-btn").css("left", '261px');
     } else {
@@ -35,6 +36,7 @@ function toggleSidebar() {
         $(".upload-option-btn").css("margin-right", '0');
         $("#assetForm").css("margin-right", '0');
         $("#multiUpload").css("margin-right", '0');
+        $(".teacher-board-main").css("margin-right", '0');
         $(".content-toggle-btn").text("▶");
         $(".content-toggle-btn").css("left", '11px');
     }

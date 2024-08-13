@@ -110,3 +110,14 @@ nav ul li a {text-decoration: none;color: black; font-size: 18px; font-weight: b
 
 .share-board>:not(:first-child) {position: relative;padding-top: 2px;border-style: solid;}
 /* content end */
+
+
+.teacher-board {width: 100%;display: table;border-spacing: 5px;border-width: 0;border-collapse: separate;}
+.teacher-board thead {text-align: left;}
+.teacher-board tbody tr {cursor: pointer;}
+.teacher-board tbody tr:hover {background-color: #dee2e6;}
+.teacher-board td, #share-board th{border-bottom-width: 0px !important;}
+
+.teacher-board>:not(:first-child) {position: relative;padding-top: 2px;border-style: solid;}
+
+.teacher-board-main {transition: 0.3s ease margin-right;}

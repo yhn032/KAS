@@ -8,22 +8,41 @@
     <div th:replace="layout/navBar :: navBar"></div>
     <div th:replace="layout/sidebar :: sidebar"></div>
     <div class="content-main">
-        <table border="1">
-            <thead>
+        <button class="content-toggle-btn" onclick="toggleSidebar()">◀</button>
+        <div class="teacher-board-main" style="width: 80vw;margin-right: 250px;">
+            <table class="table mb-5 pcx-3 text-decoration-none teacher-board">
+                <colgroup>
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                    <col width="20%" />
+                </colgroup>
+                <thead>
                 <tr>
+                    <th style="display: none">교사 ID</th>
+                    <th>ID</th>
                     <th>이름</th>
                     <th>세례명</th>
                     <th>직책</th>
+                    <th>상태</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr th:each="teacher : ${teachers}">
+                    <td style="display:none;" th:text="${teacher.getTeacherId()}"></td>
+                    <td th:text="${teacher.getTeacherLogInID()}"></td>
                     <td th:text="${teacher.getTeacherName()}"></td>
                     <td th:text="${teacher.getTeacherChristianName()}"></td>
                     <td th:text="${teacher.getTeacherRole()}"></td>
+                    <td>
+                        <button type="button" class="btn rest-btn">휴임</button>
+                        <button type="button" class="btn fire-btn">퇴임</button>
+                    </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div th:replace="layout/footer :: footer"></div>
 </body>

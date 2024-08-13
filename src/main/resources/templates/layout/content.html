@@ -14,39 +14,39 @@
       <div class="sub-home-border1"></div>
       <div class="recent-asset-container">
         <table class="table mb-5 pcx-3 text-decoration-none share-board">
-          <colgroup>
-            <col width="*" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-            <col width="10%" />
-          </colgroup>
-          <thead>
-          <tr>
-            <th scope="col">자산 번호</th>
-            <th scope="col">자산명</th>
-            <th scope="col">카테고리</th>
-            <th scope="col">전체 수량</th>
-            <th scope="col">잔여 수량</th>
-            <th scope="col">자산 위치</th>
-            <th scope="col">등록자</th>
-            <th scope="col">등록일자</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="asset : ${recentUpdate}"  class="recent-asset-list">
-            <td th:text="${asset.assetNo}"></td>
-            <td th:text="${asset.assetName}"></td>
-            <td th:text="${asset.assetCtg}"></td>
-            <td th:text="${asset.assetTotalCnt}"></td>
-            <td th:text="${asset.assetRemainCnt}"></td>
-            <td th:text="${asset.assetPos}"></td>
-            <td th:text="${asset.regTeacherName}"></td>
-            <td th:text="${asset.assetRegDate}"></td>
-          </tr>
-          </tbody>
-        </table>
+        <colgroup>
+          <col width="*" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+        </colgroup>
+        <thead>
+        <tr>
+          <th scope="col">자산 번호</th>
+          <th scope="col">자산명</th>
+          <th scope="col">카테고리</th>
+          <th scope="col">전체 수량</th>
+          <th scope="col">잔여 수량</th>
+          <th scope="col">자산 위치</th>
+          <th scope="col">등록자</th>
+          <th scope="col">등록일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asset : ${recentUpdate}"  class="recent-asset-list">
+          <td th:text="${asset.assetNo}"></td>
+          <td th:text="${asset.assetName}"></td>
+          <td th:text="${asset.assetCtg}"></td>
+          <td th:text="${asset.assetTotalCnt}"></td>
+          <td th:text="${asset.assetRemainCnt}"></td>
+          <td th:text="${asset.assetPos}"></td>
+          <td th:text="${asset.regTeacherName}"></td>
+          <td th:text="${asset.assetRegDate}"></td>
+        </tr>
+        </tbody>
+      </table>
       </div>
     </div>
     <div id="recent-rent" class="sub-home-container">
